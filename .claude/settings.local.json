@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /d/projects/mon_accord/src/pages/*.js /d/projects/mon_accord/src/services/*.js)",
+      "Bash(git push:*)"
+    ]
+  }
+}

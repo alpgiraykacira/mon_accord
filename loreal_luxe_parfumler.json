@@ -1,0 +1,2064 @@
+{
+  "baslik": "L'Oréal Luxe Segmenti - Satışta Olan Parfümler",
+  "guncelleme_tarihi": "2026-04-01",
+  "aciklama": "L'Oréal Luxe bölümünde şu anda satışta olan tüm parfümlerin markalarına göre kategorize edilmiş listesi. Notalar, performans bilgileri ve genel değerlendirmeler dahildir.",
+  "markalar": {
+    "Yves Saint Laurent": {
+      "marka_aciklama": "YSL, L'Oréal Luxe'ün en güçlü parfüm markalarından biri. Libre ve MYSLF ana hatları ile öncü konumda.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Libre Eau de Parfum",
+            "lansman_yili": 2019,
+            "tur": "Oriental Fougère",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Lavanta", "Mandalina", "Siyah Frenk Üzümü"],
+            "orta_notalar": ["Portakal Çiçeği", "Yasemin"],
+            "alt_notalar": ["Vanilya", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış", "İlkbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Libre Eau de Parfum Intense",
+            "lansman_yili": 2020,
+            "tur": "Oriental Floral",
+            "konsantrasyon": "EDP Intense",
+            "ust_notalar": ["Mandalina", "Lavanta"],
+            "orta_notalar": ["Portakal Çiçeği", "Beyaz Lavanta Akordu"],
+            "alt_notalar": ["Vanilya", "Misk"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Libre Le Parfum",
+            "lansman_yili": 2022,
+            "tur": "Oriental Floral",
+            "konsantrasyon": "Le Parfum",
+            "ust_notalar": ["Bergamot", "Mandalina", "Zencefil", "Safran Akordu"],
+            "orta_notalar": ["Lavandin", "Diva Lavanta", "Portakal Çiçeği"],
+            "alt_notalar": ["Vetiver", "Tonka Fasulyesi", "Bal Akordu", "Vanilya Bourbon"],
+            "performans": {
+              "kalicilik": "10-14 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Libre L'Absolu Platine",
+            "lansman_yili": 2024,
+            "tur": "Floral Amber",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Lavanta", "Bergamot"],
+            "orta_notalar": ["Portakal Çiçeği", "Aldehitler"],
+            "alt_notalar": ["Vanilya", "Amber"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Libre Berry Crush",
+            "lansman_yili": 2025,
+            "tur": "Fruity Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu"],
+            "orta_notalar": ["Portakal Çiçeği", "Lavanta"],
+            "alt_notalar": ["Vanilya", "Hindistan Cevizi", "Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Libre L'Eau Nue",
+            "lansman_yili": 2025,
+            "tur": "Floral Citrus",
+            "konsantrasyon": "Parfum (Alkolsüz)",
+            "ust_notalar": ["Limon", "Bergamot"],
+            "orta_notalar": ["Portakal Çiçeği"],
+            "alt_notalar": ["Lavanta", "Misk"],
+            "performans": {
+              "kalicilik": "3-5 saat",
+              "yayilim": "Hafif",
+              "iz": "Hafif"
+            },
+            "mevsim": ["Yaz", "İlkbahar"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Black Opium Eau de Parfum",
+            "lansman_yili": 2014,
+            "tur": "Amber Vanilla",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Armut", "Pembe Biber"],
+            "orta_notalar": ["Kahve", "Yasemin", "Portakal Çiçeği"],
+            "alt_notalar": ["Vanilya", "Sedir Ağacı", "Paçuli"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Black Opium Le Parfum",
+            "lansman_yili": 2023,
+            "tur": "Oriental Gourmand",
+            "konsantrasyon": "Le Parfum",
+            "ust_notalar": ["Bergamot", "Armut"],
+            "orta_notalar": ["Kahve Çiçeği", "Yasemin"],
+            "alt_notalar": ["Vanilya", "Sandal Ağacı"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Mon Paris Eau de Parfum",
+            "lansman_yili": 2016,
+            "tur": "Floral Fruity",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Çilek", "Ahududu", "Armut"],
+            "orta_notalar": ["Şakayık", "Datura Çiçeği", "Beyaz Şakayık"],
+            "alt_notalar": ["Paçuli", "Beyaz Misk", "Ambroks"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz", "Sonbahar"],
+            "doldurulabilir": true
+          }
+        ],
+        "erkek": [
+          {
+            "isim": "MYSLF Eau de Parfum",
+            "lansman_yili": 2023,
+            "tur": "Woody Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot"],
+            "orta_notalar": ["Portakal Çiçeği Absolü"],
+            "alt_notalar": ["Paçuli", "Ambrofix"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "MYSLF L'Absolu",
+            "lansman_yili": 2025,
+            "tur": "Spicy Floral Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Zencefil", "Kakule"],
+            "orta_notalar": ["Portakal Çiçeği"],
+            "alt_notalar": ["Paçuli"],
+            "performans": {
+              "kalicilik": "7-9 saat",
+              "yayilim": "Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Yaz", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Y Eau de Parfum",
+            "lansman_yili": 2018,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Zencefil", "Elma"],
+            "orta_notalar": ["Adaçayı", "Geranium"],
+            "alt_notalar": ["Sedir Ağacı", "Amber", "Tonka"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Y Le Parfum (2025)",
+            "lansman_yili": 2025,
+            "tur": "Aromatic Woody",
+            "konsantrasyon": "Le Parfum",
+            "ust_notalar": ["Bergamot", "Zencefil"],
+            "orta_notalar": ["Adaçayı", "Lavanta"],
+            "alt_notalar": ["Amber", "Tonka Fasulyesi", "Sedir"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Y Eau de Toilette",
+            "lansman_yili": 2017,
+            "tur": "Fresh Aromatic",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Elma", "Zencefil", "Bergamot"],
+            "orta_notalar": ["Adaçayı", "Geranium"],
+            "alt_notalar": ["Sedir Ağacı", "Tonka"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "La Nuit de L'Homme Eau de Toilette",
+            "lansman_yili": 2009,
+            "tur": "Spicy Oriental",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Kakule", "Bergamot", "Lavanta"],
+            "orta_notalar": ["Sedir Ağacı", "Vetiver"],
+            "alt_notalar": ["Kumarin", "Tonka"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "L'Homme Eau de Toilette",
+            "lansman_yili": 2006,
+            "tur": "Floral Woody",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Zencefil", "Bergamot"],
+            "orta_notalar": ["Beyaz Biber", "Menekşe Yaprağı"],
+            "alt_notalar": ["Vetiver", "Tonka"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          }
+        ],
+        "haute_perfumerie": [
+          {
+            "isim": "Le Vestiaire des Parfums - Tuxedo",
+            "tur": "Spicy Woody",
+            "cinsiyet": "Unisex",
+            "ust_notalar": ["Pembe Biber"],
+            "orta_notalar": ["Siyah Menekşe"],
+            "alt_notalar": ["Paçuli", "Sedir Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "8-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            }
+          }
+        ]
+      }
+    },
+    "Giorgio Armani": {
+      "marka_aciklama": "Armani, Acqua di Giò ve Sì serisiyle hem erkek hem kadın segmentlerinde dünya lideri. Armani Privé haute parfümeri koleksiyonuyla ultra-lüks segmentte yer alıyor.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Sì Eau de Parfum",
+            "lansman_yili": 2013,
+            "tur": "Chypre Fruity",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Frenk Üzümü Nektarı", "Mandalina"],
+            "orta_notalar": ["Mayıs Gülü", "Neroli", "Osmanthus"],
+            "alt_notalar": ["Vanilya", "Paçuli", "Amber Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Sì Passione Eau de Parfum",
+            "lansman_yili": 2017,
+            "tur": "Floral Fruity",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Frenk Üzümü", "Pembe Biber", "Armut"],
+            "orta_notalar": ["Gül", "Yasemin", "Heliotrope"],
+            "alt_notalar": ["Vanilya", "Sedir Ağacı", "Amber Ağacı", "Beyaz Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "My Way Eau de Parfum",
+            "lansman_yili": 2020,
+            "tur": "Floral Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Portakal Çiçeği"],
+            "orta_notalar": ["Tuberöz", "Yasemin"],
+            "alt_notalar": ["Sedir Ağacı", "Vanilya", "Beyaz Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Yaz", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "My Way Parfum",
+            "lansman_yili": 2022,
+            "tur": "Floral Amber",
+            "konsantrasyon": "Parfum",
+            "ust_notalar": ["Bergamot", "Portakal Çiçeği"],
+            "orta_notalar": ["Tuberöz", "Sümbülteber", "Yasemin"],
+            "alt_notalar": ["Vanilya", "Sandal Ağacı", "Amber"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Power of You Eau de Parfum",
+            "lansman_yili": 2025,
+            "tur": "Floral Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot"],
+            "orta_notalar": ["Yasemin", "Şakayık"],
+            "alt_notalar": ["Misk", "Amber"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          }
+        ],
+        "erkek": [
+          {
+            "isim": "Acqua di Giò Eau de Toilette",
+            "lansman_yili": 1996,
+            "tur": "Aromatic Aquatic",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Bergamot", "Neroli", "Yeşil Mandalina"],
+            "orta_notalar": ["Biberiye", "Persimmon", "Yasemin"],
+            "alt_notalar": ["Sedir Ağacı", "Paçuli", "Beyaz Misk", "Amber"],
+            "performans": {
+              "kalicilik": "3-5 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Acqua di Giò Eau de Parfum",
+            "lansman_yili": 2022,
+            "tur": "Aromatic Aquatic",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Deniz Notaları", "Yeşil Mandalina"],
+            "orta_notalar": ["Adaçayı", "Lavanta", "Geranium"],
+            "alt_notalar": ["Mineral Notalar", "Vetiver", "Paçuli"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Acqua di Giò Parfum",
+            "lansman_yili": 2023,
+            "tur": "Woody Aquatic",
+            "konsantrasyon": "Parfum",
+            "ust_notalar": ["Deniz Notaları", "Bergamot"],
+            "orta_notalar": ["Biberiye", "Adaçayı", "Geranium"],
+            "alt_notalar": ["Olibanum", "Paçuli"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Acqua di Giò Profondo Eau de Parfum (2024)",
+            "lansman_yili": 2024,
+            "tur": "Aromatic Aquatic",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Deniz Notaları", "Yeşil Mandalina"],
+            "orta_notalar": ["Biberiye", "Lavanta"],
+            "alt_notalar": ["Mineral Notalar", "Ambergris", "Misk", "Sedir", "Paçuli"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Acqua di Giò Profondo Eau de Toilette",
+            "lansman_yili": 2025,
+            "tur": "Aromatic Aquatic",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Limon", "Greyfurt", "Baharatlar"],
+            "orta_notalar": ["Calone", "Lavanta", "Selvi"],
+            "alt_notalar": ["Mineral Notalar", "Odunsu Notalar", "Paçuli"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["Yaz"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Acqua di Giò Elixir",
+            "lansman_yili": 2025,
+            "tur": "Aromatic Woody",
+            "konsantrasyon": "Parfum",
+            "ust_notalar": ["Bergamot", "Muskat"],
+            "orta_notalar": ["Aquatic Akor", "Menekşe Yaprağı"],
+            "alt_notalar": ["Paçuli", "Deri"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış", "İlkbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Acqua di Giò Eau de Parfum Intense",
+            "lansman_yili": 2026,
+            "tur": "Aromatic Aquatic",
+            "konsantrasyon": "EDP Intense",
+            "ust_notalar": ["Yeşil Elma", "Bergamot"],
+            "orta_notalar": ["Deniz Notaları", "Adaçayı"],
+            "alt_notalar": ["Odunsu Notalar", "Amber"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Yaz", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Armani Code Parfum",
+            "lansman_yili": 2022,
+            "tur": "Amber Aromatic",
+            "konsantrasyon": "Parfum",
+            "ust_notalar": ["İris", "Bergamot"],
+            "orta_notalar": ["Lavanta", "Irıs Yağı"],
+            "alt_notalar": ["Tonka Fasulyesi", "Vanilya"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Armani Code Eau de Toilette",
+            "lansman_yili": 2004,
+            "tur": "Oriental Spicy",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Bergamot", "Limon"],
+            "orta_notalar": ["Zeytinyağı Çiçeği", "Star Anason"],
+            "alt_notalar": ["Güaiak Ağacı", "Tonka Fasulyesi"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Emporio Armani Stronger With You Intensely",
+            "lansman_yili": 2019,
+            "tur": "Amber Vanilla",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Pembe Biber", "Menekşe Yaprağı"],
+            "orta_notalar": ["Kestane", "Tarçın"],
+            "alt_notalar": ["Vanilya", "Amber", "Süet"],
+            "performans": {
+              "kalicilik": "8-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          }
+        ],
+        "haute_perfumerie_armani_prive": [
+          {
+            "isim": "Armani Privé - Rose d'Arabie",
+            "tur": "Oriental Floral",
+            "cinsiyet": "Unisex",
+            "notalar": ["Gül", "Oud", "Amber", "Misk"]
+          },
+          {
+            "isim": "Armani Privé - Vert Malachite",
+            "tur": "Green Floral",
+            "cinsiyet": "Unisex",
+            "notalar": ["Yasemin", "Vanilya", "Sedir"]
+          },
+          {
+            "isim": "Armani Privé - Rouge Malachite",
+            "tur": "Spicy Oriental",
+            "cinsiyet": "Unisex",
+            "notalar": ["Safran", "Amber", "Misk"]
+          },
+          {
+            "isim": "Armani Privé - Musc Shamal",
+            "tur": "Musky Oriental",
+            "cinsiyet": "Unisex",
+            "notalar": ["Misk", "Amber", "Odunsu Notalar"]
+          },
+          {
+            "isim": "Armani Privé - Blanc Kogane",
+            "tur": "Floral Musk",
+            "cinsiyet": "Unisex",
+            "notalar": ["Beyaz Çiçekler", "Misk", "Sandal Ağacı"]
+          }
+        ]
+      }
+    },
+    "Lancôme": {
+      "marka_aciklama": "Lancôme, La Vie Est Belle ve Idôle hatlarıyla kadın parfümerinin temel taşlarından. Fransız parfümeri geleneğinin temsilcisi.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "La Vie Est Belle Eau de Parfum",
+            "lansman_yili": 2012,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Frenk Üzümü", "Armut"],
+            "orta_notalar": ["İris", "Yasemin", "Portakal Çiçeği"],
+            "alt_notalar": ["Paçuli", "Vanilya", "Pralin"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "La Vie Est Belle Intensément",
+            "lansman_yili": 2020,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP Intense",
+            "ust_notalar": ["Ahududu", "Kırmızı Frenk Üzümü"],
+            "orta_notalar": ["Yasemin Sambac", "Portakal Çiçeği"],
+            "alt_notalar": ["Kırmızı Sandal Ağacı", "Vanilya Absolü"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "La Vie Est Belle L'Elixir",
+            "lansman_yili": 2023,
+            "tur": "Oriental Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu", "Bergamot"],
+            "orta_notalar": ["Menekşe", "Gül Absolü"],
+            "alt_notalar": ["Kakao Yağı", "Deri Akordu", "Virginia Sedir Ağacı"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "La Vie Est Belle Iris Absolu",
+            "lansman_yili": 2023,
+            "tur": "Floral Powdery",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["İris"],
+            "orta_notalar": ["Gül", "Yasemin"],
+            "alt_notalar": ["Paçuli", "Vanilya"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "La Vie Est Belle Rose Extraordinaire",
+            "lansman_yili": 2024,
+            "tur": "Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Gül"],
+            "orta_notalar": ["İris", "Yasemin"],
+            "alt_notalar": ["Misk", "Amber Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "La Vie Est Belle Vanille Nude",
+            "lansman_yili": 2025,
+            "tur": "Musky Vanilla",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Solar Yasemin"],
+            "orta_notalar": ["Glazed Bourbon Vanilya"],
+            "alt_notalar": ["Kremsi Beyaz Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "La Vie Est Belle Soleil Cristal",
+            "lansman_yili": 2021,
+            "tur": "Floral Solar",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Hindistan Cevizi"],
+            "orta_notalar": ["Tiaré Çiçeği", "Yasemin"],
+            "alt_notalar": ["Vanilya", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Idôle Eau de Parfum",
+            "lansman_yili": 2019,
+            "tur": "Floral Chypre",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Pembe Biber"],
+            "orta_notalar": ["Gül", "Yasemin"],
+            "alt_notalar": ["Vanilya", "Beyaz Misk", "Sedir"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Idôle L'Intense",
+            "lansman_yili": 2020,
+            "tur": "Floral Oriental",
+            "konsantrasyon": "EDP Intense",
+            "ust_notalar": ["Pembe Biber", "Acı Portakal"],
+            "orta_notalar": ["Gül Absolü", "Yasemin"],
+            "alt_notalar": ["Sandal Ağacı", "Vanilya", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Trésor Eau de Parfum",
+            "lansman_yili": 1990,
+            "tur": "Oriental Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Gül", "Lilyum", "Şeftali"],
+            "orta_notalar": ["İris", "Yasemin", "Muguet"],
+            "alt_notalar": ["Sandal Ağacı", "Amber", "Misk", "Vanilya"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          }
+        ]
+      }
+    },
+    "Prada": {
+      "marka_aciklama": "Prada, Paradoxe (kadın) ve Luna Rossa (erkek) hatlarıyla L'Oréal Luxe portföyünde hızlı büyüyen markalardan biri. 2025'te Paradigme erkek hattı tanıtıldı.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Prada Paradoxe Eau de Parfum",
+            "lansman_yili": 2022,
+            "tur": "Floral Amber",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Neroli Tomurcuğu"],
+            "orta_notalar": ["Yasemin", "Portakal Çiçeği"],
+            "alt_notalar": ["Ambrofix", "Serenolide", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Prada Paradoxe Intense",
+            "lansman_yili": 2023,
+            "tur": "Floral Amber Vanilla",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Neroli Tomurcuğu", "Armut"],
+            "orta_notalar": ["Neroli Esansı", "Yasemin Süperinfüzyon", "Yosun"],
+            "alt_notalar": ["Serenolide", "Moxalone", "Ambrofix", "Vanilya Bourbon"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Prada Paradoxe Virtual Flower",
+            "lansman_yili": 2024,
+            "tur": "Floral Musky",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Neroli"],
+            "orta_notalar": ["Dijital Çiçek Akordu"],
+            "alt_notalar": ["Misk", "Amber"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Prada Paradoxe Radical Essence",
+            "lansman_yili": 2025,
+            "tur": "Floral Woody Musk",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Neroli", "Portakal Çiçeği"],
+            "orta_notalar": ["Tuzlu Antepfıstığı Akordu"],
+            "alt_notalar": ["Sandal Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Prada Candy Eau de Parfum",
+            "lansman_yili": 2011,
+            "tur": "Oriental Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Karamel"],
+            "orta_notalar": ["Misk", "Tatlı Badem"],
+            "alt_notalar": ["Vanilya", "Benzoin"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Prada La Femme",
+            "lansman_yili": 2016,
+            "tur": "Floral Fougère",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Frangipani"],
+            "orta_notalar": ["Ylang Ylang", "Tuberöz"],
+            "alt_notalar": ["Vanilya", "Balmumu", "Vetiver"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Infusion d'Iris Eau de Parfum",
+            "lansman_yili": 2015,
+            "tur": "Floral Powdery",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Mandalina", "Portakal Çiçeği"],
+            "orta_notalar": ["İris", "Mayıs Gülü"],
+            "alt_notalar": ["Sedir Ağacı", "Benzoin", "Vetiver"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          }
+        ],
+        "erkek": [
+          {
+            "isim": "Luna Rossa Eau de Toilette",
+            "lansman_yili": 2012,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Lavanta", "Bergamot"],
+            "orta_notalar": ["Nane", "Adaçayı"],
+            "alt_notalar": ["Amber Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Hafif-Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Luna Rossa Carbon Eau de Toilette",
+            "lansman_yili": 2017,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Bergamot", "Biber"],
+            "orta_notalar": ["Lavanta", "Metalik Notalar"],
+            "alt_notalar": ["Amber Ağacı", "Paçuli"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Luna Rossa Carbon Eau de Parfum",
+            "lansman_yili": 2026,
+            "tur": "Aromatic",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Lavanta"],
+            "orta_notalar": ["Meyan Kökü"],
+            "alt_notalar": ["Selvi"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Luna Rossa Ocean Eau de Toilette",
+            "lansman_yili": 2021,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Bergamot", "Pembe Biber", "Pelinotu"],
+            "orta_notalar": ["Lavanta", "İris", "Adaçayı", "Süet", "Safran"],
+            "alt_notalar": ["Misk", "Karamel", "Haiti Vetiveri", "Paçuli"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Luna Rossa Ocean Eau de Parfum",
+            "lansman_yili": 2023,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot"],
+            "orta_notalar": ["Lavanta", "İris", "Safran"],
+            "alt_notalar": ["Amber", "Paçuli", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Luna Rossa Ocean Le Parfum",
+            "lansman_yili": 2024,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "Le Parfum",
+            "ust_notalar": ["Limon"],
+            "orta_notalar": ["Safran"],
+            "alt_notalar": ["Amber Xtreme", "Meşe"],
+            "performans": {
+              "kalicilik": "8-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Luna Rossa Black",
+            "lansman_yili": 2018,
+            "tur": "Amber Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Angelika"],
+            "orta_notalar": ["Paçuli", "Amber"],
+            "alt_notalar": ["Sandal Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Prada L'Homme Eau de Toilette",
+            "lansman_yili": 2016,
+            "tur": "Floral Amber",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["İris", "Neroli", "Amber"],
+            "orta_notalar": ["Menekşe", "Geranium"],
+            "alt_notalar": ["Paçuli", "Sedir", "Amber"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif-Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Paradigme Eau de Parfum",
+            "lansman_yili": 2025,
+            "tur": "Amber Woody Aromatic",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Sitrus", "Amber"],
+            "orta_notalar": ["Çiçeksi Notalar", "Sabunumsu Akor"],
+            "alt_notalar": ["Vanilya", "Balzam", "Odunsu Notalar"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar", "Kış"],
+            "doldurulabilir": true
+          }
+        ]
+      }
+    },
+    "Valentino": {
+      "marka_aciklama": "Valentino, Born in Roma serisiyle hızla büyüyen bir parfüm markası. Genç lüks tüketicilere hitap ediyor.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Valentino Donna Born in Roma Eau de Parfum",
+            "lansman_yili": 2019,
+            "tur": "Floral Oriental",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Frenk Üzümü", "Bergamot", "Pembe Biber"],
+            "orta_notalar": ["Yasemin Sambac", "Yasemin Grandiflorum", "Yasemin Çayı"],
+            "alt_notalar": ["Vanilya Bourbon", "Cashmere Ağacı", "Guaiac Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Born in Roma Donna Intense",
+            "lansman_yili": 2023,
+            "tur": "Floral Amber",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Frenk Üzümü", "Ahududu"],
+            "orta_notalar": ["Yasemin", "Tuberöz"],
+            "alt_notalar": ["Vanilya", "Amber", "Sandal Ağacı"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Born in Roma Donna Extradose",
+            "lansman_yili": 2025,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Frenk Üzümü", "Tarçın"],
+            "orta_notalar": ["Yasemin", "Rom Akordu"],
+            "alt_notalar": ["Vanilya", "Amber"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Born in Roma Donna Purple Melancholia",
+            "lansman_yili": 2026,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Osmanthus"],
+            "orta_notalar": ["Çiçeksi Notalar"],
+            "alt_notalar": ["Kakao Akordu", "Amber"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true,
+            "sinirli_uretim": true
+          }
+        ],
+        "erkek": [
+          {
+            "isim": "Valentino Uomo Born in Roma Eau de Toilette",
+            "lansman_yili": 2019,
+            "tur": "Woody Spicy",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Mineral Tuz", "Zencefil"],
+            "orta_notalar": ["Adaçayı", "Lavanta"],
+            "alt_notalar": ["Vetiver", "Cashmere Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Valentino Uomo Born in Roma Intense",
+            "lansman_yili": 2023,
+            "tur": "Oriental Vanilla",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Lavanta"],
+            "orta_notalar": ["Vetiver", "İris"],
+            "alt_notalar": ["Vanilya", "Tonka Fasulyesi"],
+            "performans": {
+              "kalicilik": "8-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Valentino Uomo Born in Roma Coral Fantasy",
+            "lansman_yili": 2023,
+            "tur": "Citrus Aromatic",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Greyfurt", "Zencefil"],
+            "orta_notalar": ["Adaçayı", "Lavanta"],
+            "alt_notalar": ["Sedir Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Yaz", "İlkbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Valentino Uomo Born in Roma Extradose",
+            "lansman_yili": 2025,
+            "tur": "Aromatic Spicy Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Pembe Biber"],
+            "orta_notalar": ["Gül", "Lavanta"],
+            "alt_notalar": ["Sedir Ağacı", "Amber Ağacı"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Valentino Uomo Born in Roma Ivory",
+            "lansman_yili": 2025,
+            "tur": "Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot"],
+            "orta_notalar": ["Lavanta", "Ateş Akordu"],
+            "alt_notalar": ["Odunsu Notalar", "Duman"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "sinirli_uretim": true,
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Valentino Uomo Born in Roma Purple Melancholia",
+            "lansman_yili": 2026,
+            "tur": "Woody Aromatic",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Kakule"],
+            "orta_notalar": ["Hindistan Cevizi", "Lavanta"],
+            "alt_notalar": ["Amber Ağacı"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "sinirli_uretim": true,
+            "doldurulabilir": true
+          }
+        ],
+        "haute_perfumerie": [
+          {
+            "isim": "Anatomy of Dreams Koleksiyonu",
+            "aciklama": "Ultra-premium, sınırlı üretim haute parfümeri hattı",
+            "cinsiyet": "Unisex"
+          }
+        ]
+      }
+    },
+    "Mugler": {
+      "marka_aciklama": "Mugler, ikonik Angel ve Alien parfümleriyle gourmand ve solar floral kategorilerinin öncüsü. Doldurulabilir şişe konseptinin de pioneri.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Angel Eau de Parfum",
+            "lansman_yili": 1992,
+            "tur": "Oriental Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Hindistan Cevizi", "Ananas"],
+            "orta_notalar": ["Bal", "Çikolata", "Karamel"],
+            "alt_notalar": ["Paçuli", "Vanilya", "Tonka"],
+            "performans": {
+              "kalicilik": "10-12+ saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Canavar"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Angel Nova Eau de Parfum",
+            "lansman_yili": 2020,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu", "Liçi"],
+            "orta_notalar": ["Gül Damask", "Şakayık"],
+            "alt_notalar": ["Akigalawood", "Vanilya"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Eau de Parfum",
+            "lansman_yili": 2005,
+            "tur": "Woody Solar",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Yasemin Sambac"],
+            "orta_notalar": ["Cashmere Ağacı"],
+            "alt_notalar": ["Beyaz Amber"],
+            "performans": {
+              "kalicilik": "10-12+ saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Canavar"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Goddess Eau de Parfum",
+            "lansman_yili": 2021,
+            "tur": "Floral Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Hindistan Cevizi Suyu"],
+            "orta_notalar": ["Yasemin Grandiflorum", "Heliotrope"],
+            "alt_notalar": ["Bourbon Vanilya", "Cashmere Ağacı"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Hypersense Eau de Parfum",
+            "lansman_yili": 2024,
+            "tur": "Floral Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Yeşil Mandalina", "Armut Akordu"],
+            "orta_notalar": ["Yasemin Sambac"],
+            "alt_notalar": ["Cashmere Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Supra Florale",
+            "lansman_yili": 2024,
+            "tur": "Green Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Kaktüs Çiçeği Akordu"],
+            "orta_notalar": ["Yasemin Grandiflorum"],
+            "alt_notalar": ["Ölmez Çiçek Absolü"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Extraintense",
+            "lansman_yili": 2025,
+            "tur": "Oriental Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Petitgrain"],
+            "orta_notalar": ["Tuberöz", "Yasemin"],
+            "alt_notalar": ["Cashmere Ağacı", "Vanilya", "Amber Ağacı"],
+            "performans": {
+              "kalicilik": "8-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Pulp",
+            "lansman_yili": 2025,
+            "tur": "Floral Fruity",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu", "Limon Kabuğu"],
+            "orta_notalar": ["Yasemin", "Yeşil Mandalina", "Portakal"],
+            "alt_notalar": ["Misk", "Cashmere Ağacı", "Vanilin"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"],
+            "doldurulabilir": true
+          }
+        ],
+        "erkek": [
+          {
+            "isim": "A*Men Eau de Toilette",
+            "lansman_yili": 1996,
+            "tur": "Amber Woody",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Lavanta", "Nane"],
+            "orta_notalar": ["Kahve Absolü"],
+            "alt_notalar": ["Paçuli", "Vanilya", "Karamel"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Alien Man Eau de Toilette",
+            "lansman_yili": 2018,
+            "tur": "Woody Amber",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Dumanlı Odun", "Dereotu"],
+            "orta_notalar": ["Osmanthus"],
+            "alt_notalar": ["Amber", "Cashmere Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          }
+        ]
+      }
+    },
+    "Viktor & Rolf": {
+      "marka_aciklama": "Viktor & Rolf, Flowerbomb ve Spicebomb ikonik hatlarıyla lüks segmentte güçlü konuma sahip.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Flowerbomb Eau de Parfum",
+            "lansman_yili": 2005,
+            "tur": "Floral Oriental",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Çay", "Bergamot"],
+            "orta_notalar": ["Sambac Yasemin", "Orkide", "Frezya"],
+            "alt_notalar": ["Paçuli", "Misk", "Amber"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Flowerbomb Ruby Orchid",
+            "lansman_yili": 2022,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu", "Safran"],
+            "orta_notalar": ["Orkide", "Vanilya"],
+            "alt_notalar": ["Sandal Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Flowerbomb Extreme 2025",
+            "lansman_yili": 2025,
+            "tur": "Floral Fruity",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu"],
+            "orta_notalar": ["Gül", "Yasemin", "Portakal Çiçeği"],
+            "alt_notalar": ["Vanilya"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış", "İlkbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Good Fortune Eau de Parfum",
+            "lansman_yili": 2022,
+            "tur": "Amber Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Mandalina", "Anason Çiçeği"],
+            "orta_notalar": ["Yasemin", "Vetiver"],
+            "alt_notalar": ["Sandal Ağacı", "Vanilya"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": true
+          },
+          {
+            "isim": "Bonbon Eau de Parfum",
+            "lansman_yili": 2014,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Mandalina", "Portakal", "Şeftali"],
+            "orta_notalar": ["Karamel", "Portakal Çiçeği"],
+            "alt_notalar": ["Guaiac Ağacı", "Sedir Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          }
+        ],
+        "erkek": [
+          {
+            "isim": "Spicebomb Eau de Toilette",
+            "lansman_yili": 2012,
+            "tur": "Oriental Spicy",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Elemi", "Bergamot", "Greyfurt"],
+            "orta_notalar": ["Biber", "Tarçın", "Safran"],
+            "alt_notalar": ["Tütün", "Deri", "Vetiver"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Spicebomb Extreme Eau de Parfum",
+            "lansman_yili": 2015,
+            "tur": "Oriental Spicy",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Siyah Biber", "Safran"],
+            "orta_notalar": ["Lavanta", "Tarçın"],
+            "alt_notalar": ["Tonka Fasulyesi", "Tütün", "Amber"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Spicebomb Night Vision Eau de Toilette",
+            "lansman_yili": 2019,
+            "tur": "Green Spicy",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Kakule", "Karanfil"],
+            "orta_notalar": ["Adaçayı", "Geranium"],
+            "alt_notalar": ["Vetiver", "Kristal Amber"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Spicebomb Dark Leather Eau de Parfum",
+            "lansman_yili": 2024,
+            "tur": "Leather Spicy",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Biber"],
+            "orta_notalar": ["Deri"],
+            "alt_notalar": ["Amber", "Vanilya"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"],
+            "doldurulabilir": false
+          },
+          {
+            "isim": "Spicebomb Metallic Musk Eau de Parfum",
+            "lansman_yili": 2025,
+            "tur": "Oriental Spicy",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Aldehitler", "Siyah Biber", "Elemi", "Bergamot"],
+            "orta_notalar": ["Biber", "Tarçın", "Lavanta"],
+            "alt_notalar": ["Misk", "Deri", "Ambrette", "Labdanum"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Orta-Güçlü"
+            },
+            "mevsim": ["Tüm Mevsimler"],
+            "doldurulabilir": false
+          }
+        ]
+      }
+    },
+    "Azzaro": {
+      "marka_aciklama": "Azzaro, Wanted serisiyle erkek parfüm segmentinde güçlü bir oyuncu.",
+      "parfumler": {
+        "erkek": [
+          {
+            "isim": "Azzaro Wanted Eau de Toilette",
+            "lansman_yili": 2016,
+            "tur": "Spicy Woody",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Limon", "Zencefil", "Nane"],
+            "orta_notalar": ["Kakule", "Jüniperüs"],
+            "alt_notalar": ["Vetiver", "Tonka Fasulyesi"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          },
+          {
+            "isim": "The Most Wanted Eau de Parfum",
+            "lansman_yili": 2021,
+            "tur": "Amber Spicy",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Kakule", "Toffee"],
+            "orta_notalar": ["Lavanta", "Irıs"],
+            "alt_notalar": ["Amber Ağacı", "Odunsu Notalar"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          },
+          {
+            "isim": "The Most Wanted Parfum",
+            "lansman_yili": 2022,
+            "tur": "Amber Vanilla",
+            "konsantrasyon": "Parfum",
+            "ust_notalar": ["Kakule", "İncir"],
+            "orta_notalar": ["Amber", "Lavanta"],
+            "alt_notalar": ["Vanilya", "Tonka Fasulyesi"],
+            "performans": {
+              "kalicilik": "10-12 saat",
+              "yayilim": "Çok Güçlü",
+              "iz": "Canavar"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          },
+          {
+            "isim": "Azzaro Chrome Eau de Toilette",
+            "lansman_yili": 1996,
+            "tur": "Citrus Aromatic",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Limon", "Bergamot", "Neroli", "Ananas"],
+            "orta_notalar": ["Siklamen", "Yasemin", "Biberiye"],
+            "alt_notalar": ["Misk", "Sedir", "Tonka"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Hafif-Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          }
+        ]
+      }
+    },
+    "Maison Margiela": {
+      "marka_aciklama": "Maison Margiela, Replica koleksiyonuyla 'anı yakalayan' unisex parfümlerin öncüsü. Minimalist ve nostalji odaklı yaklaşımıyla sessiz lükse hitap ediyor.",
+      "parfumler": {
+        "replica_koleksiyonu": [
+          {
+            "isim": "By the Fireplace",
+            "lansman_yili": 2015,
+            "tur": "Woody Spicy",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Karanfil Yağı", "Pembe Biber"],
+            "orta_notalar": ["Kestane", "Guaiac Ağacı"],
+            "alt_notalar": ["Vanilya", "Peru Balsamı", "Cashmere Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          },
+          {
+            "isim": "Jazz Club",
+            "lansman_yili": 2013,
+            "tur": "Aromatic Fougère",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Pembe Biber", "Neroli", "Limon"],
+            "orta_notalar": ["Gül Absolü", "Adaçayı"],
+            "alt_notalar": ["Tütün Yaprağı", "Vanilya", "Styraks"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          },
+          {
+            "isim": "Lazy Sunday Morning",
+            "lansman_yili": 2012,
+            "tur": "Floral Musky",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Muguet", "Armut", "Aldehitler"],
+            "orta_notalar": ["İris", "Gül Absolü", "Portakal Çiçeği"],
+            "alt_notalar": ["Beyaz Misk", "Paçuli"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          },
+          {
+            "isim": "Beach Walk",
+            "lansman_yili": 2012,
+            "tur": "Floral Aquatic",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Bergamot", "Limon", "Pembe Biber"],
+            "orta_notalar": ["Ylang Ylang", "Hindistan Cevizi Sütü", "Heliotrope"],
+            "alt_notalar": ["Misk", "Sedir Ağacı", "Benzoin"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["Yaz"]
+          },
+          {
+            "isim": "Whispers in the Library",
+            "lansman_yili": 2015,
+            "tur": "Woody Spicy",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Biber"],
+            "orta_notalar": ["Vanilya", "Sedir Ağacı"],
+            "alt_notalar": ["Benzoin", "Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          },
+          {
+            "isim": "Across Sands",
+            "lansman_yili": 2023,
+            "tur": "Oriental Amber",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Safran", "Bergamot"],
+            "orta_notalar": ["Gül", "Kehribar"],
+            "alt_notalar": ["Oud", "Vanilya"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          },
+          {
+            "isim": "On a Date",
+            "lansman_yili": 2024,
+            "tur": "Gourmand Floral",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Armut"],
+            "orta_notalar": ["Gül", "İris"],
+            "alt_notalar": ["Misk", "Vanilya"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          },
+          {
+            "isim": "Flying",
+            "lansman_yili": 2024,
+            "tur": "Citrus Aromatic",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Sitrus"],
+            "orta_notalar": ["Aromatik Notalar"],
+            "alt_notalar": ["Misk"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["Yaz", "İlkbahar"]
+          },
+          {
+            "isim": "Soul of the Forest",
+            "lansman_yili": 2024,
+            "tur": "Woody Green",
+            "cinsiyet": "Unisex",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Yeşil Notalar"],
+            "orta_notalar": ["Mantar", "Odunsu Notalar"],
+            "alt_notalar": ["Sedir Ağacı", "Misk"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "İlkbahar"]
+          }
+        ]
+      }
+    },
+    "Ralph Lauren": {
+      "marka_aciklama": "Ralph Lauren, Polo serileri ve Ralph's Club ile Amerikan lüks erkek parfümerinin simgesi.",
+      "parfumler": {
+        "erkek": [
+          {
+            "isim": "Polo Blue Eau de Toilette",
+            "lansman_yili": 2003,
+            "tur": "Aromatic Fougère",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Kavun", "Salatalık"],
+            "orta_notalar": ["Adaçayı", "Fesleğen"],
+            "alt_notalar": ["Süet", "Misk", "Odunsu Notalar"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Hafif-Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          },
+          {
+            "isim": "Polo Blue Eau de Parfum",
+            "lansman_yili": 2016,
+            "tur": "Citrus Woody",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Bergamot", "Tuzlu Notalar"],
+            "orta_notalar": ["Kakule", "Adaçayı"],
+            "alt_notalar": ["Paçuli", "Vetiver", "Süet"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta-Güçlü",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          },
+          {
+            "isim": "Polo Red Eau de Toilette",
+            "lansman_yili": 2013,
+            "tur": "Aromatic Spicy",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Greyfurt", "Kızılcık"],
+            "orta_notalar": ["İtalyan Adaçayı", "Amber Ağacı"],
+            "alt_notalar": ["Sedir Ağacı", "Kahve"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"]
+          },
+          {
+            "isim": "Ralph's Club Eau de Parfum",
+            "lansman_yili": 2021,
+            "tur": "Woody Aromatic",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Lavanta", "Elma"],
+            "orta_notalar": ["Adaçayı", "Geranium"],
+            "alt_notalar": ["Sedir Ağacı", "Vetiver", "Misk"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Sonbahar"]
+          },
+          {
+            "isim": "Ralph's Club Parfum",
+            "lansman_yili": 2023,
+            "tur": "Woody Amber",
+            "konsantrasyon": "Parfum",
+            "ust_notalar": ["Lavanta", "Bergamot"],
+            "orta_notalar": ["Tonka Fasulyesi", "İris"],
+            "alt_notalar": ["Sedir Ağacı", "Vanilya", "Sandal Ağacı"],
+            "performans": {
+              "kalicilik": "8-10 saat",
+              "yayilim": "Güçlü",
+              "iz": "Güçlü"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          }
+        ],
+        "kadin": [
+          {
+            "isim": "Beyond Romance Eau de Parfum",
+            "lansman_yili": 2019,
+            "tur": "Floral Fruity",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Ahududu", "Gül Damask"],
+            "orta_notalar": ["Yasemin", "İris"],
+            "alt_notalar": ["Vanilya", "Cashmere Ağacı"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Sonbahar", "Kış"]
+          }
+        ]
+      }
+    },
+    "Cacharel": {
+      "marka_aciklama": "Cacharel, erişilebilir lüks segmentinde genç kadınlara yönelik parfümlerle yer alıyor.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Yes I Am Eau de Parfum",
+            "lansman_yili": 2018,
+            "tur": "Floral Gourmand",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Şeftali", "Kırmızı Frenk Üzümü"],
+            "orta_notalar": ["Gül", "İris Yağı"],
+            "alt_notalar": ["Vanilya", "Karamel", "Sedir Ağacı"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"]
+          },
+          {
+            "isim": "Anaïs Anaïs L'Original Eau de Toilette",
+            "lansman_yili": 1978,
+            "tur": "Floral White",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Hyacinth", "Muguet"],
+            "orta_notalar": ["Yasemin", "Ylang Ylang", "İris"],
+            "alt_notalar": ["Sandal Ağacı", "Vetiver", "Misk"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          },
+          {
+            "isim": "Amor Amor Eau de Toilette",
+            "lansman_yili": 2003,
+            "tur": "Floral Fruity",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Greyfurt", "Kan Portakalı", "Mandalina"],
+            "orta_notalar": ["Yasemin", "Zambak", "Gül"],
+            "alt_notalar": ["Vanilya", "Amber", "Misk"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["Yaz", "İlkbahar"]
+          }
+        ]
+      }
+    },
+    "Diesel": {
+      "marka_aciklama": "Diesel, genç ve cesur tüketicilere yönelik parfümlerle L'Oréal Luxe portföyünde yer alıyor.",
+      "parfumler": {
+        "erkek": [
+          {
+            "isim": "Diesel D Eau de Toilette",
+            "lansman_yili": 2023,
+            "tur": "Fresh Woody",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Lavanta", "Bergamot"],
+            "orta_notalar": ["Denim Akordu"],
+            "alt_notalar": ["Misk", "Vanilya"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Hafif-Orta"
+            },
+            "mevsim": ["Tüm Mevsimler"]
+          },
+          {
+            "isim": "Only The Brave Eau de Toilette",
+            "lansman_yili": 2009,
+            "tur": "Woody Spicy",
+            "konsantrasyon": "EDT",
+            "ust_notalar": ["Limon", "Mandalina", "Maydanoz"],
+            "orta_notalar": ["Kişniş", "Menekşe Yaprağı"],
+            "alt_notalar": ["Amber", "Sedir Ağacı", "Styraks"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          }
+        ]
+      }
+    },
+    "Miu Miu": {
+      "marka_aciklama": "Miu Miu, 2025'te L'Oréal ile ilk parfümünü piyasaya sürdü. Prada'nın kardeş markası.",
+      "parfumler": {
+        "kadin": [
+          {
+            "isim": "Miutine Eau de Parfum",
+            "lansman_yili": 2025,
+            "tur": "Floral",
+            "konsantrasyon": "EDP",
+            "ust_notalar": ["Muguet (Müge)"],
+            "orta_notalar": ["Çiçeksi Notalar"],
+            "alt_notalar": ["Misk", "Amber"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            },
+            "mevsim": ["İlkbahar", "Yaz"]
+          }
+        ]
+      }
+    },
+    "Aesop": {
+      "marka_aciklama": "Aesop, ultra-premium doğal parfümlerle L'Oréal Luxe portföyünde yer alıyor. 2023'te L'Oréal tarafından satın alındı.",
+      "parfumler": {
+        "unisex": [
+          {
+            "isim": "Hwyl Eau de Parfum",
+            "tur": "Woody Aromatic",
+            "cinsiyet": "Unisex",
+            "notalar": ["Selvi", "Vetiver", "Tütsü", "Yosun"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            }
+          },
+          {
+            "isim": "Marrakech Intense Eau de Toilette",
+            "tur": "Spicy Floral",
+            "cinsiyet": "Unisex",
+            "notalar": ["Neroli", "Gül", "Kakule", "Sandal Ağacı", "Sedir Ağacı"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            }
+          },
+          {
+            "isim": "Rozu Eau de Parfum",
+            "tur": "Floral Green",
+            "cinsiyet": "Unisex",
+            "notalar": ["Guaiac Ağacı", "Şiso", "Gül"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            }
+          },
+          {
+            "isim": "Karst Eau de Parfum",
+            "tur": "Woody Aromatic",
+            "cinsiyet": "Unisex",
+            "notalar": ["Florentin İris", "Füme Vetiver", "Dumanlı Sedir"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            }
+          },
+          {
+            "isim": "Miraceti Eau de Parfum",
+            "tur": "Musky Amber",
+            "cinsiyet": "Unisex",
+            "notalar": ["Labdanum", "Misk", "Ambret"],
+            "performans": {
+              "kalicilik": "6-8 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            }
+          },
+          {
+            "isim": "Eidesis Eau de Parfum",
+            "tur": "Floral Musky",
+            "cinsiyet": "Unisex",
+            "notalar": ["Yasemin", "Portakal Çiçeği", "Misk"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Hafif-Orta",
+              "iz": "Hafif"
+            }
+          }
+        ]
+      }
+    },
+    "Atelier Cologne": {
+      "marka_aciklama": "Atelier Cologne, sitrus ve odunsu notalar üzerine uzmanlaşmış Fransız niş parfüm markası.",
+      "parfumler": {
+        "unisex": [
+          {
+            "isim": "Clémentine California",
+            "tur": "Citrus Aromatic",
+            "cinsiyet": "Unisex",
+            "notalar": ["Klementine", "Kızıl Biber", "Vetiver", "Sandal Ağacı"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Hafif-Orta"
+            }
+          },
+          {
+            "isim": "Orange Sanguine",
+            "tur": "Citrus",
+            "cinsiyet": "Unisex",
+            "notalar": ["Kan Portakalı", "Yasemin", "Tonka Fasulyesi", "Sandal Ağacı"],
+            "performans": {
+              "kalicilik": "3-5 saat",
+              "yayilim": "Hafif",
+              "iz": "Hafif"
+            }
+          },
+          {
+            "isim": "Vanille Insensée",
+            "tur": "Vanilla Woody",
+            "cinsiyet": "Unisex",
+            "notalar": ["Limon", "Vanilya", "Meşe Yosunu", "Amber"],
+            "performans": {
+              "kalicilik": "4-6 saat",
+              "yayilim": "Orta",
+              "iz": "Orta"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "notlar": {
+    "veri_kaynaklari": "Fragrantica, Marka resmi siteleri (YSL Beauty, Giorgio Armani Beauty, Lancôme, Prada Beauty, Valentino Beauty, Mugler, Viktor & Rolf), L'Oréal Finance raporları, Sephora, Macy's",
+    "yasal_uyari": "Bu liste mümkün olduğunca kapsamlı hazırlanmıştır ancak bölgesel farklılıklar, sınırlı üretim serileri ve yeni lansmanlar nedeniyle tam eksiklik olabilir. Bazı parfümler belirli pazarlarda mevcut olmayabilir. Performans bilgileri kullanıcı yorumları ve genel değerlendirmelere dayanmaktadır; kişisel cilt kimyasına göre değişiklik gösterebilir.",
+    "haute_perfumerie_notu": "Armani Privé, YSL Le Vestiaire des Parfums, Valentino Anatomy of Dreams ve Lancôme Absolue Les Parfums gibi haute parfümeri koleksiyonları sınırlı dağıtım kanallarında satılmaktadır ve tam listesi burada verilenden daha geniş olabilir.",
+    "yeni_markalar_2025": "Jacquemus (2025'te ortaklık duyuruldu), Amouage (azınlık hissesi), Miu Miu (ilk parfüm 2025), Creed/Balenciaga/Bottega Veneta (Kering anlaşması - henüz tamamlanmadı)"
+  }
+}
