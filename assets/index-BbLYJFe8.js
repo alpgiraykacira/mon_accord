@@ -2,6 +2,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     <div class="navbar__brand">
       <a href="#landing" class="navbar__logo" id="nav-brand">
         <span class="navbar__logo-accent">✦</span> MON ACCORD
+        <span class="navbar__logo-sub">by L'Oréal Luxe</span>
       </a>
     </div>
     <div class="navbar__links" id="nav-links">
@@ -38,9 +39,6 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
         <div class="hero__actions">
           <button class="btn btn--primary btn--lg" id="hero-cta">
             ${n?`Enter the Lab`:`Begin Your Journey`}
-          </button>
-          <button class="btn btn--secondary btn--lg" id="hero-explore">
-            Explore the Collection
           </button>
         </div>
       </div>
@@ -128,7 +126,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
         </div>
       </div>
     </section>
-  `,e.querySelector(`#hero-cta`).addEventListener(`click`,()=>{t(n?`#lab`:`#profile`)}),e.querySelector(`#hero-explore`).addEventListener(`click`,()=>{document.getElementById(`regions-section`)?.scrollIntoView({behavior:`smooth`})}),e.querySelector(`#bottom-cta`).addEventListener(`click`,()=>{t(n?`#lab`:`#profile`)}),e.querySelectorAll(`.region-format-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=e.dataset.region,r=e.dataset.format,i=p.find(e=>e.id===n),a=m.find(e=>e.region===n&&e.format===r);if(!a||!i)return;document.querySelector(`.notes-popup`)?.remove();let o=document.createElement(`div`);o.className=`notes-popup`,o.innerHTML=`
+  `,e.querySelector(`#hero-cta`).addEventListener(`click`,()=>{t(n?`#lab`:`#profile`)}),e.querySelector(`#bottom-cta`).addEventListener(`click`,()=>{t(n?`#lab`:`#profile`)}),e.querySelectorAll(`.region-format-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=e.dataset.region,r=e.dataset.format,i=p.find(e=>e.id===n),a=m.find(e=>e.region===n&&e.format===r);if(!a||!i)return;document.querySelector(`.notes-popup`)?.remove();let o=document.createElement(`div`);o.className=`notes-popup`,o.innerHTML=`
         <div class="notes-popup__inner" style="--rc: ${i.color}; --rc-rgb: ${x(i.color)};">
           <div class="notes-popup__header">
             <span class="notes-popup__title">${i.icon} ${i.name} — ${r===`spray`?`💨 Spray`:`💧 Oil`}</span>
@@ -935,7 +933,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       color: var(--text-secondary);
       margin-bottom: 2px;
     }
-  `,document.head.appendChild(e)}function Hd(e,t){let n=[],r=null,i=!1,a=null,o=!1,s=null,c=null,l=null,u=null,d=5,f=JSON.parse(sessionStorage.getItem(`labPending`)||`[]`);f.length>0&&(f.forEach(e=>{let t=y(e);t&&!n.find(t=>t.perfumeId===e)&&n.push({perfumeId:e,amount:t.format===`spray`?2:3,unit:t.format===`spray`?`sprays`:`drops`})}),sessionStorage.removeItem(`labPending`));function m(){e.innerHTML=`
+  `,document.head.appendChild(e)}var Hd=`lab_session_state`;function Ud(e){try{sessionStorage.setItem(Hd,JSON.stringify(e))}catch{}}function Wd(){try{return JSON.parse(sessionStorage.getItem(Hd)||`null`)}catch{return null}}function Gd(e,t){let n=Wd(),r=n?.layers||[],i=n?.scentSimulation||null,a=!1,o=n?.contextResult||null,s=!1,c=n?.selectedMood||null,l=n?.selectedOccasion||null,u=n?.selectedSeason||null,d=n?.selectedTime||null,f=n?.selectedIntensity||5;function m(){Ud({layers:r,scentSimulation:i,contextResult:o,selectedMood:c,selectedOccasion:l,selectedSeason:u,selectedTime:d,selectedIntensity:f})}let h=JSON.parse(sessionStorage.getItem(`labPending`)||`[]`);h.length>0&&(h.forEach(e=>{let t=y(e);t&&!r.find(t=>t.perfumeId===e)&&r.push({perfumeId:e,amount:t.format===`spray`?2:3,unit:t.format===`spray`?`sprays`:`drops`})}),sessionStorage.removeItem(`labPending`),m());function g(){e.innerHTML=`
       <div class="page__container">
         <div class="lab-layout">
           <!-- Left: Lab workspace -->
@@ -948,10 +946,10 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                   <div class="lab-region-group">
                     <p class="lab-region-label" style="color: ${e.color};">${e.icon} ${e.name}</p>
                     <div class="lab-region-items">
-                      ${Ud(e.id).map(t=>`
-                        <button class="lab-add-btn ${n.find(e=>e.perfumeId===t.id)?`lab-add-btn--added`:``}" data-id="${t.id}" style="--region-color: ${e.color};">
+                      ${Kd(e.id).map(t=>`
+                        <button class="lab-add-btn ${r.find(e=>e.perfumeId===t.id)?`lab-add-btn--added`:``}" data-id="${t.id}" style="--region-color: ${e.color};">
                           ${t.format===`spray`?`💨`:`💧`} ${t.format===`spray`?`Spray`:`Oil`}
-                          ${n.find(e=>e.perfumeId===t.id)?` ✓`:` +`}
+                          ${r.find(e=>e.perfumeId===t.id)?` ✓`:` +`}
                         </button>
                       `).join(``)}
                     </div>
@@ -962,12 +960,12 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
 
             <!-- Active Layers -->
             <div class="lab-layers" id="lab-layers">
-              ${n.length===0?`
+              ${r.length===0?`
                 <div class="lab-empty">
                   <p class="lab-empty__text">Add perfumes above to start layering.</p>
                   <p class="lab-empty__hint">Combine sprays and oils from different regions to create your unique blend.</p>
                 </div>
-              `:n.map((e,t)=>{let n=y(e.perfumeId),r=p.find(e=>e.id===n.region);return`
+              `:r.map((e,t)=>{let n=y(e.perfumeId),r=p.find(e=>e.id===n.region);return`
                   <div class="lab-layer" data-idx="${t}" style="--region-color: ${r.color};">
                     <div class="lab-layer__header">
                       <div class="lab-layer__info">
@@ -995,10 +993,10 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
             </div>
 
             <!-- Action Buttons -->
-            ${n.length>0?`
+            ${r.length>0?`
               <div class="lab-actions" id="lab-actions">
                 <button class="btn btn--primary" id="btn-simulate">
-                  ${i?`<span class="loading-spinner"></span> Simulating...`:`✦ Simulate Scent`}
+                  ${a?`<span class="loading-spinner"></span> Simulating...`:`✦ Simulate Scent`}
                 </button>
                 <button class="btn btn--secondary" id="btn-save-formula">Save to Vault</button>
                 <button class="btn btn--ghost" id="btn-clear-layers">Clear All</button>
@@ -1006,11 +1004,11 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
             `:``}
 
             <!-- Scent Simulation Result -->
-            ${r?`
+            ${i?`
               <div class="ai-response mt-lg" id="simulation-result">
                 <div class="ai-response__label">✦ Virtual Scent Simulation</div>
                 <div class="ai-response__text">
-                  ${Gd(r)}
+                  ${Jd(i)}
                 </div>
               </div>
             `:``}
@@ -1027,56 +1025,56 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
               <div class="input-group">
                 <label class="input-label">Mood</label>
                 <div class="lab-advisor__chips" id="mood-chips">
-                  ${Pd.map(e=>`<button class="lab-chip ${s===e.id?`lab-chip--active`:``}" data-value="${e.id}">${e.icon} ${e.name}</button>`).join(``)}
+                  ${Pd.map(e=>`<button class="lab-chip ${c===e.id?`lab-chip--active`:``}" data-value="${e.id}">${e.icon} ${e.name}</button>`).join(``)}
                 </div>
               </div>
 
               <div class="input-group">
                 <label class="input-label">Occasion</label>
                 <div class="lab-advisor__chips" id="occasion-chips">
-                  ${Fd.map(e=>`<button class="lab-chip ${c===e.id?`lab-chip--active`:``}" data-value="${e.id}">${e.icon} ${e.name}</button>`).join(``)}
+                  ${Fd.map(e=>`<button class="lab-chip ${l===e.id?`lab-chip--active`:``}" data-value="${e.id}">${e.icon} ${e.name}</button>`).join(``)}
                 </div>
               </div>
 
               <div class="input-group">
                 <label class="input-label">Season</label>
                 <div class="lab-advisor__chips" id="season-chips">
-                  ${Id.map(e=>`<button class="lab-chip ${l===e.id?`lab-chip--active`:``}" data-value="${e.id}">${e.icon} ${e.name}</button>`).join(``)}
+                  ${Id.map(e=>`<button class="lab-chip ${u===e.id?`lab-chip--active`:``}" data-value="${e.id}">${e.icon} ${e.name}</button>`).join(``)}
                 </div>
               </div>
 
               <div class="input-group">
                 <label class="input-label">Time of Day</label>
                 <div class="lab-advisor__chips" id="time-chips">
-                  ${[`Morning`,`Afternoon`,`Evening`,`Night`].map(e=>`<button class="lab-chip ${u===e.toLowerCase()?`lab-chip--active`:``}" data-value="${e.toLowerCase()}">${e}</button>`).join(``)}
+                  ${[`Morning`,`Afternoon`,`Evening`,`Night`].map(e=>`<button class="lab-chip ${d===e.toLowerCase()?`lab-chip--active`:``}" data-value="${e.toLowerCase()}">${e}</button>`).join(``)}
                 </div>
               </div>
 
               <div class="slider-container">
                 <div class="slider-header">
                   <span class="slider-label">Intensity</span>
-                  <span class="slider-value" id="advisor-intensity-val">${(Ld.find(e=>e.value===d)||{}).name||`Moderate`}</span>
+                  <span class="slider-value" id="advisor-intensity-val">${(Ld.find(e=>e.value===f)||{}).name||`Moderate`}</span>
                 </div>
-                <input type="range" min="1" max="9" value="${d}" step="2" id="advisor-intensity" />
+                <input type="range" min="1" max="9" value="${f}" step="2" id="advisor-intensity" />
               </div>
 
-              <button class="btn btn--primary w-full" id="btn-get-advice" ${o?`disabled`:``}>
-                ${o?`<span class="loading-spinner"></span> Crafting...`:`✦ Get Recommendation`}
+              <button class="btn btn--primary w-full" id="btn-get-advice" ${s?`disabled`:``}>
+                ${s?`<span class="loading-spinner"></span> Crafting...`:`✦ Get Recommendation`}
               </button>
             </div>
 
             <!-- Advisor Result -->
-            ${a?`
+            ${o?`
               <div class="lab-advisor__result mt-lg" id="advisor-result">
-                ${a.layers?.length>0?`
+                ${o.layers?.length>0?`
                   <button class="btn btn--primary btn--sm w-full" id="btn-apply-recommendation" style="margin-bottom: var(--space-md);">✦ Apply This Formula</button>
                 `:``}
                 <div class="ai-response">
-                  <div class="ai-response__label">✦ ${a.formulaName||`Recommendation`}</div>
+                  <div class="ai-response__label">✦ ${o.formulaName||`Recommendation`}</div>
                   <div class="ai-response__text ai-response__text--compact">
-                    ${a.reasoning?`<p>${Wd(a.reasoning,150)}</p>`:``}
-                    ${a.scentPreview?`<p><em>${Wd(a.scentPreview,100)}</em></p>`:``}
-                    ${a.tips?`<p style="color: var(--accent); font-size: var(--text-xs);">💡 ${Wd(a.tips,100)}</p>`:``}
+                    ${o.reasoning?`<p>${qd(o.reasoning,150)}</p>`:``}
+                    ${o.scentPreview?`<p><em>${qd(o.scentPreview,100)}</em></p>`:``}
+                    ${o.tips?`<p style="color: var(--accent); font-size: var(--text-xs);">💡 ${qd(o.tips,100)}</p>`:``}
                   </div>
                 </div>
               </div>
@@ -1084,13 +1082,14 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           </div>
         </div>
       </div>
-    `,Kd(),h()}function h(){e.querySelectorAll(`.lab-add-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,i=n.findIndex(e=>e.perfumeId===t);if(i>=0)n.splice(i,1);else{let e=y(t);n.push({perfumeId:t,amount:e.format===`spray`?2:3,unit:e.format===`spray`?`sprays`:`drops`})}r=null,m()})}),e.querySelectorAll(`.lab-layer__remove`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation(),n.splice(parseInt(e.dataset.idx),1),r=null,m()})}),e.querySelectorAll(`.lab-layer__amount-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=parseInt(e.dataset.idx);e.dataset.action===`increase`?n[r].amount=Math.min(n[r].amount+1,10):n[r].amount=Math.max(n[r].amount-1,1),m()})});let t=e.querySelector(`#btn-simulate`);t&&t.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}i=!0,m();let e=await xd(n);i=!1,e.success?r=e.text:window.showToast(e.text||`Simulation failed.`,`error`),m()});let f=e.querySelector(`#btn-save-formula`);f&&f.addEventListener(`click`,()=>{g(n,r)});let p=e.querySelector(`#btn-clear-layers`);p&&p.addEventListener(`click`,()=>{n=[],r=null,a=null,m()}),[`mood`,`occasion`,`season`,`time`].forEach(t=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(n=>{n.addEventListener(`click`,()=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(e=>e.classList.remove(`lab-chip--active`)),n.classList.add(`lab-chip--active`);let r=n.dataset.value;t===`mood`?s=r:t===`occasion`?c=r:t===`season`?l=r:t===`time`&&(u=r)})})});let h=e.querySelector(`#advisor-intensity`);h&&h.addEventListener(`input`,()=>{d=parseInt(h.value);let t=Ld.find(e=>e.value===d);e.querySelector(`#advisor-intensity-val`).textContent=t?.name||`Moderate`});let _=e.querySelector(`#btn-get-advice`);_&&_.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}let t=e.querySelector(`#mood-chips .lab-chip--active`)?.dataset.value,n=e.querySelector(`#occasion-chips .lab-chip--active`)?.dataset.value,r=e.querySelector(`#season-chips .lab-chip--active`)?.dataset.value,i=e.querySelector(`#time-chips .lab-chip--active`)?.dataset.value,s=Ld.find(t=>t.value===parseInt(e.querySelector(`#advisor-intensity`)?.value||5))?.name||`moderate`;o=!0,m();let c=await zd({mood:t,occasion:n,season:r,timeOfDay:i,intensity:s});o=!1,c.success?a=c.recommendation:window.showToast(c.error||`Advice failed.`,`error`),m()});let v=e.querySelector(`#btn-apply-recommendation`);v&&v.addEventListener(`click`,()=>{a?.layers&&(n=a.layers.map(e=>({perfumeId:e.perfumeId,amount:e.amount,unit:e.unit||(e.perfumeId.includes(`oil`)?`drops`:`sprays`)})).filter(e=>y(e.perfumeId)),r=null,m(),window.showToast(`Formula applied! Try simulating the scent.`))})}function g(e,t){let n=e.map(e=>{let t=y(e.perfumeId);return{...e,name:t?.name||e.perfumeId}});Bd({id:`f-`+Date.now(),layers:n,simulation:t,createdAt:Date.now()},{showNameInput:!0})}m()}function Ud(e){return m.filter(t=>t.region===e)}function Wd(e,t=150){return!e||e.length<=t?e:e.substring(0,t).replace(/\s+\S*$/,``)+`…`}function Gd(e){return e?e.split(`
-`).filter(e=>e.trim()).map(e=>{if(e.match(/^(OPENING|HEART|DRY DOWN|OVERALL|SILLAGE)/i)){let[t,...n]=e.split(`:`);return`<p><strong style="color: var(--accent);">${t.trim()}:</strong> ${n.join(`:`).trim()}</p>`}return`<p>${e}</p>`}).join(``):``}function Kd(){if(document.getElementById(`lab-styles`))return;let e=document.createElement(`style`);e.id=`lab-styles`,e.textContent=`
+    `,Yd(),_()}function _(){e.querySelectorAll(`.lab-add-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,n=r.findIndex(e=>e.perfumeId===t);if(n>=0)r.splice(n,1);else{let e=y(t);r.push({perfumeId:t,amount:e.format===`spray`?2:3,unit:e.format===`spray`?`sprays`:`drops`})}i=null,m(),g()})}),e.querySelectorAll(`.lab-layer__remove`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation(),r.splice(parseInt(e.dataset.idx),1),i=null,m(),g()})}),e.querySelectorAll(`.lab-layer__amount-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=parseInt(e.dataset.idx);e.dataset.action===`increase`?r[n].amount=Math.min(r[n].amount+1,10):r[n].amount=Math.max(r[n].amount-1,1),m(),g()})});let t=e.querySelector(`#btn-simulate`);t&&t.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}a=!0,g();let e=await xd(r);a=!1,e.success?(i=e.text,m()):window.showToast(e.text||`Simulation failed.`,`error`),g()});let n=e.querySelector(`#btn-save-formula`);n&&n.addEventListener(`click`,()=>{v(r,i)});let p=e.querySelector(`#btn-clear-layers`);p&&p.addEventListener(`click`,()=>{r=[],i=null,o=null,g()}),[`mood`,`occasion`,`season`,`time`].forEach(t=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(n=>{n.addEventListener(`click`,()=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(e=>e.classList.remove(`lab-chip--active`)),n.classList.add(`lab-chip--active`);let r=n.dataset.value;t===`mood`?c=r:t===`occasion`?l=r:t===`season`?u=r:t===`time`&&(d=r)})})});let h=e.querySelector(`#advisor-intensity`);h&&h.addEventListener(`input`,()=>{f=parseInt(h.value);let t=Ld.find(e=>e.value===f);e.querySelector(`#advisor-intensity-val`).textContent=t?.name||`Moderate`});let _=e.querySelector(`#btn-get-advice`);_&&_.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}let t=e.querySelector(`#mood-chips .lab-chip--active`)?.dataset.value,n=e.querySelector(`#occasion-chips .lab-chip--active`)?.dataset.value,r=e.querySelector(`#season-chips .lab-chip--active`)?.dataset.value,i=e.querySelector(`#time-chips .lab-chip--active`)?.dataset.value,a=Ld.find(t=>t.value===parseInt(e.querySelector(`#advisor-intensity`)?.value||5))?.name||`moderate`;s=!0,g();let c=await zd({mood:t,occasion:n,season:r,timeOfDay:i,intensity:a});s=!1,c.success?o=c.recommendation:window.showToast(c.error||`Advice failed.`,`error`),g()});let b=e.querySelector(`#btn-apply-recommendation`);b&&b.addEventListener(`click`,()=>{o?.layers&&(r=o.layers.map(e=>({perfumeId:e.perfumeId,amount:e.amount,unit:e.unit||(e.perfumeId.includes(`oil`)?`drops`:`sprays`)})).filter(e=>y(e.perfumeId)),i=null,g(),window.showToast(`Formula applied! Try simulating the scent.`))})}function v(e,t){let n=e.map(e=>{let t=y(e.perfumeId);return{...e,name:t?.name||e.perfumeId}});Bd({id:`f-`+Date.now(),layers:n,simulation:t,createdAt:Date.now()},{showNameInput:!0})}g()}function Kd(e){return m.filter(t=>t.region===e)}function qd(e,t=150){return!e||e.length<=t?e:e.substring(0,t).replace(/\s+\S*$/,``)+`…`}function Jd(e){return e?e.split(`
+`).filter(e=>e.trim()).map(e=>{if(e.match(/^(OPENING|HEART|DRY DOWN|OVERALL|SILLAGE)/i)){let[t,...n]=e.split(`:`);return`<p><strong style="color: var(--accent);">${t.trim()}:</strong> ${n.join(`:`).trim()}</p>`}return`<p>${e}</p>`}).join(``):``}function Yd(){if(document.getElementById(`lab-styles`))return;let e=document.createElement(`style`);e.id=`lab-styles`,e.textContent=`
     .lab-layout {
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 420px;
       gap: var(--space-2xl);
-      align-items: start;
+      align-items: stretch;
+      max-width: 1400px;
     }
 
     /* ── Add Section ── */
@@ -1311,6 +1310,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       padding: var(--space-xl);
       position: sticky;
       top: calc(var(--nav-height) + var(--space-lg));
+      align-self: start;
+      min-height: 100%;
     }
 
     .lab-advisor__header {
@@ -1382,11 +1383,11 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         grid-template-columns: 1fr;
       }
     }
-  `,document.head.appendChild(e)}function qd(e,t){let n=d.get(`vault_folders`,[{id:`default`,name:`All Formulas`,icon:`📁`}]),r=null,i=!1,a=null;function o(){d.set(`vault_folders`,n)}function s(e){let t=d.getVault();return e===`default`?t:t.filter(t=>t.folderId===e)}function c(){let t=d.getVault();e.innerHTML=`
+  `,document.head.appendChild(e)}function Xd(e,t){let n=d.get(`vault_folders`,[{id:`default`,name:`All Formulas`,icon:`📁`}]),r=null,i=!1,a=null;function o(){d.set(`vault_folders`,n)}function s(e){let t=d.getVault();return e===`default`?t:t.filter(t=>t.folderId===e)}function c(){let t=d.getVault();e.innerHTML=`
       <div class="page__container">
         ${r?h(r,t):l(t)}
       </div>
-    `,Jd(),_(t)}function l(e){return`
+    `,Zd(),_(t)}function l(e){return`
       <div class="vault-main-layout">
         <!-- Left: Folders -->
         <div class="vault-folders-col">
@@ -1507,7 +1508,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
             `}).join(``)}
         </div>
       `}
-    `}function _(s){e.querySelectorAll(`.vault-folder-card`).forEach(e=>{e.addEventListener(`click`,t=>{if(t.target.closest(`.vault-folder-delete`))return;let i=e.dataset.folder;r=n.find(e=>e.id===i),c()})}),e.querySelectorAll(`.vault-folder-delete`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.delete,i=d.getVault();i.forEach(e=>{e.folderId===r&&(e.folderId=void 0)}),d.set(`vault`,i),n=n.filter(e=>e.id!==r),o(),c()})});let l=e.querySelector(`#btn-create-folder`);l&&l.addEventListener(`click`,()=>{i=!0,c()});let u=e.querySelector(`#btn-save-folder`);u&&u.addEventListener(`click`,()=>{let t=e.querySelector(`#new-folder-name`).value.trim();t&&(n.push({id:`folder-`+Date.now(),name:t,icon:`📂`}),o(),i=!1,c())});let f=e.querySelector(`#btn-cancel-folder`);f&&f.addEventListener(`click`,()=>{i=!1,c()});let p=e.querySelector(`#btn-back-folders`);p&&p.addEventListener(`click`,()=>{r=null,c()});let m=e.querySelector(`#go-to-lab`);m&&m.addEventListener(`click`,()=>t(`#lab`)),e.querySelectorAll(`.vault-load-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let n=s.find(t=>t.id===e.dataset.id);if(n?.layers){let e=n.layers.map(e=>e.perfumeId).filter(Boolean);sessionStorage.setItem(`labPending`,JSON.stringify(e)),t(`#lab`)}})}),e.querySelectorAll(`.vault-delete-btn`).forEach(e=>{e.addEventListener(`click`,()=>{d.removeFormula(e.dataset.id),c(),window.showToast(`Formula removed from vault.`)})}),e.querySelectorAll(`.vault-move-select`).forEach(e=>{e.addEventListener(`change`,()=>{let t=e.value;if(!t)return;let n=d.getVault(),r=n.find(t=>t.id===e.dataset.id);r&&(r.folderId=t,d.set(`vault`,n),c(),window.showToast(`Formula moved to folder.`))})}),e.querySelectorAll(`.vault-add-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=e.dataset.section,c()})}),e.querySelectorAll(`.vault-cancel-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=null,c()})}),e.querySelectorAll(`.vault-save-owned-btn`).forEach(t=>{t.addEventListener(`click`,()=>{let n=t.dataset.type,r=e.querySelector(`.vault-owned-select[data-type="${n}"]`);if(!r?.value)return;let i=d.getOwnedPerfumes();i[n].includes(r.value)||(i[n]=[...i[n],r.value],d.setOwnedPerfumes(i)),a=null,c()})}),e.querySelectorAll(`.vault-myperfume-remove`).forEach(e=>{e.addEventListener(`click`,()=>{let{remove:t,type:n}=e.dataset,r=d.getOwnedPerfumes();r[n]=r[n].filter(e=>e!==t),d.setOwnedPerfumes(r),c()})})}c()}function Jd(){if(document.getElementById(`vault-styles`))return;let e=document.createElement(`style`);e.id=`vault-styles`,e.textContent=`
+    `}function _(s){e.querySelectorAll(`.vault-folder-card`).forEach(e=>{e.addEventListener(`click`,t=>{if(t.target.closest(`.vault-folder-delete`))return;let i=e.dataset.folder;r=n.find(e=>e.id===i),c()})}),e.querySelectorAll(`.vault-folder-delete`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.delete,i=d.getVault();i.forEach(e=>{e.folderId===r&&(e.folderId=void 0)}),d.set(`vault`,i),n=n.filter(e=>e.id!==r),o(),c()})});let l=e.querySelector(`#btn-create-folder`);l&&l.addEventListener(`click`,()=>{i=!0,c()});let u=e.querySelector(`#btn-save-folder`);u&&u.addEventListener(`click`,()=>{let t=e.querySelector(`#new-folder-name`).value.trim();t&&(n.push({id:`folder-`+Date.now(),name:t,icon:`📂`}),o(),i=!1,c())});let f=e.querySelector(`#btn-cancel-folder`);f&&f.addEventListener(`click`,()=>{i=!1,c()});let p=e.querySelector(`#btn-back-folders`);p&&p.addEventListener(`click`,()=>{r=null,c()});let m=e.querySelector(`#go-to-lab`);m&&m.addEventListener(`click`,()=>t(`#lab`)),e.querySelectorAll(`.vault-load-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let n=s.find(t=>t.id===e.dataset.id);if(n?.layers){let e=n.layers.map(e=>e.perfumeId).filter(Boolean);sessionStorage.setItem(`labPending`,JSON.stringify(e)),t(`#lab`)}})}),e.querySelectorAll(`.vault-delete-btn`).forEach(e=>{e.addEventListener(`click`,()=>{d.removeFormula(e.dataset.id),c(),window.showToast(`Formula removed from vault.`)})}),e.querySelectorAll(`.vault-move-select`).forEach(e=>{e.addEventListener(`change`,()=>{let t=e.value;if(!t)return;let n=d.getVault(),r=n.find(t=>t.id===e.dataset.id);r&&(r.folderId=t,d.set(`vault`,n),c(),window.showToast(`Formula moved to folder.`))})}),e.querySelectorAll(`.vault-add-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=e.dataset.section,c()})}),e.querySelectorAll(`.vault-cancel-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=null,c()})}),e.querySelectorAll(`.vault-save-owned-btn`).forEach(t=>{t.addEventListener(`click`,()=>{let n=t.dataset.type,r=e.querySelector(`.vault-owned-select[data-type="${n}"]`);if(!r?.value)return;let i=d.getOwnedPerfumes();i[n].includes(r.value)||(i[n]=[...i[n],r.value],d.setOwnedPerfumes(i)),a=null,c()})}),e.querySelectorAll(`.vault-myperfume-remove`).forEach(e=>{e.addEventListener(`click`,()=>{let{remove:t,type:n}=e.dataset,r=d.getOwnedPerfumes();r[n]=r[n].filter(e=>e!==t),d.setOwnedPerfumes(r),c()})})}c()}function Zd(){if(document.getElementById(`vault-styles`))return;let e=document.createElement(`style`);e.id=`vault-styles`,e.textContent=`
     .vault-main-layout {
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -1714,14 +1715,14 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     @media (max-width: 640px) {
       .vault-formulas-list { grid-template-columns: 1fr; }
     }
-  `,document.head.appendChild(e)}function Yd(){let e=d.getInteractions(),t=d.getVault(),n=d.getLikes(),r=d.getProfile();if(e.length===0&&t.length===0)return null;let i={},a={spray:0,oil:0},o=[];t.forEach(e=>{(e.layers||[]).forEach(e=>{let t=m.find(t=>t.id===e.perfumeId);t&&(i[t.region]=(i[t.region]||0)+1,a[t.format]++,o.push({...e,region:t.region,format:t.format,family:t.scentFamily}))})});let s=Object.entries(i).sort(([,e],[,t])=>t-e).map(([e,t])=>({region:e,count:t,data:p.find(t=>t.id===e)})),c=Date.now()-720*60*60*1e3,l=e.filter(e=>e.timestamp>c);e.filter(e=>e.timestamp<=c),t.length;let u=n.length,f=t.filter(e=>e.savedAt>c).length;return{topRegions:s,formatPreference:a.spray>a.oil?`spray-dominant`:a.oil>a.spray?`oil-dominant`:`balanced`,totalFormulas:t.length,totalLikes:u,recentActivity:l.length,engagementLevel:l.length>10?`high`:l.length>3?`medium`:`low`,profile:r,recentSaves:f}}function Xd(){let e=d.getOwnedPerfumes(),t=[];if(e.monAccord?.length){let n=e.monAccord.map(e=>m.find(t=>t.id===e)?.name).filter(Boolean);n.length&&t.push(`Mon Accord owned: ${n.join(`, `)}`)}if(e.loreal?.length){let n=e.loreal.map(e=>g.find(t=>t.id===e)?.name).filter(Boolean);n.length&&t.push(`L'Oréal Luxe owned: ${n.join(`, `)}`)}return t.length?t.join(`
-`):`No owned perfumes registered.`}async function Zd(){let e=Yd(),t=d.getVault(),n=d.getProfile();if(!t.length&&!n)return{success:!1,error:`No usage data yet. Create some formulas first!`};let r=t.slice(0,3).map(e=>{let t=(e.layers||[]).map(e=>{let t=m.find(t=>t.id===e.perfumeId);return t?`${e.amount} ${e.unit} ${t.name}`:``}).filter(Boolean).join(` + `);return`"${e.name}": ${t}`}).join(`
+  `,document.head.appendChild(e)}function Qd(){let e=d.getInteractions(),t=d.getVault(),n=d.getLikes(),r=d.getProfile();if(e.length===0&&t.length===0)return null;let i={},a={spray:0,oil:0},o=[];t.forEach(e=>{(e.layers||[]).forEach(e=>{let t=m.find(t=>t.id===e.perfumeId);t&&(i[t.region]=(i[t.region]||0)+1,a[t.format]++,o.push({...e,region:t.region,format:t.format,family:t.scentFamily}))})});let s=Object.entries(i).sort(([,e],[,t])=>t-e).map(([e,t])=>({region:e,count:t,data:p.find(t=>t.id===e)})),c=Date.now()-720*60*60*1e3,l=e.filter(e=>e.timestamp>c);e.filter(e=>e.timestamp<=c),t.length;let u=n.length,f=t.filter(e=>e.savedAt>c).length;return{topRegions:s,formatPreference:a.spray>a.oil?`spray-dominant`:a.oil>a.spray?`oil-dominant`:`balanced`,totalFormulas:t.length,totalLikes:u,recentActivity:l.length,engagementLevel:l.length>10?`high`:l.length>3?`medium`:`low`,profile:r,recentSaves:f}}function $d(){let e=d.getOwnedPerfumes(),t=[];if(e.monAccord?.length){let n=e.monAccord.map(e=>m.find(t=>t.id===e)?.name).filter(Boolean);n.length&&t.push(`Mon Accord owned: ${n.join(`, `)}`)}if(e.loreal?.length){let n=e.loreal.map(e=>g.find(t=>t.id===e)?.name).filter(Boolean);n.length&&t.push(`L'Oréal Luxe owned: ${n.join(`, `)}`)}return t.length?t.join(`
+`):`No owned perfumes registered.`}async function ef(){let e=Qd(),t=d.getVault(),n=d.getProfile();if(!t.length&&!n)return{success:!1,error:`No usage data yet. Create some formulas first!`};let r=t.slice(0,3).map(e=>{let t=(e.layers||[]).map(e=>{let t=m.find(t=>t.id===e.perfumeId);return t?`${e.amount} ${e.unit} ${t.name}`:``}).filter(Boolean).join(` + `);return`"${e.name}": ${t}`}).join(`
 `),i=await md(`Based on this user's fragrance journey, suggest a fresh remix.
 
 USER PROFILE: ${n?`${n.archetypeName} (${n.primaryFamilies?.join(`, `)})`:`No formal profile`}
 
 USER'S OWNED PERFUMES (these are their starting point — prioritize combinations using these):
-${Xd()}
+${$d()}
 
 FAVORITE FORMULAS:
 ${r||`None saved yet`}
@@ -1746,7 +1747,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
   "inspiration": "What inspired this remix — connect to their journey",
   "newElement": "What's new/different about this compared to their usual",
   "scentDescription": "Vivid 2-sentence sensory preview"
-}`);if(i.success)try{let e=i.text.trim();e.startsWith("```")&&(e=e.replace(/^```(?:json)?\n?/,``).replace(/\n?```$/,``));let t=JSON.parse(e);return d.addInteraction({type:`remix-generated`,name:t.remixName}),{success:!0,remix:t}}catch{return{success:!0,remix:{remixName:`AI Remix`,layers:[],inspiration:i.text,newElement:``,scentDescription:``}}}return{success:!1,error:i.text}}function Qd(){let e=d.getInteractions().filter(e=>e.type===`like`&&e.timestamp>Date.now()-720*60*60*1e3),t={};return e.forEach(e=>{t[e.formulaId]=(t[e.formulaId]||0)+1}),_.sort((e,n)=>n.likes+(t[n.id]||0)*10-(e.likes+(t[e.id]||0)*10)).slice(0,5)}function $d(e,t){let n=Qd(),r=d.getProfile(),i=`likes`;function a(e){if(!r)return Math.floor(Math.random()*40)+30;let t=50,n=r.primaryFamilies||[];return(e.layers||[]).forEach(e=>{let i=y(e.perfumeId);i&&(i.scentFamily.split(`-`).forEach(e=>{n.includes(e)&&(t+=12)}),r.recommendedRegions?.includes(i.region)&&(t+=8))}),Math.min(t,98)}let o=n.map(e=>({...e,matchPercent:a(e)}));function s(){let e=[...o];return i===`likes`?e.sort((e,t)=>(t.likes||0)-(e.likes||0)):i===`match`?e.sort((e,t)=>t.matchPercent-e.matchPercent):i===`newest`&&e.sort((e,t)=>t.id>e.id?1:-1),e}function c(){let n=s();e.innerHTML=`
+}`);if(i.success)try{let e=i.text.trim();e.startsWith("```")&&(e=e.replace(/^```(?:json)?\n?/,``).replace(/\n?```$/,``));let t=JSON.parse(e);return d.addInteraction({type:`remix-generated`,name:t.remixName}),{success:!0,remix:t}}catch{return{success:!0,remix:{remixName:`AI Remix`,layers:[],inspiration:i.text,newElement:``,scentDescription:``}}}return{success:!1,error:i.text}}function tf(){let e=d.getInteractions().filter(e=>e.type===`like`&&e.timestamp>Date.now()-720*60*60*1e3),t={};return e.forEach(e=>{t[e.formulaId]=(t[e.formulaId]||0)+1}),_.sort((e,n)=>n.likes+(t[n.id]||0)*10-(e.likes+(t[e.id]||0)*10)).slice(0,5)}function nf(e,t){let n=tf(),r=d.getProfile(),i=`likes`;function a(e){if(!r)return Math.floor(Math.random()*40)+30;let t=50,n=r.primaryFamilies||[];return(e.layers||[]).forEach(e=>{let i=y(e.perfumeId);i&&(i.scentFamily.split(`-`).forEach(e=>{n.includes(e)&&(t+=12)}),r.recommendedRegions?.includes(i.region)&&(t+=8))}),Math.min(t,98)}let o=n.map(e=>({...e,matchPercent:a(e)}));function s(){let e=[...o];return i===`likes`?e.sort((e,t)=>(t.likes||0)-(e.likes||0)):i===`match`?e.sort((e,t)=>t.matchPercent-e.matchPercent):i===`newest`&&e.sort((e,t)=>t.id>e.id?1:-1),e}function c(){let n=s();e.innerHTML=`
       <div class="page__container">
         <!-- Two-column top: Trending + Today's Selection -->
         <div class="community-top-grid">
@@ -1797,12 +1798,12 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
 
         </div>
       </div>
-    `,nf(),e.querySelectorAll(`.community-sort-btn`).forEach(e=>{e.addEventListener(`click`,()=>{i=e.dataset.sort,c()})}),e.querySelectorAll(`.community-interact-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.id,i=n.find(e=>e.id===r);i&&tf(i)})}),e.querySelectorAll(`.community-trending-item`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,r=n.find(e=>e.id===t);r&&tf(r)})});let r=e.querySelector(`#btn-generate-suggestion`);r&&r.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Set your Gemini API key in Settings.`,`error`),window.showSettings();return}let n=e.querySelector(`#suggestion-container`);n.innerHTML=`
+    `,of(),e.querySelectorAll(`.community-sort-btn`).forEach(e=>{e.addEventListener(`click`,()=>{i=e.dataset.sort,c()})}),e.querySelectorAll(`.community-interact-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.id,i=n.find(e=>e.id===r);i&&af(i)})}),e.querySelectorAll(`.community-trending-item`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,r=n.find(e=>e.id===t);r&&af(r)})});let r=e.querySelector(`#btn-generate-suggestion`);r&&r.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Set your Gemini API key in Settings.`,`error`),window.showSettings();return}let n=e.querySelector(`#suggestion-container`);n.innerHTML=`
           <div class="card" style="padding: var(--space-2xl); text-align: center;">
             <span class="loading-spinner"></span>
             <p style="margin-top: var(--space-md); color: var(--text-tertiary);">Crafting a suggestion...</p>
           </div>
-        `;let i=await Zd();if(i.success&&i.remix){let e=i.remix;n.innerHTML=`
+        `;let i=await ef();if(i.success&&i.remix){let e=i.remix;n.innerHTML=`
             <div class="ai-response">
               <div class="ai-response__label">✦ ${e.remixName||`AI Suggestion`}</div>
               <div class="ai-response__text">
@@ -1824,7 +1825,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
               <p style="color: var(--text-tertiary);">${i.error||`Unable to generate. Try again.`}</p>
               <button class="btn btn--ghost btn--sm mt-md" id="btn-retry-suggestion">Retry</button>
             </div>
-          `})}c()}function ef(e,t){return[1,2,3,4,5].map(n=>`<span class="cm-star cm-star-display ${n<=e?`cm-star--on`:``}" data-ci="${t}" data-val="${n}">★</span>`).join(``)}function tf(e){let t=JSON.parse(localStorage.getItem(`monaccord_comments_`+e.id)||`[]`),n=d.isLiked(e.id),r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
+          `})}c()}function rf(e,t){return[1,2,3,4,5].map(n=>`<span class="cm-star cm-star-display ${n<=e?`cm-star--on`:``}" data-ci="${t}" data-val="${n}">★</span>`).join(``)}function af(e){let t=JSON.parse(localStorage.getItem(`monaccord_comments_`+e.id)||`[]`),n=d.isLiked(e.id),r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
     <div class="modal" style="max-width: 600px;">
       <div class="modal__header">
         <h3 class="modal__title">${e.name}</h3>
@@ -1851,7 +1852,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
               <div class="cm-comment" data-ci="${t}">
                 <div class="cm-comment-meta">
                   <span class="cm-comment-author">Anonymous</span>
-                  <span class="cm-stars">${ef(e.rating||0,t)}</span>
+                  <span class="cm-stars">${rf(e.rating||0,t)}</span>
                   <span class="cm-comment-date">${new Date(e.date).toLocaleDateString()}</span>
                 </div>
                 <p class="cm-comment-text">${e.text}</p>
@@ -1884,7 +1885,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         </div>
       </div>
     </div>
-  `,document.body.appendChild(r),r.querySelector(`#close-interaction`).onclick=()=>r.remove(),r.onclick=e=>{e.target===r&&r.remove()},r.querySelector(`#modal-like-btn`).onclick=()=>{d.toggleLike(e.id),r.remove(),tf(e)},r.querySelector(`#modal-save-btn`).onclick=()=>{r.remove();let t=(e.layers||[]).map(e=>{let t=y(e.perfumeId),n=t?p.find(e=>e.id===t.region):null;return{...e,name:`${n?.icon||``} ${t?.name||e.perfumeId}`}});Bd({...e,id:`saved-`+e.id,layers:t},{showNameInput:!1})};let i=0;r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.addEventListener(`mouseover`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(t=>{t.classList.toggle(`cm-star--on`,Number(t.dataset.val)<=Number(e.dataset.val))})}),e.addEventListener(`mouseout`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})}),e.addEventListener(`click`,()=>{i=Number(e.dataset.val),r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})})}),r.querySelectorAll(`.cm-star-display`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=Number(n.dataset.val);t[i].rating=a,localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),tf(e)})}),r.querySelector(`#btn-post-comment`).onclick=()=>{let n=r.querySelector(`#comment-input`).value.trim();n&&(t.push({text:n,date:Date.now(),rating:i,replies:[]}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),tf(e))},r.querySelectorAll(`.cm-reply-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.ci,n=r.querySelector(`#reply-input-${t}`);n&&(n.style.display=n.style.display===`none`?`flex`:`none`)})}),r.querySelectorAll(`.cm-post-reply`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=r.querySelector(`.cm-reply-field[data-ci="${i}"]`)?.value.trim();a&&(t[i].replies||(t[i].replies=[]),t[i].replies.push({text:a,date:Date.now()}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),tf(e))})})}function nf(){if(document.getElementById(`community-styles`))return;let e=document.createElement(`style`);e.id=`community-styles`,e.textContent=`
+  `,document.body.appendChild(r),r.querySelector(`#close-interaction`).onclick=()=>r.remove(),r.onclick=e=>{e.target===r&&r.remove()},r.querySelector(`#modal-like-btn`).onclick=()=>{d.toggleLike(e.id),r.remove(),af(e)},r.querySelector(`#modal-save-btn`).onclick=()=>{r.remove();let t=(e.layers||[]).map(e=>{let t=y(e.perfumeId),n=t?p.find(e=>e.id===t.region):null;return{...e,name:`${n?.icon||``} ${t?.name||e.perfumeId}`}});Bd({...e,id:`saved-`+e.id,layers:t},{showNameInput:!1})};let i=0;r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.addEventListener(`mouseover`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(t=>{t.classList.toggle(`cm-star--on`,Number(t.dataset.val)<=Number(e.dataset.val))})}),e.addEventListener(`mouseout`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})}),e.addEventListener(`click`,()=>{i=Number(e.dataset.val),r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})})}),r.querySelectorAll(`.cm-star-display`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=Number(n.dataset.val);t[i].rating=a,localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),af(e)})}),r.querySelector(`#btn-post-comment`).onclick=()=>{let n=r.querySelector(`#comment-input`).value.trim();n&&(t.push({text:n,date:Date.now(),rating:i,replies:[]}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),af(e))},r.querySelectorAll(`.cm-reply-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.ci,n=r.querySelector(`#reply-input-${t}`);n&&(n.style.display=n.style.display===`none`?`flex`:`none`)})}),r.querySelectorAll(`.cm-post-reply`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=r.querySelector(`.cm-reply-field[data-ci="${i}"]`)?.value.trim();a&&(t[i].replies||(t[i].replies=[]),t[i].replies.push({text:a,date:Date.now()}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),af(e))})})}function of(){if(document.getElementById(`community-styles`))return;let e=document.createElement(`style`);e.id=`community-styles`,e.textContent=`
     .community-top-grid {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -2117,7 +2118,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       gap: var(--space-sm);
       margin-bottom: var(--space-sm);
     }
-  `,document.head.appendChild(e)}function rf(e,t){let n=[];function r(){let i=d.getOwnedPerfumes().monAccord||[],a=af(i,n);e.innerHTML=`
+  `,document.head.appendChild(e)}function sf(e,t){let n=[];function r(){let i=d.getOwnedPerfumes().monAccord||[],a=cf(i,n);e.innerHTML=`
       <div class="page__container">
         <div class="shop-layout">
           <div class="shop-products">
@@ -2182,7 +2183,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           </div>
         </div>
       </div>
-    `,sf(),e.querySelectorAll(`.shop-product__btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let i=e.dataset.id,a=n.findIndex(e=>e.id===i);a>=0?n.splice(a,1):n.push({id:i}),r()})}),e.querySelectorAll(`.shop-cart__item-remove`).forEach(e=>{e.addEventListener(`click`,()=>{n=n.filter(t=>t.id!==e.dataset.id),r()})});let o=e.querySelector(`#btn-confirm-order`);o&&o.addEventListener(`click`,()=>{of(n,e,t)})}r()}function af(e,t){if(!e.length)return null;let n=t.map(e=>e.id),r=e.map(e=>y(e)).filter(Boolean),i=[...new Set(r.flatMap(e=>e.scentFamily.split(`-`)))],a=m.filter(t=>!e.includes(t.id)&&!n.includes(t.id)&&t.scentFamily.split(`-`).some(e=>i.includes(e))).slice(0,2);return a.length?`Based on your owned ${r.map(e=>e.name).join(` & `)}: try adding ${a.map(e=>`${p.find(t=>t.id===e.region)?.icon||``} ${e.name}`).join(` or `)}.`:null}function of(e,t,n){let r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
+    `,uf(),e.querySelectorAll(`.shop-product__btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let i=e.dataset.id,a=n.findIndex(e=>e.id===i);a>=0?n.splice(a,1):n.push({id:i}),r()})}),e.querySelectorAll(`.shop-cart__item-remove`).forEach(e=>{e.addEventListener(`click`,()=>{n=n.filter(t=>t.id!==e.dataset.id),r()})});let o=e.querySelector(`#btn-confirm-order`);o&&o.addEventListener(`click`,()=>{lf(n,e,t)})}r()}function cf(e,t){if(!e.length)return null;let n=t.map(e=>e.id),r=e.map(e=>y(e)).filter(Boolean),i=[...new Set(r.flatMap(e=>e.scentFamily.split(`-`)))],a=m.filter(t=>!e.includes(t.id)&&!n.includes(t.id)&&t.scentFamily.split(`-`).some(e=>i.includes(e))).slice(0,2);return a.length?`Based on your owned ${r.map(e=>e.name).join(` & `)}: try adding ${a.map(e=>`${p.find(t=>t.id===e.region)?.icon||``} ${e.name}`).join(` or `)}.`:null}function lf(e,t,n){let r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
     <div class="modal" style="max-width: 480px; text-align: center;">
       <div class="modal__body" style="padding: var(--space-3xl) var(--space-xl);">
         <div style="font-size: 3rem; margin-bottom: var(--space-lg);">✦</div>
@@ -2194,7 +2195,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <button class="btn btn--primary btn--lg" id="btn-go-profile">Go to Profile →</button>
       </div>
     </div>
-  `,document.body.appendChild(r),r.querySelector(`#btn-go-profile`).addEventListener(`click`,()=>{r.remove(),n(`#profile`)}),r.onclick=e=>{e.target===r&&(r.remove(),n(`#profile`))}}function sf(){if(document.getElementById(`shop-styles`))return;let e=document.createElement(`style`);e.id=`shop-styles`,e.textContent=`
+  `,document.body.appendChild(r),r.querySelector(`#btn-go-profile`).addEventListener(`click`,()=>{r.remove(),n(`#profile`)}),r.onclick=e=>{e.target===r&&(r.remove(),n(`#profile`))}}function uf(){if(document.getElementById(`shop-styles`))return;let e=document.createElement(`style`);e.id=`shop-styles`,e.textContent=`
     .shop-layout {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -2355,7 +2356,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     @media (max-width: 640px) {
       .shop-products { grid-template-columns: 1fr; }
     }
-  `,document.head.appendChild(e)}var cf=`modulepreload`,lf=function(e){return`/mon_accord/`+e},uf={},df=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}r=o(t.map(t=>{if(t=lf(t,n),t in uf)return;uf[t]=!0;let r=t.endsWith(`.css`),i=r?`[rel="stylesheet"]`:``;if(n)for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}else if(document.querySelector(`link[href="${t}"]${i}`))return;let o=document.createElement(`link`);if(o.rel=r?`stylesheet`:cf,r||(o.as=`script`),o.crossOrigin=``,o.href=t,a&&o.setAttribute(`nonce`,a),document.head.appendChild(o),r)return new Promise((e,n)=>{o.addEventListener(`load`,e),o.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})},ff=document.getElementById(`app`),pf={"":b,"#landing":b,"#profile":Cd,"#lab":Hd,"#vault":qd,"#shop":rf,"#community":$d};function mf(){return window.location.hash||``}function hf(e){window.location.hash=e}function gf(){let e=mf(),t=pf[e]||b;ff.innerHTML=``,ff.appendChild(f(hf,e));let n=document.createElement(`div`);if(n.className=`page page-enter`,n.id=`page-content`,t(n,hf),ff.appendChild(n),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let t=d.getApiKey(),n=document.createElement(`div`);n.className=`modal-overlay`,n.id=`settings-modal`,n.innerHTML=`
+  `,document.head.appendChild(e)}var df=`modulepreload`,ff=function(e){return`/mon_accord/`+e},pf={},mf=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}r=o(t.map(t=>{if(t=ff(t,n),t in pf)return;pf[t]=!0;let r=t.endsWith(`.css`),i=r?`[rel="stylesheet"]`:``;if(n)for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}else if(document.querySelector(`link[href="${t}"]${i}`))return;let o=document.createElement(`link`);if(o.rel=r?`stylesheet`:df,r||(o.as=`script`),o.crossOrigin=``,o.href=t,a&&o.setAttribute(`nonce`,a),document.head.appendChild(o),r)return new Promise((e,n)=>{o.addEventListener(`load`,e),o.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})},hf=document.getElementById(`app`),gf={"":b,"#landing":b,"#profile":Cd,"#lab":Gd,"#vault":Xd,"#shop":sf,"#community":nf};function _f(){return window.location.hash||``}function vf(e){window.location.hash=e}function yf(){let e=_f(),t=gf[e]||b;hf.innerHTML=``,hf.appendChild(f(vf,e));let n=document.createElement(`div`);if(n.className=`page page-enter`,n.id=`page-content`,t(n,vf),hf.appendChild(n),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let t=d.getApiKey(),n=document.createElement(`div`);n.className=`modal-overlay`,n.id=`settings-modal`,n.innerHTML=`
     <div class="modal">
       <div class="modal__header">
         <h3 class="modal__title">Settings</h3>
@@ -2380,4 +2381,4 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <button class="btn btn--primary" id="save-settings">Save</button>
       </div>
     </div>
-  `,document.body.appendChild(n),n.querySelector(`#close-settings`).onclick=()=>n.remove(),n.querySelector(`#cancel-settings`).onclick=()=>n.remove(),n.onclick=e=>{e.target===n&&n.remove()},n.querySelector(`#save-settings`).onclick=()=>{let e=n.querySelector(`#api-key-input`).value.trim();d.setApiKey(e),df(()=>Promise.resolve().then(()=>ud).then(e=>e.resetAI()),void 0),window.showToast(`Settings saved!`),n.remove()};let r=n.querySelector(`#reset-profile-btn`);r&&(r.onclick=()=>{d.remove(`monaccord_profile`),d.set(`profile`,null),window.showToast(`Profile reset.`),n.remove(),gf()})},window.addEventListener(`hashchange`,gf),gf();
+  `,document.body.appendChild(n),n.querySelector(`#close-settings`).onclick=()=>n.remove(),n.querySelector(`#cancel-settings`).onclick=()=>n.remove(),n.onclick=e=>{e.target===n&&n.remove()},n.querySelector(`#save-settings`).onclick=()=>{let e=n.querySelector(`#api-key-input`).value.trim();d.setApiKey(e),mf(()=>Promise.resolve().then(()=>ud).then(e=>e.resetAI()),void 0),window.showToast(`Settings saved!`),n.remove()};let r=n.querySelector(`#reset-profile-btn`);r&&(r.onclick=()=>{d.remove(`monaccord_profile`),d.set(`profile`,null),window.showToast(`Profile reset.`),n.remove(),yf()})},window.addEventListener(`hashchange`,yf),yf();
