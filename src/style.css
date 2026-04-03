@@ -292,11 +292,9 @@ input, textarea, select {
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translateY(12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -790,6 +788,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
   .page__container {
     padding: var(--space-lg) var(--space-md);
+  }
+
+  .modal-overlay {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: var(--space-md);
   }
 }
 

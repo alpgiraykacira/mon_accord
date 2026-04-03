@@ -169,6 +169,7 @@ export function renderLanding(container, navigate) {
               <span class="notes-popup__val">${perfume.baseNotes.join(', ')}</span>
             </div>
           </div>
+          <button class="notes-popup__lab-btn">Add To Lab</button>
         </div>
       `;
       document.body.appendChild(popup);
@@ -185,6 +186,12 @@ export function renderLanding(container, navigate) {
         // Keep inside viewport
         if (left + pw > window.innerWidth - 12) left = window.innerWidth - pw - 12;
         if (left < 12) left = 12;
+        const viewportBottom = window.scrollY + window.innerHeight - 12;
+        if (top + ph > viewportBottom) {
+          top = rect.top + window.scrollY - ph - 10;
+        }
+        const viewportTop = window.scrollY + 12;
+        if (top < viewportTop) top = viewportTop;
         popup.style.left = left + 'px';
         popup.style.top  = top + 'px';
       });
