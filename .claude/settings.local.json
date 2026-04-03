@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(wc -l /d/projects/mon_accord/src/pages/*.js /d/projects/mon_accord/src/services/*.js)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(grep -n \"#suggestion-container\\\\|\\\\.cm-\\\\|};$\" D:/projects/mon_accord/src/pages/community.js)"
     ]
   }
 }

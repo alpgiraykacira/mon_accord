@@ -46,60 +46,57 @@ export function renderCommunity(container, navigate) {
 
     container.innerHTML = `
       <div class="page__container">
-        <div class="section-header">
-          <p class="section-label">✦ Collective Intelligence</p>
-          <h2 class="section-title">Community</h2>
-          <p class="section-subtitle">Discover trending combinations, get AI suggestions, and connect with fellow fragrance lovers.</p>
-        </div>
+        <!-- Two-column top: Trending + Today's Selection -->
+        <div class="community-top-grid">
 
-        <!-- AI Suggestion -->
-        <div class="community-section">
-          <h3 class="community-section-title">✦ AI Suggestion</h3>
-          <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-lg);">
-            Based on community trends and your preferences, here's something to try.
-          </p>
-          <div id="suggestion-container">
-            <button class="btn btn--primary" id="btn-generate-suggestion">✦ Get AI Suggestion</button>
-          </div>
-        </div>
-
-        <!-- Trending Combinations -->
-        <div class="community-section mt-2xl">
-          <div class="community-section-header">
-            <h3 class="community-section-title">Trending Combinations</h3>
-            <div class="community-sort">
-              <button class="community-sort-btn ${sortBy === 'likes' ? 'community-sort-btn--active' : ''}" data-sort="likes">♥ Most Liked</button>
-              <button class="community-sort-btn ${sortBy === 'match' ? 'community-sort-btn--active' : ''}" data-sort="match">✦ Best Match</button>
-              <button class="community-sort-btn ${sortBy === 'newest' ? 'community-sort-btn--active' : ''}" data-sort="newest">🕐 Newest</button>
+          <!-- Trending -->
+          <div class="community-panel">
+            <div class="community-panel-header">
+              <h3 class="community-panel-title">Trending</h3>
+              <div class="community-sort">
+                <button class="community-sort-btn ${sortBy === 'likes' ? 'community-sort-btn--active' : ''}" data-sort="likes">♥</button>
+                <button class="community-sort-btn ${sortBy === 'match' ? 'community-sort-btn--active' : ''}" data-sort="match">✦</button>
+                <button class="community-sort-btn ${sortBy === 'newest' ? 'community-sort-btn--active' : ''}" data-sort="newest">New</button>
+              </div>
+            </div>
+            <div class="community-trending-list">
+              ${sorted.map((formula, i) => `
+                <div class="community-trending-item" data-id="${formula.id}">
+                  <div class="community-trending-rank">${i + 1}</div>
+                  <div class="community-trending-content">
+                    <div class="community-trending-top">
+                      <h4 class="community-trending-name">${formula.name}</h4>
+                      <span class="community-trending-match" style="color: ${formula.matchPercent > 70 ? '#4CAF50' : formula.matchPercent > 50 ? 'var(--accent)' : 'var(--text-tertiary)'};">${formula.matchPercent}%</span>
+                    </div>
+                    <div class="community-trending-layers">
+                      ${(formula.layers || []).map(l => {
+                        const p = getPerfumeById(l.perfumeId);
+                        const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
+                        return `<span style="color: ${r?.color || 'var(--text-tertiary)'};">${r?.icon || ''} ${p?.name || ''}</span>`;
+                      }).join(' <span style="color: var(--text-tertiary);">+</span> ')}
+                    </div>
+                    ${formula.description ? `<p class="community-trending-desc community-desc-clamp">${formula.description}</p>` : ''}
+                  </div>
+                  <div class="community-trending-actions">
+                    <span class="community-trending-likes">♥ ${formula.likes || 0}</span>
+                    <button class="community-discuss-btn community-interact-btn" data-id="${formula.id}">Discussion</button>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           </div>
-          <div class="community-trending-list">
-            ${sorted.map((formula, i) => `
-              <div class="community-trending-item ${activeFormulaId === formula.id ? 'community-trending-item--active' : ''}" data-id="${formula.id}" id="community-${formula.id}">
-                <div class="community-trending-rank">${i + 1}</div>
-                <div class="community-trending-content">
-                  <div class="community-trending-top">
-                    <h4 class="community-trending-name">${formula.name}</h4>
-                    <div class="community-trending-match" style="color: ${formula.matchPercent > 70 ? '#4CAF50' : formula.matchPercent > 50 ? 'var(--accent)' : 'var(--text-tertiary)'};">
-                      ${formula.matchPercent}% match
-                    </div>
-                  </div>
-                  <div class="community-trending-layers">
-                    ${(formula.layers || []).map(l => {
-                      const p = getPerfumeById(l.perfumeId);
-                      const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-                      return `<span style="font-size: var(--text-xs); color: ${r?.color || 'var(--text-tertiary)'};">${r?.icon || ''} ${l.amount} ${l.unit} ${p?.name || ''}</span>`;
-                    }).join(' <span style="color: var(--text-tertiary);">+</span> ')}
-                  </div>
-                  ${formula.description ? `<p class="community-trending-desc">${formula.description}</p>` : ''}
-                </div>
-                <div class="community-trending-actions">
-                  <span class="community-trending-likes">♥ ${formula.likes || 0}</span>
-                  <button class="btn btn--ghost btn--sm community-interact-btn" data-id="${formula.id}">💬</button>
-                </div>
-              </div>
-            `).join('')}
+
+          <!-- Today's Selection -->
+          <div class="community-panel community-panel--selection">
+            <div class="community-panel-header">
+              <h3 class="community-panel-title">✦ Today's selection for you</h3>
+            </div>
+            <div id="suggestion-container">
+              <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-md);">Based on trends and your preferences.</p>
+              <button class="btn btn--primary btn--sm" id="btn-generate-suggestion">Generate</button>
+            </div>
           </div>
+
         </div>
       </div>
     `;
@@ -211,6 +208,12 @@ export function renderCommunity(container, navigate) {
   render();
 }
 
+function renderStars(rating, ci) {
+  return [1,2,3,4,5].map(n =>
+    `<span class="cm-star cm-star-display ${n <= rating ? 'cm-star--on' : ''}" data-ci="${ci}" data-val="${n}">★</span>`
+  ).join('');
+}
+
 function showInteractionModal(formula) {
   const comments = JSON.parse(localStorage.getItem('monaccord_comments_' + formula.id) || '[]');
   const isLiked = storage.isLiked(formula.id);
@@ -243,19 +246,42 @@ function showInteractionModal(formula) {
         <div class="divider--gold"></div>
 
         <h4 style="font-size: var(--text-sm); margin: var(--space-md) 0 var(--space-sm);">Comments</h4>
-        <div id="comments-list" style="max-height: 200px; overflow-y: auto; margin-bottom: var(--space-md);">
+        <div id="comments-list" style="max-height: 260px; overflow-y: auto; margin-bottom: var(--space-md);">
           ${comments.length === 0 ? '<p style="font-size: var(--text-xs); color: var(--text-tertiary);">No comments yet. Be the first!</p>' :
-            comments.map(c => `
-              <div style="padding: var(--space-sm); background: var(--bg-secondary); border-radius: var(--radius-sm); margin-bottom: var(--space-xs);">
-                <p style="font-size: var(--text-xs); font-weight: 600;">Anonymous</p>
-                <p style="font-size: var(--text-sm);">${c.text}</p>
-                <span style="font-size: 10px; color: var(--text-tertiary);">${new Date(c.date).toLocaleDateString()}</span>
+            comments.map((c, ci) => `
+              <div class="cm-comment" data-ci="${ci}">
+                <div class="cm-comment-meta">
+                  <span class="cm-comment-author">Anonymous</span>
+                  <span class="cm-stars">${renderStars(c.rating || 0, ci)}</span>
+                  <span class="cm-comment-date">${new Date(c.date).toLocaleDateString()}</span>
+                </div>
+                <p class="cm-comment-text">${c.text}</p>
+                ${(c.replies || []).map(r => `
+                  <div class="cm-reply">
+                    <span class="cm-reply-arrow">↳</span>
+                    <p>${r.text}</p>
+                    <span class="cm-comment-date">${new Date(r.date).toLocaleDateString()}</span>
+                  </div>
+                `).join('')}
+                <button class="cm-reply-btn" data-ci="${ci}">Reply</button>
+                <div class="cm-reply-input" id="reply-input-${ci}" style="display:none;">
+                  <input type="text" class="input cm-reply-field" placeholder="Write a reply..." data-ci="${ci}" style="font-size: var(--text-xs);" />
+                  <button class="btn btn--ghost btn--sm cm-post-reply" data-ci="${ci}">Post</button>
+                </div>
               </div>
             `).join('')}
         </div>
-        <div class="flex gap-sm">
-          <input type="text" class="input" id="comment-input" placeholder="Write a comment..." style="flex: 1;" />
-          <button class="btn btn--primary btn--sm" id="btn-post-comment">Post</button>
+        <div class="cm-new-comment">
+          <div class="cm-rate-row">
+            <span style="font-size: var(--text-xs); color: var(--text-tertiary);">Rate:</span>
+            <span class="cm-stars cm-new-stars">
+              ${[1,2,3,4,5].map(n => `<span class="cm-star cm-new-star" data-val="${n}">★</span>`).join('')}
+            </span>
+          </div>
+          <div class="flex gap-sm">
+            <input type="text" class="input" id="comment-input" placeholder="Write a comment..." style="flex: 1;" />
+            <button class="btn btn--primary btn--sm" id="btn-post-comment">Post</button>
+          </div>
         </div>
       </div>
     </div>
@@ -285,15 +311,73 @@ function showInteractionModal(formula) {
     }, { showNameInput: false });
   };
 
+  // New comment rating
+  let newCommentRating = 0;
+  overlay.querySelectorAll('.cm-new-star').forEach(star => {
+    star.addEventListener('mouseover', () => {
+      overlay.querySelectorAll('.cm-new-star').forEach(s => {
+        s.classList.toggle('cm-star--on', Number(s.dataset.val) <= Number(star.dataset.val));
+      });
+    });
+    star.addEventListener('mouseout', () => {
+      overlay.querySelectorAll('.cm-new-star').forEach(s => {
+        s.classList.toggle('cm-star--on', Number(s.dataset.val) <= newCommentRating);
+      });
+    });
+    star.addEventListener('click', () => {
+      newCommentRating = Number(star.dataset.val);
+      overlay.querySelectorAll('.cm-new-star').forEach(s => {
+        s.classList.toggle('cm-star--on', Number(s.dataset.val) <= newCommentRating);
+      });
+    });
+  });
+
+  // Rate existing comment stars
+  overlay.querySelectorAll('.cm-star-display').forEach(star => {
+    star.addEventListener('click', () => {
+      const ci = Number(star.dataset.ci);
+      const val = Number(star.dataset.val);
+      comments[ci].rating = val;
+      localStorage.setItem('monaccord_comments_' + formula.id, JSON.stringify(comments));
+      overlay.remove();
+      showInteractionModal(formula);
+    });
+  });
+
+  // Post new comment
   overlay.querySelector('#btn-post-comment').onclick = () => {
     const input = overlay.querySelector('#comment-input');
     const text = input.value.trim();
     if (!text) return;
-    comments.push({ text, date: Date.now() });
+    comments.push({ text, date: Date.now(), rating: newCommentRating, replies: [] });
     localStorage.setItem('monaccord_comments_' + formula.id, JSON.stringify(comments));
     overlay.remove();
     showInteractionModal(formula);
   };
+
+  // Reply buttons
+  overlay.querySelectorAll('.cm-reply-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ci = btn.dataset.ci;
+      const box = overlay.querySelector(`#reply-input-${ci}`);
+      if (box) box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+    });
+  });
+
+  // Post reply
+  overlay.querySelectorAll('.cm-post-reply').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ci = Number(btn.dataset.ci);
+      const field = overlay.querySelector(`.cm-reply-field[data-ci="${ci}"]`);
+      const text = field?.value.trim();
+      if (!text) return;
+      if (!comments[ci].replies) comments[ci].replies = [];
+      comments[ci].replies.push({ text, date: Date.now() });
+      localStorage.setItem('monaccord_comments_' + formula.id, JSON.stringify(comments));
+      overlay.remove();
+      showInteractionModal(formula);
+    });
+  });
 }
 
 function addCommunityStyles() {
@@ -301,30 +385,45 @@ function addCommunityStyles() {
   const style = document.createElement('style');
   style.id = 'community-styles';
   style.textContent = `
-    .community-section { margin-bottom: var(--space-xl); }
-    .mt-2xl { margin-top: var(--space-2xl); }
+    .community-top-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: var(--space-xl);
+      align-items: start;
+    }
 
-    .community-section-header {
+    .community-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .community-panel--selection {
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-lg));
+    }
+
+    .community-panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--space-lg);
-      flex-wrap: wrap;
-      gap: var(--space-md);
+      padding: var(--space-lg) var(--space-lg) var(--space-md);
+      border-bottom: 1px solid var(--border);
     }
 
-    .community-section-title {
-      font-size: var(--text-xl);
-      margin-bottom: var(--space-sm);
+    .community-panel-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
     }
 
     .community-sort {
       display: flex;
-      gap: var(--space-xs);
+      gap: 4px;
     }
 
     .community-sort-btn {
-      padding: 6px 14px;
+      padding: 4px 10px;
       font-size: var(--text-xs);
       font-weight: 500;
       border: 1px solid var(--border);
@@ -335,65 +434,69 @@ function addCommunityStyles() {
       transition: all var(--transition-fast);
     }
 
-    .community-sort-btn:hover { border-color: var(--accent-light); color: var(--accent-dark); }
-    .community-sort-btn--active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent-dark); font-weight: 600; }
+    .community-sort-btn:hover { border-color: var(--accent-light); color: var(--accent); }
+    .community-sort-btn--active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
 
     .community-trending-list {
       display: flex;
       flex-direction: column;
-      gap: var(--space-sm);
     }
 
     .community-trending-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: var(--space-md);
       padding: var(--space-md) var(--space-lg);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      transition: all var(--transition-fast);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition-fast);
       cursor: pointer;
     }
 
-    .community-trending-item:hover {
-      border-color: var(--border-accent);
-      box-shadow: var(--shadow-sm);
-    }
+    .community-trending-item:last-child { border-bottom: none; }
+
+    .community-trending-item:hover { background: var(--bg-primary); }
 
     .community-trending-rank {
       font-family: var(--font-display);
-      font-size: var(--text-xl);
+      font-size: var(--text-lg);
       font-weight: 600;
       color: var(--accent-light);
-      min-width: 30px;
+      min-width: 26px;
+      padding-top: 2px;
     }
 
-    .community-trending-content { flex: 1; }
+    .community-trending-content { flex: 1; min-width: 0; }
 
     .community-trending-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      gap: var(--space-sm);
     }
 
     .community-trending-name { font-size: var(--text-sm); font-weight: 600; }
 
     .community-trending-match {
       font-size: var(--text-xs);
-      font-weight: 600;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .community-trending-layers {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-xs);
+      gap: 4px;
       align-items: center;
       margin-bottom: 4px;
+      font-size: var(--text-xs);
     }
 
-    .community-trending-desc {
+    .community-desc-clamp {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
       font-size: var(--text-xs);
       color: var(--text-tertiary);
       line-height: 1.5;
@@ -401,13 +504,118 @@ function addCommunityStyles() {
 
     .community-trending-actions {
       display: flex;
-      align-items: center;
-      gap: var(--space-sm);
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--space-xs);
+      flex-shrink: 0;
     }
 
     .community-trending-likes {
-      font-size: var(--text-sm);
+      font-size: var(--text-xs);
       color: var(--text-tertiary);
+    }
+
+    .community-discuss-btn {
+      padding: 4px 10px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-full);
+      background: var(--accent-bg);
+      color: var(--accent);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .community-discuss-btn:hover {
+      background: var(--accent);
+      color: var(--text-on-accent);
+    }
+
+    #suggestion-container {
+      padding: var(--space-lg);
+    }
+
+    @media (max-width: 768px) {
+      .community-top-grid { grid-template-columns: 1fr; }
+      .community-panel--selection { position: static; }
+    }
+
+    /* ── Comment styles ── */
+    .cm-comment {
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cm-comment:last-child { border-bottom: none; }
+
+    .cm-comment-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+
+    .cm-comment-author { font-size: var(--text-xs); font-weight: 600; }
+    .cm-comment-date { font-size: 10px; color: var(--text-tertiary); }
+    .cm-comment-text { font-size: var(--text-sm); line-height: 1.5; margin-bottom: 4px; }
+
+    .cm-stars { display: flex; gap: 2px; }
+
+    .cm-star {
+      font-size: 14px;
+      color: var(--border);
+      cursor: pointer;
+      transition: color var(--transition-fast);
+      line-height: 1;
+    }
+
+    .cm-star--on { color: var(--accent); }
+    .cm-star:hover { color: var(--accent-light); }
+
+    .cm-reply {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-xs);
+      margin-top: 4px;
+      padding: 4px var(--space-sm);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-xs);
+    }
+
+    .cm-reply-arrow { color: var(--accent-light); font-weight: 600; }
+
+    .cm-reply-btn {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      cursor: pointer;
+      margin-top: 4px;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .cm-reply-btn:hover { color: var(--accent); }
+
+    .cm-reply-input {
+      display: flex;
+      gap: var(--space-xs);
+      align-items: center;
+      margin-top: var(--space-xs);
+    }
+
+    .cm-new-comment {
+      border-top: 1px solid var(--border);
+      padding-top: var(--space-sm);
+    }
+
+    .cm-rate-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
     }
   `;
   document.head.appendChild(style);

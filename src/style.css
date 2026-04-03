@@ -200,10 +200,22 @@ input, textarea, select {
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: 0.05em;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
 .navbar__logo-accent {
   color: var(--accent);
+}
+
+.navbar__logo-sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
 }
 
 .navbar__links {

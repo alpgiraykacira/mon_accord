@@ -2,7 +2,7 @@
 // MON ACCORD — Landing Page
 // ═══════════════════════════════════════════════════════════════
 
-import { REGIONS } from '../data/perfumes.js';
+import { REGIONS, PERFUMES } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
 
 export function renderLanding(container, navigate) {
@@ -32,9 +32,6 @@ export function renderLanding(container, navigate) {
           <button class="btn btn--primary btn--lg" id="hero-cta">
             ${hasProfile ? 'Enter the Lab' : 'Begin Your Journey'}
           </button>
-          <button class="btn btn--secondary btn--lg" id="hero-explore">
-            Explore the Collection
-          </button>
         </div>
       </div>
       <div class="hero__scroll-hint" id="scroll-hint">
@@ -52,18 +49,23 @@ export function renderLanding(container, navigate) {
           <p class="section-subtitle">Each region carries centuries of olfactory tradition — distilled into spray and oil formats for infinite layering.</p>
         </div>
         <div class="regions-grid" id="regions-grid">
-          ${REGIONS.map((region, i) => `
-            <div class="region-card" data-region="${region.id}" id="region-card-${region.id}" style="--delay: ${i * 0.1}s; --region-color: ${region.color}; --region-light: ${region.colorLight};">
-              <div class="region-card__orb">${region.icon}</div>
-              <h3 class="region-card__name">${region.name}</h3>
-              <p class="region-card__tagline">${region.tagline}</p>
-              <p class="region-card__description">${region.description}</p>
-              <div class="region-card__formats">
-                <span class="tag tag--region" style="background: rgba(${hexToRgb(region.color)}, 0.1); color: ${region.color}; border-color: rgba(${hexToRgb(region.color)}, 0.3);">Spray</span>
-                <span class="tag tag--region" style="background: rgba(${hexToRgb(region.color)}, 0.1); color: ${region.color}; border-color: rgba(${hexToRgb(region.color)}, 0.3);">Oil</span>
+          ${REGIONS.map((region, i) => {
+            const spray = PERFUMES.find(p => p.region === region.id && p.format === 'spray');
+            const oil   = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
+            const rgb = hexToRgb(region.color);
+            return `
+              <div class="region-card" data-region="${region.id}" id="region-card-${region.id}" style="--delay: ${i * 0.1}s; --region-color: ${region.color}; --region-light: ${region.colorLight};">
+                <div class="region-card__orb">${region.icon}</div>
+                <h3 class="region-card__name">${region.name}</h3>
+                <p class="region-card__tagline">${region.tagline}</p>
+                <p class="region-card__description">${region.description}</p>
+                <div class="region-card__formats">
+                  ${spray ? `<button class="region-format-btn" data-region="${region.id}" data-format="spray" style="--rc: ${region.color}; --rc-rgb: ${rgb};">💨 Spray</button>` : ''}
+                  ${oil   ? `<button class="region-format-btn" data-region="${region.id}" data-format="oil"   style="--rc: ${region.color}; --rc-rgb: ${rgb};">💧 Oil</button>`   : ''}
+                </div>
               </div>
-            </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       </div>
     </section>
@@ -128,18 +130,77 @@ export function renderLanding(container, navigate) {
     navigate(hasProfile ? '#lab' : '#profile');
   });
 
-  container.querySelector('#hero-explore').addEventListener('click', () => {
-    navigate('#explorer');
-  });
-
   container.querySelector('#bottom-cta').addEventListener('click', () => {
     navigate(hasProfile ? '#lab' : '#profile');
   });
 
-  // Region cards click → explorer
-  container.querySelectorAll('.region-card').forEach(card => {
-    card.addEventListener('click', () => {
-      navigate('#explorer');
+  // Format buttons → popup
+  container.querySelectorAll('.region-format-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const regionId = btn.dataset.region;
+      const format   = btn.dataset.format;
+      const region   = REGIONS.find(r => r.id === regionId);
+      const perfume  = PERFUMES.find(p => p.region === regionId && p.format === format);
+      if (!perfume || !region) return;
+
+      // Remove any existing popup
+      document.querySelector('.notes-popup')?.remove();
+
+      const popup = document.createElement('div');
+      popup.className = 'notes-popup';
+      popup.innerHTML = `
+        <div class="notes-popup__inner" style="--rc: ${region.color}; --rc-rgb: ${hexToRgb(region.color)};">
+          <div class="notes-popup__header">
+            <span class="notes-popup__title">${region.icon} ${region.name} — ${format === 'spray' ? '💨 Spray' : '💧 Oil'}</span>
+            <button class="notes-popup__close">✕</button>
+          </div>
+          <div class="notes-popup__rows">
+            <div class="notes-popup__row">
+              <span class="notes-popup__label">Top</span>
+              <span class="notes-popup__val">${perfume.topNotes.join(', ')}</span>
+            </div>
+            <div class="notes-popup__row">
+              <span class="notes-popup__label">Middle</span>
+              <span class="notes-popup__val">${perfume.middleNotes.join(', ')}</span>
+            </div>
+            <div class="notes-popup__row">
+              <span class="notes-popup__label">Base</span>
+              <span class="notes-popup__val">${perfume.baseNotes.join(', ')}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(popup);
+
+      // Position near the button
+      const rect = btn.getBoundingClientRect();
+      const inner = popup.querySelector('.notes-popup__inner');
+      // Wait for paint so we know popup size
+      requestAnimationFrame(() => {
+        const pw = inner.offsetWidth;
+        const ph = inner.offsetHeight;
+        let left = rect.left + rect.width / 2 - pw / 2;
+        let top  = rect.bottom + window.scrollY + 10;
+        // Keep inside viewport
+        if (left + pw > window.innerWidth - 12) left = window.innerWidth - pw - 12;
+        if (left < 12) left = 12;
+        popup.style.left = left + 'px';
+        popup.style.top  = top + 'px';
+      });
+
+      const close = () => popup.remove();
+      popup.querySelector('.notes-popup__close').addEventListener('click', close);
+      setTimeout(() => document.addEventListener('click', close, { once: true }), 0);
+
+      popup.querySelector('.notes-popup__lab-btn').addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        const pending = JSON.parse(sessionStorage.getItem('labPending') || '[]');
+        if (!pending.includes(perfume.id)) pending.push(perfume.id);
+        sessionStorage.setItem('labPending', JSON.stringify(pending));
+        window.showToast(`${perfume.name} added to Lab!`);
+        close();
+      });
     });
   });
 
@@ -353,6 +414,104 @@ function addLandingStyles() {
       display: flex;
       gap: var(--space-xs);
       justify-content: center;
+      margin-bottom: 0;
+    }
+
+    .region-format-btn {
+      padding: 6px 16px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      border: 1px solid rgba(var(--rc-rgb), 0.35);
+      border-radius: var(--radius-full);
+      background: rgba(var(--rc-rgb), 0.07);
+      color: var(--rc);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .region-format-btn:hover,
+    .region-format-btn--active {
+      background: rgba(var(--rc-rgb), 0.18);
+      border-color: var(--rc);
+    }
+
+    .notes-popup {
+      position: absolute;
+      z-index: 2000;
+      animation: fadeIn 0.15s var(--ease-out);
+    }
+
+    .notes-popup__inner {
+      background: var(--surface);
+      border: 1px solid rgba(var(--rc-rgb), 0.3);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      padding: var(--space-lg);
+      width: 280px;
+    }
+
+    .notes-popup__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid rgba(var(--rc-rgb), 0.2);
+    }
+
+    .notes-popup__title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--rc);
+    }
+
+    .notes-popup__close {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      transition: background var(--transition-fast);
+    }
+
+    .notes-popup__close:hover { background: var(--bg-secondary); }
+
+    .notes-popup__rows { margin-bottom: var(--space-md); }
+
+    .notes-popup__row {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: 6px;
+      font-size: var(--text-xs);
+      line-height: 1.5;
+    }
+
+    .notes-popup__label {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
+      min-width: 46px;
+      flex-shrink: 0;
+    }
+
+    .notes-popup__val { color: var(--text-secondary); }
+
+    .notes-popup__lab-btn {
+      width: 100%;
+      padding: 7px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      border: 1px solid var(--rc);
+      border-radius: var(--radius-sm);
+      background: rgba(var(--rc-rgb), 0.07);
+      color: var(--rc);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .notes-popup__lab-btn:hover {
+      background: rgba(var(--rc-rgb), 0.15);
     }
 
     /* ── How It Works ── */

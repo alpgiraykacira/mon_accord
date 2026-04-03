@@ -11,12 +11,6 @@ export function renderExplorer(container, navigate) {
   function render() {
     container.innerHTML = `
       <div class="page__container">
-        <div class="section-header">
-          <p class="section-label">Discovery</p>
-          <h2 class="section-title">Explore Regions</h2>
-          <p class="section-subtitle">Discover sprays and oils from six world regions, each with its own olfactory story.</p>
-        </div>
-
         <div class="explorer-grid">
           ${REGIONS.map(r => {
             const sprays = PERFUMES.filter(p => p.region === r.id && p.format === 'spray');

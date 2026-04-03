@@ -4,7 +4,7 @@
 
 import { generateAIResponse } from './ai-engine.js';
 import { storage } from '../utils/storage.js';
-import { PERFUMES, REGIONS } from '../data/perfumes.js';
+import { PERFUMES, REGIONS, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
 
 export function getUserTrends() {
   const interactions = storage.getInteractions();
@@ -61,6 +61,20 @@ export function getUserTrends() {
   };
 }
 
+function buildOwnedSummary() {
+  const owned = storage.getOwnedPerfumes();
+  const lines = [];
+  if (owned.monAccord?.length) {
+    const names = owned.monAccord.map(id => PERFUMES.find(p => p.id === id)?.name).filter(Boolean);
+    if (names.length) lines.push(`Mon Accord owned: ${names.join(', ')}`);
+  }
+  if (owned.loreal?.length) {
+    const names = owned.loreal.map(id => LOREAL_LUXE_PERFUMES.find(p => p.id === id)?.name).filter(Boolean);
+    if (names.length) lines.push(`L'Oréal Luxe owned: ${names.join(', ')}`);
+  }
+  return lines.length ? lines.join('\n') : 'No owned perfumes registered.';
+}
+
 export async function generateRemixSuggestion() {
   const trends = getUserTrends();
   const vault = storage.getVault();
@@ -84,6 +98,9 @@ export async function generateRemixSuggestion() {
   const prompt = `Based on this user's fragrance journey, suggest a fresh remix.
 
 USER PROFILE: ${profile ? `${profile.archetypeName} (${profile.primaryFamilies?.join(', ')})` : 'No formal profile'}
+
+USER'S OWNED PERFUMES (these are their starting point — prioritize combinations using these):
+${buildOwnedSummary()}
 
 FAVORITE FORMULAS:
 ${favoriteFormulas || 'None saved yet'}

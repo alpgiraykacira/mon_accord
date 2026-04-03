@@ -6,7 +6,6 @@ import './style.css';
 import { renderNavbar } from './components/navbar.js';
 import { renderLanding } from './pages/landing.js';
 import { renderProfileQuiz } from './pages/profile-quiz.js';
-import { renderExplorer } from './pages/explorer.js';
 import { renderLayeringLab } from './pages/layering-lab.js';
 import { renderVault } from './pages/vault.js';
 import { renderCommunity } from './pages/community.js';
@@ -20,7 +19,6 @@ const routes = {
   '': renderLanding,
   '#landing': renderLanding,
   '#profile': renderProfileQuiz,
-  '#explorer': renderExplorer,
   '#lab': renderLayeringLab,
   '#vault': renderVault,
   '#shop': renderShop,

@@ -62,7 +62,7 @@ export const REGIONS = [
     color: '#B8879B',
     colorLight: '#D4ADC0',
     gradient: 'linear-gradient(135deg, #B8879B, #D4ADC0)',
-    icon: '🕌',
+    icon: '🌙',
   },
 ];
 

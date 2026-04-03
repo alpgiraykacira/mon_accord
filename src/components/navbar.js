@@ -14,7 +14,6 @@ export function renderNavbar(navigate, currentRoute) {
   const links = [
     { hash: '#landing', label: 'Home', always: true },
     { hash: '#profile', label: 'Profile', always: true },
-    { hash: '#explorer', label: 'Explorer', always: true },
     { hash: '#lab', label: 'Layering Lab', always: true },
     { hash: '#vault', label: 'Vault', always: true },
     { hash: '#shop', label: 'Shop', always: true },
@@ -25,6 +24,7 @@ export function renderNavbar(navigate, currentRoute) {
     <div class="navbar__brand">
       <a href="#landing" class="navbar__logo" id="nav-brand">
         <span class="navbar__logo-accent">✦</span> MON ACCORD
+        <span class="navbar__logo-sub">by L'Oréal Luxe</span>
       </a>
     </div>
     <div class="navbar__links" id="nav-links">

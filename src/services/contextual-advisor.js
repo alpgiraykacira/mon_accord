@@ -4,7 +4,7 @@
 
 import { generateAIResponse } from './ai-engine.js';
 import { storage } from '../utils/storage.js';
-import { PERFUMES } from '../data/perfumes.js';
+import { PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
 
 export const MOODS = [
   { id: 'confident', name: 'Confident', icon: '💪', description: 'Bold and commanding' },
@@ -39,14 +39,32 @@ export const INTENSITIES = [
   { id: 'bold', name: 'Bold', value: 9, description: 'Leaves a trail' },
 ];
 
+function buildOwnedContext() {
+  const owned = storage.getOwnedPerfumes();
+  const lines = [];
+  if (owned.monAccord?.length) {
+    const names = owned.monAccord.map(id => PERFUMES.find(p => p.id === id)?.name).filter(Boolean);
+    if (names.length) lines.push(`Mon Accord owned: ${names.join(', ')}`);
+  }
+  if (owned.loreal?.length) {
+    const names = owned.loreal.map(id => LOREAL_LUXE_PERFUMES.find(p => p.id === id)?.name).filter(Boolean);
+    if (names.length) lines.push(`L'Oréal Luxe owned: ${names.join(', ')}`);
+  }
+  return lines.length ? lines.join('\n') : null;
+}
+
 export async function getContextualRecommendation(context) {
   const profile = storage.getProfile();
+  const ownedContext = buildOwnedContext();
 
   const prompt = `Based on the user's context, recommend a Mon Accord layering formula.
 
 USER PROFILE: ${profile ? `Archetype: ${profile.archetypeName}, Preferred families: ${profile.primaryFamilies?.join(', ')}, Sillage: ${profile.sillageProfile}` : 'No profile yet — make a versatile recommendation.'}
 
-CURRENT CONTEXT:
+${ownedContext ? `USER'S OWNED PERFUMES (prioritize recommendations that use or complement these):
+${ownedContext}
+
+` : ''}CURRENT CONTEXT:
 - Mood: ${context.mood || 'not specified'}
 - Occasion: ${context.occasion || 'not specified'}
 - Season: ${context.season || 'not specified'}

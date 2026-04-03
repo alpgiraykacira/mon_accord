@@ -95,6 +95,18 @@ export const storage = {
     return this.getLikes().includes(formulaId);
   },
 
+  // ── Owned Perfumes (My Perfumes in Vault) ──
+  getOwnedPerfumes() {
+    const val = this.get('my_perfumes', null);
+    // migrate old flat array format → new { monAccord, loreal } format
+    if (Array.isArray(val)) return { monAccord: val.map(o => o.id), loreal: [] };
+    return val || { monAccord: [], loreal: [] };
+  },
+
+  setOwnedPerfumes(owned) {
+    this.set('my_perfumes', owned);
+  },
+
   // ── API Key ──
   getApiKey() {
     return this.get('gemini_api_key', '');

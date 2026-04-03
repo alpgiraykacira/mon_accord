@@ -9,20 +9,35 @@ import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 import { showSaveToVaultModal } from '../utils/save-modal.js';
 
-export function renderLayeringLab(container, navigate) {
-  let layers = [];
-  let scentSimulation = null;
-  let isSimulating = false;
-  let contextResult = null;
-  let isAdvising = false;
-  // Persist advisor chip selections across renders
-  let selectedMood = null;
-  let selectedOccasion = null;
-  let selectedSeason = null;
-  let selectedTime = null;
-  let selectedIntensity = 5;
+const LAB_STATE_KEY = 'lab_session_state';
 
-  // Check for pending perfumes from Explorer
+function saveLabState(state) {
+  try { sessionStorage.setItem(LAB_STATE_KEY, JSON.stringify(state)); } catch {}
+}
+
+function loadLabState() {
+  try { return JSON.parse(sessionStorage.getItem(LAB_STATE_KEY) || 'null'); } catch { return null; }
+}
+
+export function renderLayeringLab(container, navigate) {
+  // Restore persisted state
+  const saved = loadLabState();
+  let layers = saved?.layers || [];
+  let scentSimulation = saved?.scentSimulation || null;
+  let isSimulating = false;
+  let contextResult = saved?.contextResult || null;
+  let isAdvising = false;
+  let selectedMood = saved?.selectedMood || null;
+  let selectedOccasion = saved?.selectedOccasion || null;
+  let selectedSeason = saved?.selectedSeason || null;
+  let selectedTime = saved?.selectedTime || null;
+  let selectedIntensity = saved?.selectedIntensity || 5;
+
+  function persistState() {
+    saveLabState({ layers, scentSimulation, contextResult, selectedMood, selectedOccasion, selectedSeason, selectedTime, selectedIntensity });
+  }
+
+  // Check for pending perfumes from Lab/Explorer/Community
   const pending = JSON.parse(sessionStorage.getItem('labPending') || '[]');
   if (pending.length > 0) {
     pending.forEach(id => {
@@ -32,6 +47,7 @@ export function renderLayeringLab(container, navigate) {
       }
     });
     sessionStorage.removeItem('labPending');
+    persistState();
   }
 
   function render() {
@@ -40,11 +56,6 @@ export function renderLayeringLab(container, navigate) {
         <div class="lab-layout">
           <!-- Left: Lab workspace -->
           <div class="lab-workspace">
-            <div class="section-header" style="text-align: left;">
-              <p class="section-label">Layering Lab</p>
-              <h2 class="section-title" style="font-size: var(--text-2xl);">Create Your Formula</h2>
-            </div>
-
             <!-- Add Perfume -->
             <div class="lab-add-section" id="lab-add-section">
               <p class="lab-add-label">Add a layer</p>
@@ -212,6 +223,7 @@ export function renderLayeringLab(container, navigate) {
           layers.push({ perfumeId: id, amount: p.format === 'spray' ? 2 : 3, unit: p.format === 'spray' ? 'sprays' : 'drops' });
         }
         scentSimulation = null;
+        persistState();
         render();
       });
     });
@@ -222,6 +234,7 @@ export function renderLayeringLab(container, navigate) {
         e.stopPropagation();
         layers.splice(parseInt(btn.dataset.idx), 1);
         scentSimulation = null;
+        persistState();
         render();
       });
     });
@@ -235,6 +248,7 @@ export function renderLayeringLab(container, navigate) {
         } else {
           layers[idx].amount = Math.max(layers[idx].amount - 1, 1);
         }
+        persistState();
         render();
       });
     });
@@ -254,6 +268,7 @@ export function renderLayeringLab(container, navigate) {
         isSimulating = false;
         if (result.success) {
           scentSimulation = result.text;
+          persistState();
         } else {
           window.showToast(result.text || 'Simulation failed.', 'error');
         }
@@ -402,9 +417,10 @@ function addLabStyles() {
   style.textContent = `
     .lab-layout {
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 420px;
       gap: var(--space-2xl);
-      align-items: start;
+      align-items: stretch;
+      max-width: 1400px;
     }
 
     /* ── Add Section ── */
@@ -625,6 +641,8 @@ function addLabStyles() {
       padding: var(--space-xl);
       position: sticky;
       top: calc(var(--nav-height) + var(--space-lg));
+      align-self: start;
+      min-height: 100%;
     }
 
     .lab-advisor__header {

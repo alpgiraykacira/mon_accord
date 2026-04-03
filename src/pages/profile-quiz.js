@@ -418,68 +418,98 @@ function renderComboCard(combo) {
 }
 
 function generateRegionCombinations(profile) {
-  const families = profile.primaryFamilies || ['woody', 'oriental'];
-  
-  // Spray-heavy combinations
+  const owned = storage.getOwnedPerfumes();
+  const ownedIds = owned.monAccord || [];
+
+  // Build layer from a perfume id
+  function layer(id, amount) {
+    const p = getPerfumeById(id);
+    if (!p) return null;
+    const r = REGIONS.find(rg => rg.id === p.region);
+    return { name: p.name, amount, unit: p.format === 'spray' ? 'sprays' : 'drops', regionData: r };
+  }
+
+  // Prefer owned Mon Accord perfumes in the first slots
+  const ownedSprays = ownedIds.filter(id => getPerfumeById(id)?.format === 'spray');
+  const ownedOils = ownedIds.filter(id => getPerfumeById(id)?.format === 'oil');
+
+  const fallback = (format, excludeIds = []) =>
+    PERFUMES.find(p => p.format === format && !excludeIds.includes(p.id));
+
+  const spray1 = ownedSprays[0] || fallback('spray', [])?.id || 'scandinavian-spray';
+  const spray2 = ownedSprays[1] || fallback('spray', [spray1])?.id || 'mediterranean-spray';
+  const spray3 = ownedSprays[2] || fallback('spray', [spray1, spray2])?.id || 'middleeast-spray';
+  const oil1 = ownedOils[0] || fallback('oil', [])?.id || 'eastasia-oil';
+  const oil2 = ownedOils[1] || fallback('oil', [oil1])?.id || 'southafrica-oil';
+
   return [
     {
       name: 'Morning Clarity',
-      description: 'A crisp, bright opening with spray-forward projection, anchored by a subtle oil base.',
-      layers: [
-        { name: 'Scandinavian Spray', amount: 3, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'scandinavian') },
-        { name: 'Mediterranean Spray', amount: 2, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'mediterranean') },
-        { name: 'East Asia Oil', amount: 1, unit: 'drops', regionData: REGIONS.find(r => r.id === 'eastasia') },
-      ]
+      description: ownedIds.length ? `Built around your ${getPerfumeById(spray1)?.name || 'collection'} — crisp and bright for daytime.` : 'A crisp, bright opening with spray-forward projection, anchored by a subtle oil base.',
+      layers: [layer(spray1, 3), layer(spray2, 2), layer(oil1, 1)].filter(Boolean),
     },
     {
       name: 'Golden Evening',
-      description: 'A warm, opulent blend of Middle Eastern spray richness over South African oil depth.',
-      layers: [
-        { name: 'Middle East Spray', amount: 3, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'middleeast') },
-        { name: 'South Africa Oil', amount: 2, unit: 'drops', regionData: REGIONS.find(r => r.id === 'southafrica') },
-        { name: 'South America Spray', amount: 1, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'southamerica') },
-      ]
+      description: ownedIds.length ? `Your ${getPerfumeById(spray3)?.name || 'spray'} takes centre stage in this warm evening blend.` : 'A warm, opulent blend of spray richness over deep oil.',
+      layers: [layer(spray3, 3), layer(oil2, 2), layer(spray2, 1)].filter(Boolean),
     },
     {
-      name: 'Tropical Bloom',
-      description: 'Vibrant spray layers from South America and Mediterranean, grounded with East Asian oil.',
-      layers: [
-        { name: 'South America Spray', amount: 2, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'southamerica') },
-        { name: 'East Asia Spray', amount: 2, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'eastasia') },
-        { name: 'Mediterranean Oil', amount: 1, unit: 'drops', regionData: REGIONS.find(r => r.id === 'mediterranean') },
-      ]
+      name: 'Signature Blend',
+      description: ownedIds.length ? 'A layering of your owned collection that showcases your personal scent identity.' : 'A balanced blend drawing from multiple regions.',
+      layers: [layer(spray1, 2), layer(spray3, 2), layer(oil1, 1)].filter(Boolean),
     },
   ];
 }
 
 function generateMixedCombinations(profile) {
+  const owned = storage.getOwnedPerfumes();
+  const ownedLoreal = owned.loreal || [];
+  const ownedMonAccord = owned.monAccord || [];
+
+  function maLayer(id, amount) {
+    const p = getPerfumeById(id);
+    if (!p) return null;
+    return { name: p.name, amount, unit: p.format === 'spray' ? 'sprays' : 'drops', regionData: REGIONS.find(r => r.id === p.region) };
+  }
+
+  function lorealLayer(id, amount) {
+    const p = LOREAL_LUXE_PERFUMES.find(lp => lp.id === id);
+    if (!p) return null;
+    return { name: `${p.brand} ${p.name}`, amount, unit: 'sprays', regionData: { icon: '✦', color: 'var(--accent)' } };
+  }
+
+  // If user has owned L'Oréal perfumes, use those first
+  const lorealIds = ownedLoreal.length ? ownedLoreal : ['ysl-libre', 'ysl-black-opium', 'armani-my-way'];
+  const maIds = ownedMonAccord.length ? ownedMonAccord : ['scandinavian-spray', 'southafrica-spray', 'mediterranean-spray', 'eastasia-oil', 'southamerica-oil', 'middleeast-oil'];
+
+  const fallbackMA = (format, exclude = []) => PERFUMES.find(p => p.format === format && !exclude.includes(p.id))?.id;
+
+  const l1 = lorealIds[0] || 'ysl-libre';
+  const l2 = lorealIds[1] || 'ysl-black-opium';
+  const l3 = lorealIds[2] || 'armani-my-way';
+  const ma1spray = maIds.find(id => getPerfumeById(id)?.format === 'spray') || fallbackMA('spray');
+  const ma2spray = maIds.filter(id => getPerfumeById(id)?.format === 'spray')[1] || fallbackMA('spray', [ma1spray]);
+  const ma1oil = maIds.find(id => getPerfumeById(id)?.format === 'oil') || fallbackMA('oil');
+
+  const owned1 = LOREAL_LUXE_PERFUMES.find(p => p.id === l1);
+  const owned2 = LOREAL_LUXE_PERFUMES.find(p => p.id === l2);
+  const owned3 = LOREAL_LUXE_PERFUMES.find(p => p.id === l3);
+
   return [
     {
-      name: 'Libre Accord',
-      description: 'YSL Libre layered with Scandinavian freshness for a modern twist on a classic.',
-      layers: [
-        { name: 'YSL Libre EDP', amount: 2, unit: 'sprays', regionData: { icon: '✦', color: 'var(--accent)' } },
-        { name: 'Scandinavian Spray', amount: 2, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'scandinavian') },
-        { name: 'Middle East Oil', amount: 1, unit: 'drops', regionData: REGIONS.find(r => r.id === 'middleeast') },
-      ]
+      name: owned1 ? `${owned1.name} Accord` : 'Libre Accord',
+      description: owned1 ? `Your ${owned1.brand} ${owned1.name} elevated with Mon Accord layering.` : 'YSL Libre layered with Scandinavian freshness for a modern twist.',
+      layers: [lorealLayer(l1, 2), maLayer(ma1spray, 2), maLayer(ma1oil, 1)].filter(Boolean),
     },
     {
-      name: 'Velvet Opium',
-      description: 'Black Opium\'s coffee-vanilla paired with South African depth and South American cocoa.',
-      layers: [
-        { name: 'Black Opium EDP', amount: 2, unit: 'sprays', regionData: { icon: '✦', color: 'var(--accent)' } },
-        { name: 'South Africa Spray', amount: 2, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'southafrica') },
-        { name: 'South America Oil', amount: 1, unit: 'drops', regionData: REGIONS.find(r => r.id === 'southamerica') },
-      ]
+      name: owned2 ? `${owned2.name} Fusion` : 'Velvet Opium',
+      description: owned2 ? `${owned2.brand} ${owned2.name} deepened with Mon Accord warmth.` : 'Black Opium\'s coffee-vanilla paired with depth and warmth.',
+      layers: [lorealLayer(l2, 2), maLayer(ma2spray || ma1spray, 2), maLayer(ma1oil, 1)].filter(Boolean),
     },
     {
-      name: 'Mediterranean Way',
-      description: 'Armani My Way paired with Mediterranean sunshine and East Asian serenity.',
-      layers: [
-        { name: 'My Way EDP', amount: 2, unit: 'sprays', regionData: { icon: '✦', color: 'var(--accent)' } },
-        { name: 'Mediterranean Spray', amount: 2, unit: 'sprays', regionData: REGIONS.find(r => r.id === 'mediterranean') },
-        { name: 'East Asia Oil', amount: 1, unit: 'drops', regionData: REGIONS.find(r => r.id === 'eastasia') },
-      ]
+      name: owned3 ? `${owned3.name} Journey` : 'Mediterranean Way',
+      description: owned3 ? `${owned3.brand} ${owned3.name} blended with complementary Mon Accord scents.` : 'Armani My Way paired with Mediterranean sunshine.',
+      layers: [lorealLayer(l3, 2), maLayer(ma1spray, 2), maLayer(ma1oil, 1)].filter(Boolean),
     },
   ];
 }
@@ -514,10 +544,10 @@ function addQuizStyles() {
     .slider-labels { display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px; }
     .quiz-search-container { margin-bottom: var(--space-md); }
     .quiz-search { width: 100%; }
-    .quiz-perfume-list { max-height: 350px; overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-md); padding-right: var(--space-sm); }
-    .perfume-brand-group { margin-bottom: var(--space-sm); }
-    .perfume-brand-label { font-size: var(--text-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: var(--space-xs); padding-bottom: 4px; border-bottom: 1px solid var(--border); }
-    .perfume-brand-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-xs); }
+    .quiz-perfume-list { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+    .perfume-brand-group { position: relative; }
+    .perfume-brand-label { position: sticky; top: 0; z-index: 2; font-size: var(--text-sm); font-weight: 700; color: var(--text-primary); background: var(--bg-secondary); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border); letter-spacing: 0.01em; }
+    .perfume-brand-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-xs); padding: var(--space-sm) var(--space-md); }
     .quiz-option--perfume { text-align: left; padding: var(--space-sm) var(--space-md); }
     .quiz-hint { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-sm); }
     .profile-result { max-width: 900px; margin: 0 auto; padding: var(--space-3xl) 0; }

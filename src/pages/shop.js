@@ -3,19 +3,17 @@
 // ═══════════════════════════════════════════════════════════════
 
 import { PERFUMES, REGIONS, getPerfumeById } from '../data/perfumes.js';
+import { storage } from '../utils/storage.js';
 
 export function renderShop(container, navigate) {
   let cart = [];
 
   function render() {
+    const ownedIds = storage.getOwnedPerfumes().monAccord || [];
+    const recommendation = getShopRecommendation(ownedIds, cart);
+
     container.innerHTML = `
       <div class="page__container">
-        <div class="section-header">
-          <p class="section-label">Shop</p>
-          <h2 class="section-title">Mon Accord Collection</h2>
-          <p class="section-subtitle">Select sprays and oils from our six world regions to build your collection.</p>
-        </div>
-
         <div class="shop-layout">
           <div class="shop-products">
             ${REGIONS.map(r => {
@@ -31,11 +29,12 @@ export function renderShop(container, navigate) {
                   <div class="shop-region-card__products">
                     ${[...sprays, ...oils].map(p => {
                       const inCart = cart.find(c => c.id === p.id);
+                      const isOwned = ownedIds.includes(p.id);
                       return `
-                        <div class="shop-product ${inCart ? 'shop-product--in-cart' : ''}" data-id="${p.id}">
+                        <div class="shop-product ${inCart ? 'shop-product--in-cart' : ''} ${isOwned ? 'shop-product--owned' : ''}" data-id="${p.id}">
                           <div class="shop-product__info">
                             <span class="shop-product__format">${p.format === 'spray' ? '💨 Spray' : '💧 Oil'}</span>
-                            <span class="shop-product__name">${p.name}</span>
+                            <span class="shop-product__name">${p.name}${isOwned ? ' <span class="shop-owned-badge">Owned</span>' : ''}</span>
                           </div>
                           <button class="shop-product__btn ${inCart ? 'shop-product__btn--added' : ''}" data-id="${p.id}">
                             ${inCart ? '✓ Added' : '+ Add'}
@@ -80,6 +79,13 @@ export function renderShop(container, navigate) {
                 <button class="btn btn--primary w-full" id="btn-confirm-order">Confirm Order ✦</button>
               </div>
             `}
+
+            ${recommendation ? `
+              <div class="shop-cart__rec">
+                <p class="shop-cart__rec-label">✦ Pairs with your collection</p>
+                <p style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.6;">${recommendation}</p>
+              </div>
+            ` : ''}
           </div>
         </div>
       </div>
@@ -120,6 +126,20 @@ export function renderShop(container, navigate) {
   }
 
   render();
+}
+
+function getShopRecommendation(ownedIds, cart) {
+  if (!ownedIds.length) return null;
+  const cartIds = cart.map(c => c.id);
+  const owned = ownedIds.map(id => getPerfumeById(id)).filter(Boolean);
+  const families = [...new Set(owned.flatMap(p => p.scentFamily.split('-')))];
+  const complements = PERFUMES.filter(p =>
+    !ownedIds.includes(p.id) &&
+    !cartIds.includes(p.id) &&
+    p.scentFamily.split('-').some(f => families.includes(f))
+  ).slice(0, 2);
+  if (!complements.length) return null;
+  return `Based on your owned ${owned.map(p => p.name).join(' & ')}: try adding ${complements.map(p => { const r = REGIONS.find(rg => rg.id === p.region); return `${r?.icon || ''} ${p.name}`; }).join(' or ')}.`;
 }
 
 function showOrderConfirmation(cart, container, navigate) {
@@ -225,6 +245,38 @@ function addShopStyles() {
 
     .shop-product__btn:hover { border-color: var(--accent); color: var(--accent-dark); }
     .shop-product__btn--added { border-color: var(--accent); background: var(--accent-bg); color: var(--accent-dark); }
+
+    .shop-product--owned { background: var(--accent-bg); }
+    .shop-owned-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-dark);
+      background: var(--accent-bg-hover);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-full);
+      padding: 1px 6px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .shop-cart__rec {
+      margin-top: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    .shop-cart__rec-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
 
     .shop-cart {
       background: var(--surface);
