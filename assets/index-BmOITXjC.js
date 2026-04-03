@@ -2,7 +2,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     <div class="navbar__brand">
       <a href="#landing" class="navbar__logo" id="nav-brand">
         <span class="navbar__logo-accent">✦</span> MON ACCORD
-        <span class="navbar__logo-sub">by L'Oréal Luxe</span>
+        <span class="navbar__logo-sub">by L'Oreal Luxe</span>
       </a>
     </div>
     <div class="navbar__links" id="nav-links">
@@ -1082,14 +1082,18 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           </div>
         </div>
       </div>
-    `,Yd(),_()}function _(){e.querySelectorAll(`.lab-add-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,n=r.findIndex(e=>e.perfumeId===t);if(n>=0)r.splice(n,1);else{let e=y(t);r.push({perfumeId:t,amount:e.format===`spray`?2:3,unit:e.format===`spray`?`sprays`:`drops`})}i=null,m(),g()})}),e.querySelectorAll(`.lab-layer__remove`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation(),r.splice(parseInt(e.dataset.idx),1),i=null,m(),g()})}),e.querySelectorAll(`.lab-layer__amount-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=parseInt(e.dataset.idx);e.dataset.action===`increase`?r[n].amount=Math.min(r[n].amount+1,10):r[n].amount=Math.max(r[n].amount-1,1),m(),g()})});let t=e.querySelector(`#btn-simulate`);t&&t.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}a=!0,g();let e=await xd(r);a=!1,e.success?(i=e.text,m()):window.showToast(e.text||`Simulation failed.`,`error`),g()});let n=e.querySelector(`#btn-save-formula`);n&&n.addEventListener(`click`,()=>{v(r,i)});let p=e.querySelector(`#btn-clear-layers`);p&&p.addEventListener(`click`,()=>{r=[],i=null,o=null,g()}),[`mood`,`occasion`,`season`,`time`].forEach(t=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(n=>{n.addEventListener(`click`,()=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(e=>e.classList.remove(`lab-chip--active`)),n.classList.add(`lab-chip--active`);let r=n.dataset.value;t===`mood`?c=r:t===`occasion`?l=r:t===`season`?u=r:t===`time`&&(d=r)})})});let h=e.querySelector(`#advisor-intensity`);h&&h.addEventListener(`input`,()=>{f=parseInt(h.value);let t=Ld.find(e=>e.value===f);e.querySelector(`#advisor-intensity-val`).textContent=t?.name||`Moderate`});let _=e.querySelector(`#btn-get-advice`);_&&_.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}let t=e.querySelector(`#mood-chips .lab-chip--active`)?.dataset.value,n=e.querySelector(`#occasion-chips .lab-chip--active`)?.dataset.value,r=e.querySelector(`#season-chips .lab-chip--active`)?.dataset.value,i=e.querySelector(`#time-chips .lab-chip--active`)?.dataset.value,a=Ld.find(t=>t.value===parseInt(e.querySelector(`#advisor-intensity`)?.value||5))?.name||`moderate`;s=!0,g();let c=await zd({mood:t,occasion:n,season:r,timeOfDay:i,intensity:a});s=!1,c.success?o=c.recommendation:window.showToast(c.error||`Advice failed.`,`error`),g()});let b=e.querySelector(`#btn-apply-recommendation`);b&&b.addEventListener(`click`,()=>{o?.layers&&(r=o.layers.map(e=>({perfumeId:e.perfumeId,amount:e.amount,unit:e.unit||(e.perfumeId.includes(`oil`)?`drops`:`sprays`)})).filter(e=>y(e.perfumeId)),i=null,g(),window.showToast(`Formula applied! Try simulating the scent.`))})}function v(e,t){let n=e.map(e=>{let t=y(e.perfumeId);return{...e,name:t?.name||e.perfumeId}});Bd({id:`f-`+Date.now(),layers:n,simulation:t,createdAt:Date.now()},{showNameInput:!0})}g()}function Kd(e){return m.filter(t=>t.region===e)}function qd(e,t=150){return!e||e.length<=t?e:e.substring(0,t).replace(/\s+\S*$/,``)+`…`}function Jd(e){return e?e.split(`
+    `,Yd(),_()}function _(){e.querySelectorAll(`.lab-add-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,n=r.findIndex(e=>e.perfumeId===t);if(n>=0)r.splice(n,1);else{let e=y(t);r.push({perfumeId:t,amount:e.format===`spray`?2:3,unit:e.format===`spray`?`sprays`:`drops`})}i=null,m(),g()})}),e.querySelectorAll(`.lab-layer__remove`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation(),r.splice(parseInt(e.dataset.idx),1),i=null,m(),g()})}),e.querySelectorAll(`.lab-layer__amount-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=parseInt(e.dataset.idx);e.dataset.action===`increase`?r[n].amount=Math.min(r[n].amount+1,10):r[n].amount=Math.max(r[n].amount-1,1),m(),g()})});let t=e.querySelector(`#btn-simulate`);t&&t.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}a=!0,g();let e=await xd(r);a=!1,e.success?(i=e.text,m()):window.showToast(e.text||`Simulation failed.`,`error`),g()});let n=e.querySelector(`#btn-save-formula`);n&&n.addEventListener(`click`,()=>{v(r,i)});let p=e.querySelector(`#btn-clear-layers`);p&&p.addEventListener(`click`,()=>{r=[],i=null,o=null,m(),g()}),[`mood`,`occasion`,`season`,`time`].forEach(t=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(n=>{n.addEventListener(`click`,()=>{e.querySelectorAll(`#${t}-chips .lab-chip`).forEach(e=>e.classList.remove(`lab-chip--active`)),n.classList.add(`lab-chip--active`);let r=n.dataset.value;t===`mood`?c=r:t===`occasion`?l=r:t===`season`?u=r:t===`time`&&(d=r),m()})})});let h=e.querySelector(`#advisor-intensity`);h&&h.addEventListener(`input`,()=>{f=parseInt(h.value);let t=Ld.find(e=>e.value===f);e.querySelector(`#advisor-intensity-val`).textContent=t?.name||`Moderate`,m()});let _=e.querySelector(`#btn-get-advice`);_&&_.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Please set your Gemini API key in Settings.`,`error`),window.showSettings();return}let t=e.querySelector(`#mood-chips .lab-chip--active`)?.dataset.value,n=e.querySelector(`#occasion-chips .lab-chip--active`)?.dataset.value,r=e.querySelector(`#season-chips .lab-chip--active`)?.dataset.value,i=e.querySelector(`#time-chips .lab-chip--active`)?.dataset.value,a=Ld.find(t=>t.value===parseInt(e.querySelector(`#advisor-intensity`)?.value||5))?.name||`moderate`;s=!0,g();let c=await zd({mood:t,occasion:n,season:r,timeOfDay:i,intensity:a});s=!1,c.success?(o=c.recommendation,m()):window.showToast(c.error||`Advice failed.`,`error`),g()});let b=e.querySelector(`#btn-apply-recommendation`);b&&b.addEventListener(`click`,()=>{o?.layers&&(r=o.layers.map(e=>({perfumeId:e.perfumeId,amount:e.amount,unit:e.unit||(e.perfumeId.includes(`oil`)?`drops`:`sprays`)})).filter(e=>y(e.perfumeId)),i=null,m(),g(),window.showToast(`Formula applied! Try simulating the scent.`))})}function v(e,t){let n=e.map(e=>{let t=y(e.perfumeId);return{...e,name:t?.name||e.perfumeId}});Bd({id:`f-`+Date.now(),layers:n,simulation:t,createdAt:Date.now()},{showNameInput:!0})}g()}function Kd(e){return m.filter(t=>t.region===e)}function qd(e,t=150){return!e||e.length<=t?e:e.substring(0,t).replace(/\s+\S*$/,``)+`…`}function Jd(e){return e?e.split(`
 `).filter(e=>e.trim()).map(e=>{if(e.match(/^(OPENING|HEART|DRY DOWN|OVERALL|SILLAGE)/i)){let[t,...n]=e.split(`:`);return`<p><strong style="color: var(--accent);">${t.trim()}:</strong> ${n.join(`:`).trim()}</p>`}return`<p>${e}</p>`}).join(``):``}function Yd(){if(document.getElementById(`lab-styles`))return;let e=document.createElement(`style`);e.id=`lab-styles`,e.textContent=`
     .lab-layout {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: minmax(0, 1.25fr) minmax(420px, 520px);
       gap: var(--space-2xl);
       align-items: stretch;
-      max-width: 1400px;
+      max-width: 1680px;
+    }
+
+    .lab-workspace {
+      min-height: 100%;
     }
 
     /* ── Add Section ── */
@@ -1312,6 +1316,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       top: calc(var(--nav-height) + var(--space-lg));
       align-self: start;
       min-height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .lab-advisor__header {
@@ -1383,13 +1389,13 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         grid-template-columns: 1fr;
       }
     }
-  `,document.head.appendChild(e)}function Xd(e,t){let n=d.get(`vault_folders`,[{id:`default`,name:`All Formulas`,icon:`📁`}]),r=null,i=!1,a=null;function o(){d.set(`vault_folders`,n)}function s(e){let t=d.getVault();return e===`default`?t:t.filter(t=>t.folderId===e)}function c(){let t=d.getVault();e.innerHTML=`
+  `,document.head.appendChild(e)}function Xd(e,t){let n=d.get(`vault_folders`,[{id:`default`,name:`All Formulas`}]).map(e=>({id:e.id,name:e.name})),r=null,i=!1,a=null,o=null;function s(){d.set(`vault_folders`,n)}function c(e){let t=d.getVault();return e===`default`?t:t.filter(t=>t.folderId===e)}function l(){let t=d.getVault();e.innerHTML=`
       <div class="page__container">
-        ${r?h(r,t):l(t)}
+        ${r?_(r,t):u(t)}
       </div>
-    `,Zd(),_(t)}function l(e){return`
+      ${v()}
+    `,Zd(),b(t)}function u(e){return`
       <div class="vault-main-layout">
-        <!-- Left: Folders -->
         <div class="vault-folders-col">
           <div class="vault-folders-header">
             <h3 style="font-size: var(--text-lg);">Folders</h3>
@@ -1405,9 +1411,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           `:``}
 
           <div class="vault-folders-grid">
-            ${n.map(e=>{let t=s(e.id).length;return`
+            ${n.map(e=>{let t=c(e.id).length;return`
                 <div class="vault-folder-card card card--interactive" data-folder="${e.id}">
-                  <div class="vault-folder-icon">${e.icon||`📁`}</div>
                   <h4 class="vault-folder-name">${e.name}</h4>
                   <span class="vault-folder-count">${t} formula${t===1?``:`s`}</span>
                   ${e.id===`default`?``:`<button class="vault-folder-delete" data-delete="${e.id}" title="Delete folder">✕</button>`}
@@ -1424,41 +1429,27 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           `:``}
         </div>
 
-        <!-- Right: My Perfumes -->
-        ${u()}
+        ${f()}
       </div>
-    `}function u(){let e=d.getOwnedPerfumes();function t(e,t){return e.length?`<div class="vault-myperfumes-list">
+    `}function f(){let e=d.getOwnedPerfumes();function t(e,t){return e.length?`<div class="vault-myperfumes-list">
         ${e.map(e=>{let n,r;if(t===`monAccord`){let t=y(e),i=t?p.find(e=>e.id===t.region):null;n=t?.name||e,r=`<span style="color:${i?.color||`inherit`};">${i?.icon||`•`}</span>`}else{let t=g.find(t=>t.id===e);n=t?`${t.brand} — ${t.name}`:e,r=`<span>✦</span>`}return`<div class="vault-myperfume-chip">
             ${r}<span>${n}</span>
             <button class="vault-myperfume-remove" data-remove="${e}" data-type="${t}">✕</button>
           </div>`}).join(``)}
-      </div>`:`<p style="font-size:var(--text-xs);color:var(--text-tertiary);">None added yet.</p>`}function n(t){if(a!==t)return`<button class="btn btn--ghost btn--sm vault-add-owned-btn" data-section="${t}" style="margin-top:var(--space-xs);">+ Add</button>`;if(t===`monAccord`)return`<div class="vault-myperfumes-input">
-          <select class="select vault-owned-select" data-type="monAccord" style="flex:1;">
-            <option value="">Select...</option>
-            ${m.filter(t=>!e.monAccord.includes(t.id)).map(e=>{let t=p.find(t=>t.id===e.region);return`<option value="${e.id}">${t?.icon||``} ${e.name}</option>`}).join(``)}
-          </select>
-          <button class="btn btn--primary btn--sm vault-save-owned-btn" data-type="monAccord">Add</button>
-          <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
-        </div>`;{let t=g.filter(t=>!e.loreal.includes(t.id));return`<div class="vault-myperfumes-input">
-          <select class="select vault-owned-select" data-type="loreal" style="flex:1;">
-            <option value="">Select...</option>
-            ${[...new Set(t.map(e=>e.brand))].map(e=>`<optgroup label="${e}">${t.filter(t=>t.brand===e).map(e=>`<option value="${e.id}">${e.name}</option>`).join(``)}</optgroup>`).join(``)}
-          </select>
-          <button class="btn btn--primary btn--sm vault-save-owned-btn" data-type="loreal">Add</button>
-          <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
-        </div>`}}let r=f(e);return`
+      </div>`:`<p style="font-size:var(--text-xs);color:var(--text-tertiary);">None added yet.</p>`}function n(e){return a===e?`<div class="vault-myperfumes-input">
+        <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin:0;">Selection opens in popup.</p>
+        <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
+      </div>`:`<button class="btn btn--ghost btn--sm vault-add-owned-btn" data-section="${e}" style="margin-top:var(--space-xs);">+ Add</button>`}let r=h(e);return`
       <div class="vault-myperfumes-col">
         <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-xs);">My Perfumes</h3>
         <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-lg);">Your collection guides all AI recommendations across the app.</p>
 
-        <!-- Mon Accord Section -->
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">Mon Accord</p>
           ${t(e.monAccord,`monAccord`)}
           ${n(`monAccord`)}
         </div>
 
-        <!-- L'Oréal Luxe Section -->
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">L'Oréal Luxe</p>
           ${t(e.loreal,`loreal`)}
@@ -1472,11 +1463,11 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           </div>
         `:``}
       </div>
-    `}function f(e){let t=e.monAccord||[];if(!t.length)return``;let n=t.map(e=>y(e)).filter(Boolean),r=[...new Set(n.flatMap(e=>e.scentFamily.split(`-`)))],i=m.filter(e=>!t.includes(e.id)&&e.scentFamily.split(`-`).some(e=>r.includes(e))).slice(0,3);return i.length?`Pairs well with: ${i.map(e=>`${p.find(t=>t.id===e.region)?.icon||``} ${e.name}`).join(`, `)}.`:`Your collection spans ${r.slice(0,3).join(`, `)} notes. Explore the Layering Lab to create blends.`}function h(e,t){let r=s(e.id);return`
+    `}function h(e){let t=e.monAccord||[];if(!t.length)return``;let n=t.map(e=>y(e)).filter(Boolean),r=[...new Set(n.flatMap(e=>e.scentFamily.split(`-`)))],i=m.filter(e=>!t.includes(e.id)&&e.scentFamily.split(`-`).some(e=>r.includes(e))).slice(0,3);return i.length?`Pairs well with: ${i.map(e=>`${p.find(t=>t.id===e.region)?.icon||``} ${e.name}`).join(`, `)}.`:`Your collection spans ${r.slice(0,3).join(`, `)} notes. Explore the Layering Lab to create blends.`}function _(e,t){let r=c(e.id);return`
       <div class="vault-breadcrumb mb-lg">
         <button class="btn btn--ghost btn--sm" id="btn-back-folders">← All Folders</button>
         <span style="color: var(--text-tertiary);">/</span>
-        <span style="font-weight: 600;">${e.icon} ${e.name}</span>
+        <span style="font-weight: 600;">${e.name}</span>
       </div>
 
       ${r.length===0?`
@@ -1508,15 +1499,69 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
             `}).join(``)}
         </div>
       `}
-    `}function _(s){e.querySelectorAll(`.vault-folder-card`).forEach(e=>{e.addEventListener(`click`,t=>{if(t.target.closest(`.vault-folder-delete`))return;let i=e.dataset.folder;r=n.find(e=>e.id===i),c()})}),e.querySelectorAll(`.vault-folder-delete`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.delete,i=d.getVault();i.forEach(e=>{e.folderId===r&&(e.folderId=void 0)}),d.set(`vault`,i),n=n.filter(e=>e.id!==r),o(),c()})});let l=e.querySelector(`#btn-create-folder`);l&&l.addEventListener(`click`,()=>{i=!0,c()});let u=e.querySelector(`#btn-save-folder`);u&&u.addEventListener(`click`,()=>{let t=e.querySelector(`#new-folder-name`).value.trim();t&&(n.push({id:`folder-`+Date.now(),name:t,icon:`📂`}),o(),i=!1,c())});let f=e.querySelector(`#btn-cancel-folder`);f&&f.addEventListener(`click`,()=>{i=!1,c()});let p=e.querySelector(`#btn-back-folders`);p&&p.addEventListener(`click`,()=>{r=null,c()});let m=e.querySelector(`#go-to-lab`);m&&m.addEventListener(`click`,()=>t(`#lab`)),e.querySelectorAll(`.vault-load-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let n=s.find(t=>t.id===e.dataset.id);if(n?.layers){let e=n.layers.map(e=>e.perfumeId).filter(Boolean);sessionStorage.setItem(`labPending`,JSON.stringify(e)),t(`#lab`)}})}),e.querySelectorAll(`.vault-delete-btn`).forEach(e=>{e.addEventListener(`click`,()=>{d.removeFormula(e.dataset.id),c(),window.showToast(`Formula removed from vault.`)})}),e.querySelectorAll(`.vault-move-select`).forEach(e=>{e.addEventListener(`change`,()=>{let t=e.value;if(!t)return;let n=d.getVault(),r=n.find(t=>t.id===e.dataset.id);r&&(r.folderId=t,d.set(`vault`,n),c(),window.showToast(`Formula moved to folder.`))})}),e.querySelectorAll(`.vault-add-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=e.dataset.section,c()})}),e.querySelectorAll(`.vault-cancel-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=null,c()})}),e.querySelectorAll(`.vault-save-owned-btn`).forEach(t=>{t.addEventListener(`click`,()=>{let n=t.dataset.type,r=e.querySelector(`.vault-owned-select[data-type="${n}"]`);if(!r?.value)return;let i=d.getOwnedPerfumes();i[n].includes(r.value)||(i[n]=[...i[n],r.value],d.setOwnedPerfumes(i)),a=null,c()})}),e.querySelectorAll(`.vault-myperfume-remove`).forEach(e=>{e.addEventListener(`click`,()=>{let{remove:t,type:n}=e.dataset,r=d.getOwnedPerfumes();r[n]=r[n].filter(e=>e!==t),d.setOwnedPerfumes(r),c()})})}c()}function Zd(){if(document.getElementById(`vault-styles`))return;let e=document.createElement(`style`);e.id=`vault-styles`,e.textContent=`
+    `}function v(){if(!a)return``;let e=d.getOwnedPerfumes();if(a===`monAccord`)return`
+        <div class="modal-overlay" id="vault-owned-modal-overlay">
+          <div class="modal vault-owned-modal">
+            <div class="modal__header">
+              <h3 class="modal__title">Add Mon Accord Perfume</h3>
+              <button class="modal__close" id="vault-close-owned-modal">✕</button>
+            </div>
+            <div class="modal__body">
+              <p class="vault-owned-modal-subtitle">Choose one of the six regions, then select Spray or Oil.</p>
+              <div class="vault-region-grid">
+                ${p.map(t=>{let n=m.find(e=>e.region===t.id&&e.format===`spray`),r=m.find(e=>e.region===t.id&&e.format===`oil`);return`
+                    <div class="vault-region-card" style="--region-color:${t.color};">
+                      <p class="vault-region-card__title">${t.icon} ${t.name}</p>
+                      <div class="vault-region-card__actions">
+                        ${n?`<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${n.id}" ${e.monAccord.includes(n.id)?`disabled`:``}>💨 Spray ${e.monAccord.includes(n.id)?`✓`:``}</button>`:``}
+                        ${r?`<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${r.id}" ${e.monAccord.includes(r.id)?`disabled`:``}>💧 Oil ${e.monAccord.includes(r.id)?`✓`:``}</button>`:``}
+                      </div>
+                    </div>
+                  `}).join(``)}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;let t=g.filter(t=>!e.loreal.includes(t.id)),n=[...new Set(t.map(e=>e.brand))].sort((e,t)=>e.localeCompare(t)),r=o?t.filter(e=>e.brand===o):[];return`
+      <div class="modal-overlay" id="vault-owned-modal-overlay">
+        <div class="modal vault-owned-modal">
+          <div class="modal__header">
+            <h3 class="modal__title">Add L'Oréal Luxe Perfume</h3>
+            <button class="modal__close" id="vault-close-owned-modal">✕</button>
+          </div>
+          <div class="modal__body">
+            ${o?`
+              <div class="flex" style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-sm);margin-bottom:var(--space-md);">
+                <p class="vault-owned-modal-subtitle" style="margin:0;">${o}</p>
+                <button class="btn btn--ghost btn--sm" id="vault-back-to-brands">← Brands</button>
+              </div>
+              <div class="vault-loreal-list">
+                ${r.length?r.map(e=>`
+                  <div class="vault-loreal-item">
+                    <div>
+                      <p class="vault-loreal-item__name">${e.name}</p>
+                      <p class="vault-loreal-item__meta">${e.family}</p>
+                    </div>
+                    <button class="btn btn--primary btn--sm vault-owned-add-btn" data-type="loreal" data-id="${e.id}">Add</button>
+                  </div>
+                `).join(``):`<p style="font-size:var(--text-sm);color:var(--text-tertiary);">All perfumes in this brand are already added.</p>`}
+              </div>
+            `:`
+              <p class="vault-owned-modal-subtitle">First choose a brand.</p>
+              <div class="vault-brand-grid">
+                ${n.map(e=>`<button class="btn btn--secondary vault-brand-btn" data-brand="${e}">${e}</button>`).join(``)}
+              </div>
+            `}
+          </div>
+        </div>
+      </div>
+    `}function b(c){e.querySelectorAll(`.vault-folder-card`).forEach(e=>{e.addEventListener(`click`,t=>{if(t.target.closest(`.vault-folder-delete`))return;let i=e.dataset.folder;r=n.find(e=>e.id===i),l()})}),e.querySelectorAll(`.vault-folder-delete`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.delete,i=d.getVault();i.forEach(e=>{e.folderId===r&&(e.folderId=void 0)}),d.set(`vault`,i),n=n.filter(e=>e.id!==r),s(),l()})});let u=e.querySelector(`#btn-create-folder`);u&&u.addEventListener(`click`,()=>{i=!0,l()});let f=e.querySelector(`#btn-save-folder`);f&&f.addEventListener(`click`,()=>{let t=e.querySelector(`#new-folder-name`).value.trim();t&&(n.push({id:`folder-`+Date.now(),name:t}),s(),i=!1,l())});let p=e.querySelector(`#btn-cancel-folder`);p&&p.addEventListener(`click`,()=>{i=!1,l()});let m=e.querySelector(`#btn-back-folders`);m&&m.addEventListener(`click`,()=>{r=null,l()});let h=e.querySelector(`#go-to-lab`);h&&h.addEventListener(`click`,()=>t(`#lab`)),e.querySelectorAll(`.vault-load-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let n=c.find(t=>t.id===e.dataset.id);if(n?.layers){let e=n.layers.map(e=>e.perfumeId).filter(Boolean);sessionStorage.setItem(`labPending`,JSON.stringify(e)),t(`#lab`)}})}),e.querySelectorAll(`.vault-delete-btn`).forEach(e=>{e.addEventListener(`click`,()=>{d.removeFormula(e.dataset.id),l(),window.showToast(`Formula removed from vault.`)})}),e.querySelectorAll(`.vault-move-select`).forEach(e=>{e.addEventListener(`change`,()=>{let t=e.value;if(!t)return;let n=d.getVault(),r=n.find(t=>t.id===e.dataset.id);r&&(r.folderId=t,d.set(`vault`,n),l(),window.showToast(`Formula moved to folder.`))})}),e.querySelectorAll(`.vault-add-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=e.dataset.section,o=null,l()})}),e.querySelectorAll(`.vault-cancel-owned-btn`).forEach(e=>{e.addEventListener(`click`,()=>{a=null,o=null,l()})}),e.querySelectorAll(`.vault-owned-add-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=d.getOwnedPerfumes(),n=e.dataset.type,r=e.dataset.id;t[n].includes(r)||(t[n]=[...t[n],r],d.setOwnedPerfumes(t),window.showToast(`Added to your collection.`)),n===`monAccord`&&(a=null),l()})}),e.querySelectorAll(`.vault-brand-btn`).forEach(e=>{e.addEventListener(`click`,()=>{o=e.dataset.brand,l()})});let g=e.querySelector(`#vault-back-to-brands`);g&&g.addEventListener(`click`,()=>{o=null,l()});let _=e.querySelector(`#vault-close-owned-modal`);_&&_.addEventListener(`click`,()=>{a=null,o=null,l()});let v=e.querySelector(`#vault-owned-modal-overlay`);v&&v.addEventListener(`click`,e=>{e.target.id===`vault-owned-modal-overlay`&&(a=null,o=null,l())}),e.querySelectorAll(`.vault-myperfume-remove`).forEach(e=>{e.addEventListener(`click`,()=>{let{remove:t,type:n}=e.dataset,r=d.getOwnedPerfumes();r[n]=r[n].filter(e=>e!==t),d.setOwnedPerfumes(r),l()})})}l()}function Zd(){if(document.getElementById(`vault-styles`))return;let e=document.createElement(`style`);e.id=`vault-styles`,e.textContent=`
     .vault-main-layout {
       display: grid;
       grid-template-columns: 1fr 340px;
       gap: var(--space-2xl);
       align-items: start;
     }
-
-    .vault-folders-col {}
 
     .vault-myperfumes-col {
       background: var(--surface);
@@ -1573,7 +1618,6 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       position: relative;
     }
 
-    .vault-folder-icon { font-size: 2.5rem; margin-bottom: var(--space-sm); }
     .vault-folder-name { font-size: var(--text-base); margin-bottom: 4px; }
     .vault-folder-count { font-size: var(--text-xs); color: var(--text-tertiary); }
 
@@ -1703,6 +1747,82 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       letter-spacing: 0.08em;
     }
 
+    .vault-owned-modal {
+      width: min(980px, calc(100vw - 2rem));
+      max-height: min(760px, calc(100vh - 2rem));
+      overflow: hidden;
+    }
+
+    .vault-owned-modal .modal__body {
+      overflow-y: auto;
+    }
+
+    .vault-owned-modal-subtitle {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-md);
+    }
+
+    .vault-region-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .vault-region-card {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--region-color);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      background: var(--bg-primary);
+    }
+
+    .vault-region-card__title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+    }
+
+    .vault-region-card__actions {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .vault-brand-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .vault-loreal-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .vault-loreal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .vault-loreal-item__name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .vault-loreal-item__meta {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      margin: 0;
+    }
+
     @media (max-width: 1100px) {
       .vault-main-layout { grid-template-columns: 1fr; }
       .vault-myperfumes-col { position: static; }
@@ -1710,10 +1830,13 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
 
     @media (max-width: 1024px) {
       .vault-formulas-list { grid-template-columns: repeat(2, 1fr); }
+      .vault-brand-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 640px) {
-      .vault-formulas-list { grid-template-columns: 1fr; }
+      .vault-formulas-list,
+      .vault-region-grid,
+      .vault-brand-grid { grid-template-columns: 1fr; }
     }
   `,document.head.appendChild(e)}function Qd(){let e=d.getInteractions(),t=d.getVault(),n=d.getLikes(),r=d.getProfile();if(e.length===0&&t.length===0)return null;let i={},a={spray:0,oil:0},o=[];t.forEach(e=>{(e.layers||[]).forEach(e=>{let t=m.find(t=>t.id===e.perfumeId);t&&(i[t.region]=(i[t.region]||0)+1,a[t.format]++,o.push({...e,region:t.region,format:t.format,family:t.scentFamily}))})});let s=Object.entries(i).sort(([,e],[,t])=>t-e).map(([e,t])=>({region:e,count:t,data:p.find(t=>t.id===e)})),c=Date.now()-720*60*60*1e3,l=e.filter(e=>e.timestamp>c);e.filter(e=>e.timestamp<=c),t.length;let u=n.length,f=t.filter(e=>e.savedAt>c).length;return{topRegions:s,formatPreference:a.spray>a.oil?`spray-dominant`:a.oil>a.spray?`oil-dominant`:`balanced`,totalFormulas:t.length,totalLikes:u,recentActivity:l.length,engagementLevel:l.length>10?`high`:l.length>3?`medium`:`low`,profile:r,recentSaves:f}}function $d(){let e=d.getOwnedPerfumes(),t=[];if(e.monAccord?.length){let n=e.monAccord.map(e=>m.find(t=>t.id===e)?.name).filter(Boolean);n.length&&t.push(`Mon Accord owned: ${n.join(`, `)}`)}if(e.loreal?.length){let n=e.loreal.map(e=>g.find(t=>t.id===e)?.name).filter(Boolean);n.length&&t.push(`L'Oréal Luxe owned: ${n.join(`, `)}`)}return t.length?t.join(`
 `):`No owned perfumes registered.`}async function ef(){let e=Qd(),t=d.getVault(),n=d.getProfile();if(!t.length&&!n)return{success:!1,error:`No usage data yet. Create some formulas first!`};let r=t.slice(0,3).map(e=>{let t=(e.layers||[]).map(e=>{let t=m.find(t=>t.id===e.perfumeId);return t?`${e.amount} ${e.unit} ${t.name}`:``}).filter(Boolean).join(` + `);return`"${e.name}": ${t}`}).join(`
@@ -1747,7 +1870,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
   "inspiration": "What inspired this remix — connect to their journey",
   "newElement": "What's new/different about this compared to their usual",
   "scentDescription": "Vivid 2-sentence sensory preview"
-}`);if(i.success)try{let e=i.text.trim();e.startsWith("```")&&(e=e.replace(/^```(?:json)?\n?/,``).replace(/\n?```$/,``));let t=JSON.parse(e);return d.addInteraction({type:`remix-generated`,name:t.remixName}),{success:!0,remix:t}}catch{return{success:!0,remix:{remixName:`AI Remix`,layers:[],inspiration:i.text,newElement:``,scentDescription:``}}}return{success:!1,error:i.text}}function tf(){let e=d.getInteractions().filter(e=>e.type===`like`&&e.timestamp>Date.now()-720*60*60*1e3),t={};return e.forEach(e=>{t[e.formulaId]=(t[e.formulaId]||0)+1}),_.sort((e,n)=>n.likes+(t[n.id]||0)*10-(e.likes+(t[e.id]||0)*10)).slice(0,5)}function nf(e,t){let n=tf(),r=d.getProfile(),i=`likes`;function a(e){if(!r)return Math.floor(Math.random()*40)+30;let t=50,n=r.primaryFamilies||[];return(e.layers||[]).forEach(e=>{let i=y(e.perfumeId);i&&(i.scentFamily.split(`-`).forEach(e=>{n.includes(e)&&(t+=12)}),r.recommendedRegions?.includes(i.region)&&(t+=8))}),Math.min(t,98)}let o=n.map(e=>({...e,matchPercent:a(e)}));function s(){let e=[...o];return i===`likes`?e.sort((e,t)=>(t.likes||0)-(e.likes||0)):i===`match`?e.sort((e,t)=>t.matchPercent-e.matchPercent):i===`newest`&&e.sort((e,t)=>t.id>e.id?1:-1),e}function c(){let n=s();e.innerHTML=`
+}`);if(i.success)try{let e=i.text.trim();e.startsWith("```")&&(e=e.replace(/^```(?:json)?\n?/,``).replace(/\n?```$/,``));let t=JSON.parse(e);return d.addInteraction({type:`remix-generated`,name:t.remixName}),{success:!0,remix:t}}catch{return{success:!0,remix:{remixName:`AI Remix`,layers:[],inspiration:i.text,newElement:``,scentDescription:``}}}return{success:!1,error:i.text}}function tf(){let e=d.getInteractions().filter(e=>e.type===`like`&&e.timestamp>Date.now()-720*60*60*1e3),t={};return e.forEach(e=>{t[e.formulaId]=(t[e.formulaId]||0)+1}),_.sort((e,n)=>n.likes+(t[n.id]||0)*10-(e.likes+(t[e.id]||0)*10)).slice(0,5)}function nf(e,t){let n=tf(),r=d.getProfile(),i=`likes`,a=`community_daily_suggestion`,o=new Date().toISOString().slice(0,10),s=u(),c=s?.date===o?s.remix:null,l=!c;function u(){try{return JSON.parse(sessionStorage.getItem(a)||`null`)}catch{return null}}function f(e){sessionStorage.setItem(a,JSON.stringify({date:o,remix:e}))}function m(e){if(!r)return Math.floor(Math.random()*40)+30;let t=50,n=r.primaryFamilies||[];return(e.layers||[]).forEach(e=>{let i=y(e.perfumeId);i&&(i.scentFamily.split(`-`).forEach(e=>{n.includes(e)&&(t+=12)}),r.recommendedRegions?.includes(i.region)&&(t+=8))}),Math.min(t,98)}let h=n.map(e=>({...e,matchPercent:m(e)}));function g(){let e=[...h];return i===`likes`?e.sort((e,t)=>(t.likes||0)-(e.likes||0)):i===`match`?e.sort((e,t)=>t.matchPercent-e.matchPercent):i===`newest`&&e.sort((e,t)=>t.id>e.id?1:-1),e}function _(){let n=g();e.innerHTML=`
       <div class="page__container">
         <!-- Two-column top: Trending + Today's Selection -->
         <div class="community-top-grid">
@@ -1791,41 +1914,34 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
               <h3 class="community-panel-title">✦ Today's selection for you</h3>
             </div>
             <div id="suggestion-container">
-              <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-md);">Based on trends and your preferences.</p>
-              <button class="btn btn--primary btn--sm" id="btn-generate-suggestion">Generate</button>
+              ${rf(c,l)}
             </div>
           </div>
 
         </div>
       </div>
-    `,of(),e.querySelectorAll(`.community-sort-btn`).forEach(e=>{e.addEventListener(`click`,()=>{i=e.dataset.sort,c()})}),e.querySelectorAll(`.community-interact-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.id,i=n.find(e=>e.id===r);i&&af(i)})}),e.querySelectorAll(`.community-trending-item`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,r=n.find(e=>e.id===t);r&&af(r)})});let r=e.querySelector(`#btn-generate-suggestion`);r&&r.addEventListener(`click`,async()=>{if(!hd()){window.showToast(`Set your Gemini API key in Settings.`,`error`),window.showSettings();return}let n=e.querySelector(`#suggestion-container`);n.innerHTML=`
-          <div class="card" style="padding: var(--space-2xl); text-align: center;">
-            <span class="loading-spinner"></span>
-            <p style="margin-top: var(--space-md); color: var(--text-tertiary);">Crafting a suggestion...</p>
+    `,cf(),e.querySelectorAll(`.community-sort-btn`).forEach(e=>{e.addEventListener(`click`,()=>{i=e.dataset.sort,_()})}),e.querySelectorAll(`.community-interact-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=e.dataset.id,i=n.find(e=>e.id===r);i&&sf(i)})}),e.querySelectorAll(`.community-trending-item`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.id,r=n.find(e=>e.id===t);r&&sf(r)})});let r=e.querySelector(`#btn-load-suggestion`);r&&r.addEventListener(`click`,()=>{if(c?.layers?.length){let e=c.layers.map(e=>e.perfumeId).filter(e=>y(e));sessionStorage.setItem(`labPending`,JSON.stringify(e)),t(`#lab`)}})}_(),c||v();async function v(){let e=b();if(hd()){let t=await ef();c=t.success&&t.remix?t.remix:e}else c=e;l=!1,f(c),_()}function b(){let e=h.slice().sort((e,t)=>t.matchPercent-e.matchPercent)[0]||n[0];return{remixName:e?.name||`Daily Selection`,layers:e?.layers||[],inspiration:e?.description||`A community-loved formula selected for your profile.`,scentDescription:`Balanced for versatility across day and evening wear.`}}}function rf(e,t){return t?`
+      <div class="card" style="padding: var(--space-2xl); text-align: center;">
+        <span class="loading-spinner"></span>
+        <p style="margin-top: var(--space-md); color: var(--text-tertiary);">Preparing today’s suggestion...</p>
+      </div>
+    `:e?`
+    <div class="ai-response">
+      <div class="ai-response__label">✦ ${e.remixName||`AI Suggestion`}</div>
+      <div class="ai-response__text">
+        ${e.layers?.length>0?`
+          <div style="margin-bottom: var(--space-md);">
+            ${e.layers.map(e=>{let t=y(e.perfumeId);return`<p>${(t?p.find(e=>e.id===t.region):null)?.icon||`•`} ${e.amount} ${e.unit} of <strong>${t?.name||e.perfumeId}</strong></p>`}).join(``)}
           </div>
-        `;let i=await ef();if(i.success&&i.remix){let e=i.remix;n.innerHTML=`
-            <div class="ai-response">
-              <div class="ai-response__label">✦ ${e.remixName||`AI Suggestion`}</div>
-              <div class="ai-response__text">
-                ${e.layers?.length>0?`
-                  <div style="margin-bottom: var(--space-md);">
-                    ${e.layers.map(e=>{let t=y(e.perfumeId);return`<p>${(t?p.find(e=>e.id===t.region):null)?.icon||`•`} ${e.amount} ${e.unit} of <strong>${t?.name||e.perfumeId}</strong></p>`}).join(``)}
-                  </div>
-                `:``}
-                ${e.inspiration?`<p><strong>Inspiration:</strong> ${e.inspiration}</p>`:``}
-                ${e.scentDescription?`<p><em>${e.scentDescription}</em></p>`:``}
-              </div>
-            </div>
-            <div class="flex gap-sm mt-md">
-              <button class="btn btn--primary btn--sm" id="btn-load-suggestion">Load to Lab</button>
-              <button class="btn btn--ghost btn--sm" id="btn-new-suggestion">Try Another</button>
-            </div>
-          `;let a=n.querySelector(`#btn-load-suggestion`);a&&a.addEventListener(`click`,()=>{if(e.layers?.length){let n=e.layers.map(e=>e.perfumeId).filter(e=>y(e));sessionStorage.setItem(`labPending`,JSON.stringify(n)),t(`#lab`)}});let o=n.querySelector(`#btn-new-suggestion`);o&&o.addEventListener(`click`,()=>{n.innerHTML=`<button class="btn btn--primary" id="btn-generate-suggestion">✦ Get AI Suggestion</button>`,n.querySelector(`#btn-generate-suggestion`).addEventListener(`click`,r.onclick)})}else n.innerHTML=`
-            <div class="card" style="padding: var(--space-xl);">
-              <p style="color: var(--text-tertiary);">${i.error||`Unable to generate. Try again.`}</p>
-              <button class="btn btn--ghost btn--sm mt-md" id="btn-retry-suggestion">Retry</button>
-            </div>
-          `})}c()}function rf(e,t){return[1,2,3,4,5].map(n=>`<span class="cm-star cm-star-display ${n<=e?`cm-star--on`:``}" data-ci="${t}" data-val="${n}">★</span>`).join(``)}function af(e){let t=JSON.parse(localStorage.getItem(`monaccord_comments_`+e.id)||`[]`),n=d.isLiked(e.id),r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
+        `:``}
+        ${e.inspiration?`<p><strong>Inspiration:</strong> ${af(e.inspiration,3)}</p>`:``}
+        ${e.scentDescription?`<p><em>${af(e.scentDescription,1)}</em></p>`:``}
+      </div>
+    </div>
+    <div class="flex gap-sm mt-md">
+      <button class="btn btn--primary btn--sm" id="btn-load-suggestion">Load to Lab</button>
+    </div>
+  `:`<p style="font-size: var(--text-sm); color: var(--text-tertiary);">No suggestion available yet.</p>`}function af(e,t=3){return e?(e.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[]).slice(0,t).join(` `).trim():``}function of(e,t){return[1,2,3,4,5].map(n=>`<span class="cm-star cm-star-display ${n<=e?`cm-star--on`:``}" data-ci="${t}" data-val="${n}">★</span>`).join(``)}function sf(e){let t=JSON.parse(localStorage.getItem(`monaccord_comments_`+e.id)||`[]`),n=d.isLiked(e.id),r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
     <div class="modal" style="max-width: 600px;">
       <div class="modal__header">
         <h3 class="modal__title">${e.name}</h3>
@@ -1852,7 +1968,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
               <div class="cm-comment" data-ci="${t}">
                 <div class="cm-comment-meta">
                   <span class="cm-comment-author">Anonymous</span>
-                  <span class="cm-stars">${rf(e.rating||0,t)}</span>
+                  <span class="cm-stars">${of(e.rating||0,t)}</span>
                   <span class="cm-comment-date">${new Date(e.date).toLocaleDateString()}</span>
                 </div>
                 <p class="cm-comment-text">${e.text}</p>
@@ -1885,7 +2001,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         </div>
       </div>
     </div>
-  `,document.body.appendChild(r),r.querySelector(`#close-interaction`).onclick=()=>r.remove(),r.onclick=e=>{e.target===r&&r.remove()},r.querySelector(`#modal-like-btn`).onclick=()=>{d.toggleLike(e.id),r.remove(),af(e)},r.querySelector(`#modal-save-btn`).onclick=()=>{r.remove();let t=(e.layers||[]).map(e=>{let t=y(e.perfumeId),n=t?p.find(e=>e.id===t.region):null;return{...e,name:`${n?.icon||``} ${t?.name||e.perfumeId}`}});Bd({...e,id:`saved-`+e.id,layers:t},{showNameInput:!1})};let i=0;r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.addEventListener(`mouseover`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(t=>{t.classList.toggle(`cm-star--on`,Number(t.dataset.val)<=Number(e.dataset.val))})}),e.addEventListener(`mouseout`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})}),e.addEventListener(`click`,()=>{i=Number(e.dataset.val),r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})})}),r.querySelectorAll(`.cm-star-display`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=Number(n.dataset.val);t[i].rating=a,localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),af(e)})}),r.querySelector(`#btn-post-comment`).onclick=()=>{let n=r.querySelector(`#comment-input`).value.trim();n&&(t.push({text:n,date:Date.now(),rating:i,replies:[]}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),af(e))},r.querySelectorAll(`.cm-reply-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.ci,n=r.querySelector(`#reply-input-${t}`);n&&(n.style.display=n.style.display===`none`?`flex`:`none`)})}),r.querySelectorAll(`.cm-post-reply`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=r.querySelector(`.cm-reply-field[data-ci="${i}"]`)?.value.trim();a&&(t[i].replies||(t[i].replies=[]),t[i].replies.push({text:a,date:Date.now()}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),af(e))})})}function of(){if(document.getElementById(`community-styles`))return;let e=document.createElement(`style`);e.id=`community-styles`,e.textContent=`
+  `,document.body.appendChild(r),r.querySelector(`#close-interaction`).onclick=()=>r.remove(),r.onclick=e=>{e.target===r&&r.remove()},r.querySelector(`#modal-like-btn`).onclick=()=>{d.toggleLike(e.id),r.remove(),sf(e)},r.querySelector(`#modal-save-btn`).onclick=()=>{r.remove();let t=(e.layers||[]).map(e=>{let t=y(e.perfumeId),n=t?p.find(e=>e.id===t.region):null;return{...e,name:`${n?.icon||``} ${t?.name||e.perfumeId}`}});Bd({...e,id:`saved-`+e.id,layers:t},{showNameInput:!1})};let i=0;r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.addEventListener(`mouseover`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(t=>{t.classList.toggle(`cm-star--on`,Number(t.dataset.val)<=Number(e.dataset.val))})}),e.addEventListener(`mouseout`,()=>{r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})}),e.addEventListener(`click`,()=>{i=Number(e.dataset.val),r.querySelectorAll(`.cm-new-star`).forEach(e=>{e.classList.toggle(`cm-star--on`,Number(e.dataset.val)<=i)})})}),r.querySelectorAll(`.cm-star-display`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=Number(n.dataset.val);t[i].rating=a,localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),sf(e)})}),r.querySelector(`#btn-post-comment`).onclick=()=>{let n=r.querySelector(`#comment-input`).value.trim();n&&(t.push({text:n,date:Date.now(),rating:i,replies:[]}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),sf(e))},r.querySelectorAll(`.cm-reply-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.ci,n=r.querySelector(`#reply-input-${t}`);n&&(n.style.display=n.style.display===`none`?`flex`:`none`)})}),r.querySelectorAll(`.cm-post-reply`).forEach(n=>{n.addEventListener(`click`,()=>{let i=Number(n.dataset.ci),a=r.querySelector(`.cm-reply-field[data-ci="${i}"]`)?.value.trim();a&&(t[i].replies||(t[i].replies=[]),t[i].replies.push({text:a,date:Date.now()}),localStorage.setItem(`monaccord_comments_`+e.id,JSON.stringify(t)),r.remove(),sf(e))})})}function cf(){if(document.getElementById(`community-styles`))return;let e=document.createElement(`style`);e.id=`community-styles`,e.textContent=`
     .community-top-grid {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -2118,7 +2234,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       gap: var(--space-sm);
       margin-bottom: var(--space-sm);
     }
-  `,document.head.appendChild(e)}function sf(e,t){let n=[];function r(){let i=d.getOwnedPerfumes().monAccord||[],a=cf(i,n);e.innerHTML=`
+  `,document.head.appendChild(e)}function lf(e,t){let n=[];function r(){let i=d.getOwnedPerfumes().monAccord||[],a=uf(i,n);e.innerHTML=`
       <div class="page__container">
         <div class="shop-layout">
           <div class="shop-products">
@@ -2183,7 +2299,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           </div>
         </div>
       </div>
-    `,uf(),e.querySelectorAll(`.shop-product__btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let i=e.dataset.id,a=n.findIndex(e=>e.id===i);a>=0?n.splice(a,1):n.push({id:i}),r()})}),e.querySelectorAll(`.shop-cart__item-remove`).forEach(e=>{e.addEventListener(`click`,()=>{n=n.filter(t=>t.id!==e.dataset.id),r()})});let o=e.querySelector(`#btn-confirm-order`);o&&o.addEventListener(`click`,()=>{lf(n,e,t)})}r()}function cf(e,t){if(!e.length)return null;let n=t.map(e=>e.id),r=e.map(e=>y(e)).filter(Boolean),i=[...new Set(r.flatMap(e=>e.scentFamily.split(`-`)))],a=m.filter(t=>!e.includes(t.id)&&!n.includes(t.id)&&t.scentFamily.split(`-`).some(e=>i.includes(e))).slice(0,2);return a.length?`Based on your owned ${r.map(e=>e.name).join(` & `)}: try adding ${a.map(e=>`${p.find(t=>t.id===e.region)?.icon||``} ${e.name}`).join(` or `)}.`:null}function lf(e,t,n){let r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
+    `,ff(),e.querySelectorAll(`.shop-product__btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let i=e.dataset.id,a=n.findIndex(e=>e.id===i);a>=0?n.splice(a,1):n.push({id:i}),r()})}),e.querySelectorAll(`.shop-cart__item-remove`).forEach(e=>{e.addEventListener(`click`,()=>{n=n.filter(t=>t.id!==e.dataset.id),r()})});let o=e.querySelector(`#btn-confirm-order`);o&&o.addEventListener(`click`,()=>{df(n,e,t)})}r()}function uf(e,t){if(!e.length)return null;let n=t.map(e=>e.id),r=e.map(e=>y(e)).filter(Boolean),i=[...new Set(r.flatMap(e=>e.scentFamily.split(`-`)))],a=m.filter(t=>!e.includes(t.id)&&!n.includes(t.id)&&t.scentFamily.split(`-`).some(e=>i.includes(e))).slice(0,2);return a.length?`Based on your owned ${r.map(e=>e.name).join(` & `)}: try adding ${a.map(e=>`${p.find(t=>t.id===e.region)?.icon||``} ${e.name}`).join(` or `)}.`:null}function df(e,t,n){let r=document.createElement(`div`);r.className=`modal-overlay`,r.innerHTML=`
     <div class="modal" style="max-width: 480px; text-align: center;">
       <div class="modal__body" style="padding: var(--space-3xl) var(--space-xl);">
         <div style="font-size: 3rem; margin-bottom: var(--space-lg);">✦</div>
@@ -2195,7 +2311,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <button class="btn btn--primary btn--lg" id="btn-go-profile">Go to Profile →</button>
       </div>
     </div>
-  `,document.body.appendChild(r),r.querySelector(`#btn-go-profile`).addEventListener(`click`,()=>{r.remove(),n(`#profile`)}),r.onclick=e=>{e.target===r&&(r.remove(),n(`#profile`))}}function uf(){if(document.getElementById(`shop-styles`))return;let e=document.createElement(`style`);e.id=`shop-styles`,e.textContent=`
+  `,document.body.appendChild(r),r.querySelector(`#btn-go-profile`).addEventListener(`click`,()=>{r.remove(),n(`#profile`)}),r.onclick=e=>{e.target===r&&(r.remove(),n(`#profile`))}}function ff(){if(document.getElementById(`shop-styles`))return;let e=document.createElement(`style`);e.id=`shop-styles`,e.textContent=`
     .shop-layout {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -2356,7 +2472,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     @media (max-width: 640px) {
       .shop-products { grid-template-columns: 1fr; }
     }
-  `,document.head.appendChild(e)}var df=`modulepreload`,ff=function(e){return`/mon_accord/`+e},pf={},mf=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}r=o(t.map(t=>{if(t=ff(t,n),t in pf)return;pf[t]=!0;let r=t.endsWith(`.css`),i=r?`[rel="stylesheet"]`:``;if(n)for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}else if(document.querySelector(`link[href="${t}"]${i}`))return;let o=document.createElement(`link`);if(o.rel=r?`stylesheet`:df,r||(o.as=`script`),o.crossOrigin=``,o.href=t,a&&o.setAttribute(`nonce`,a),document.head.appendChild(o),r)return new Promise((e,n)=>{o.addEventListener(`load`,e),o.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})},hf=document.getElementById(`app`),gf={"":b,"#landing":b,"#profile":Cd,"#lab":Gd,"#vault":Xd,"#shop":sf,"#community":nf};function _f(){return window.location.hash||``}function vf(e){window.location.hash=e}function yf(){let e=_f(),t=gf[e]||b;hf.innerHTML=``,hf.appendChild(f(vf,e));let n=document.createElement(`div`);if(n.className=`page page-enter`,n.id=`page-content`,t(n,vf),hf.appendChild(n),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let t=d.getApiKey(),n=document.createElement(`div`);n.className=`modal-overlay`,n.id=`settings-modal`,n.innerHTML=`
+  `,document.head.appendChild(e)}var pf=`modulepreload`,mf=function(e){return`/mon_accord/`+e},hf={},gf=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}r=o(t.map(t=>{if(t=mf(t,n),t in hf)return;hf[t]=!0;let r=t.endsWith(`.css`),i=r?`[rel="stylesheet"]`:``;if(n)for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}else if(document.querySelector(`link[href="${t}"]${i}`))return;let o=document.createElement(`link`);if(o.rel=r?`stylesheet`:pf,r||(o.as=`script`),o.crossOrigin=``,o.href=t,a&&o.setAttribute(`nonce`,a),document.head.appendChild(o),r)return new Promise((e,n)=>{o.addEventListener(`load`,e),o.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})},_f=document.getElementById(`app`),vf={"":b,"#landing":b,"#profile":Cd,"#lab":Gd,"#vault":Xd,"#shop":lf,"#community":nf};function yf(){return window.location.hash||``}function bf(e){window.location.hash=e}function xf(){let e=yf(),t=vf[e]||b;_f.innerHTML=``,_f.appendChild(f(bf,e));let n=document.createElement(`div`);if(n.className=`page page-enter`,n.id=`page-content`,t(n,bf),_f.appendChild(n),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let t=d.getApiKey(),n=document.createElement(`div`);n.className=`modal-overlay`,n.id=`settings-modal`,n.innerHTML=`
     <div class="modal">
       <div class="modal__header">
         <h3 class="modal__title">Settings</h3>
@@ -2381,4 +2497,4 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <button class="btn btn--primary" id="save-settings">Save</button>
       </div>
     </div>
-  `,document.body.appendChild(n),n.querySelector(`#close-settings`).onclick=()=>n.remove(),n.querySelector(`#cancel-settings`).onclick=()=>n.remove(),n.onclick=e=>{e.target===n&&n.remove()},n.querySelector(`#save-settings`).onclick=()=>{let e=n.querySelector(`#api-key-input`).value.trim();d.setApiKey(e),mf(()=>Promise.resolve().then(()=>ud).then(e=>e.resetAI()),void 0),window.showToast(`Settings saved!`),n.remove()};let r=n.querySelector(`#reset-profile-btn`);r&&(r.onclick=()=>{d.remove(`monaccord_profile`),d.set(`profile`,null),window.showToast(`Profile reset.`),n.remove(),yf()})},window.addEventListener(`hashchange`,yf),yf();
+  `,document.body.appendChild(n),n.querySelector(`#close-settings`).onclick=()=>n.remove(),n.querySelector(`#cancel-settings`).onclick=()=>n.remove(),n.onclick=e=>{e.target===n&&n.remove()},n.querySelector(`#save-settings`).onclick=()=>{let e=n.querySelector(`#api-key-input`).value.trim();d.setApiKey(e),gf(()=>Promise.resolve().then(()=>ud).then(e=>e.resetAI()),void 0),window.showToast(`Settings saved!`),n.remove()};let r=n.querySelector(`#reset-profile-btn`);r&&(r.onclick=()=>{d.remove(`monaccord_profile`),d.set(`profile`,null),window.showToast(`Profile reset.`),n.remove(),xf()})},window.addEventListener(`hashchange`,xf),xf();
