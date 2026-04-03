@@ -6,10 +6,11 @@ import { storage } from '../utils/storage.js';
 import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
 
 export function renderVault(container, navigate) {
-  let folders = storage.get('vault_folders', [{ id: 'default', name: 'All Formulas', icon: '📁' }]);
+  let folders = storage.get('vault_folders', [{ id: 'default', name: 'All Formulas' }]).map(f => ({ id: f.id, name: f.name }));
   let activeFolder = null;
   let showCreateFolder = false;
   let addingSection = null; // 'monAccord' | 'loreal' | null
+  let selectedLorealBrand = null;
 
   function saveFolders() {
     storage.set('vault_folders', folders);
@@ -28,6 +29,7 @@ export function renderVault(container, navigate) {
       <div class="page__container">
         ${!activeFolder ? renderFolderView(vault) : renderFolderContents(activeFolder, vault)}
       </div>
+      ${renderOwnedModal()}
     `;
 
     addVaultStyles();
@@ -37,7 +39,6 @@ export function renderVault(container, navigate) {
   function renderFolderView(vault) {
     return `
       <div class="vault-main-layout">
-        <!-- Left: Folders -->
         <div class="vault-folders-col">
           <div class="vault-folders-header">
             <h3 style="font-size: var(--text-lg);">Folders</h3>
@@ -57,7 +58,6 @@ export function renderVault(container, navigate) {
               const count = getFormulasForFolder(f.id).length;
               return `
                 <div class="vault-folder-card card card--interactive" data-folder="${f.id}">
-                  <div class="vault-folder-icon">${f.icon || '📁'}</div>
                   <h4 class="vault-folder-name">${f.name}</h4>
                   <span class="vault-folder-count">${count} formula${count !== 1 ? 's' : ''}</span>
                   ${f.id !== 'default' ? `<button class="vault-folder-delete" data-delete="${f.id}" title="Delete folder">✕</button>` : ''}
@@ -75,7 +75,6 @@ export function renderVault(container, navigate) {
           ` : ''}
         </div>
 
-        <!-- Right: My Perfumes -->
         ${renderMyPerfumes()}
       </div>
     `;
@@ -93,7 +92,7 @@ export function renderVault(container, navigate) {
             const p = getPerfumeById(id);
             const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
             label = p?.name || id;
-            iconHtml = `<span style="color:${r?.color||'inherit'};">${r?.icon||'•'}</span>`;
+            iconHtml = `<span style="color:${r?.color || 'inherit'};">${r?.icon || '•'}</span>`;
           } else {
             const p = LOREAL_LUXE_PERFUMES.find(lp => lp.id === id);
             label = p ? `${p.brand} — ${p.name}` : id;
@@ -109,28 +108,10 @@ export function renderVault(container, navigate) {
 
     function renderAddInput(type) {
       if (addingSection !== type) return `<button class="btn btn--ghost btn--sm vault-add-owned-btn" data-section="${type}" style="margin-top:var(--space-xs);">+ Add</button>`;
-      if (type === 'monAccord') {
-        const unowned = PERFUMES.filter(p => !owned.monAccord.includes(p.id));
-        return `<div class="vault-myperfumes-input">
-          <select class="select vault-owned-select" data-type="monAccord" style="flex:1;">
-            <option value="">Select...</option>
-            ${unowned.map(p => { const r = REGIONS.find(rg => rg.id === p.region); return `<option value="${p.id}">${r?.icon||''} ${p.name}</option>`; }).join('')}
-          </select>
-          <button class="btn btn--primary btn--sm vault-save-owned-btn" data-type="monAccord">Add</button>
-          <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
-        </div>`;
-      } else {
-        const unowned = LOREAL_LUXE_PERFUMES.filter(p => !owned.loreal.includes(p.id));
-        const brands = [...new Set(unowned.map(p => p.brand))];
-        return `<div class="vault-myperfumes-input">
-          <select class="select vault-owned-select" data-type="loreal" style="flex:1;">
-            <option value="">Select...</option>
-            ${brands.map(brand => `<optgroup label="${brand}">${unowned.filter(p=>p.brand===brand).map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</optgroup>`).join('')}
-          </select>
-          <button class="btn btn--primary btn--sm vault-save-owned-btn" data-type="loreal">Add</button>
-          <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
-        </div>`;
-      }
+      return `<div class="vault-myperfumes-input">
+        <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin:0;">Selection opens in popup.</p>
+        <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
+      </div>`;
     }
 
     const recText = getRecommendationText(owned);
@@ -140,14 +121,12 @@ export function renderVault(container, navigate) {
         <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-xs);">My Perfumes</h3>
         <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-lg);">Your collection guides all AI recommendations across the app.</p>
 
-        <!-- Mon Accord Section -->
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">Mon Accord</p>
           ${renderChips(owned.monAccord, 'monAccord')}
           ${renderAddInput('monAccord')}
         </div>
 
-        <!-- L'Oréal Luxe Section -->
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">L'Oréal Luxe</p>
           ${renderChips(owned.loreal, 'loreal')}
@@ -169,12 +148,9 @@ export function renderVault(container, navigate) {
     if (!maIds.length) return '';
     const perfumes = maIds.map(id => getPerfumeById(id)).filter(Boolean);
     const families = [...new Set(perfumes.flatMap(p => p.scentFamily.split('-')))];
-    const complementary = PERFUMES.filter(p =>
-      !maIds.includes(p.id) &&
-      p.scentFamily.split('-').some(f => families.includes(f))
-    ).slice(0, 3);
+    const complementary = PERFUMES.filter(p => !maIds.includes(p.id) && p.scentFamily.split('-').some(f => families.includes(f))).slice(0, 3);
     if (!complementary.length) return `Your collection spans ${families.slice(0, 3).join(', ')} notes. Explore the Layering Lab to create blends.`;
-    return `Pairs well with: ${complementary.map(p => { const r = REGIONS.find(rg=>rg.id===p.region); return `${r?.icon||''} ${p.name}`; }).join(', ')}.`;
+    return `Pairs well with: ${complementary.map(p => { const r = REGIONS.find(rg => rg.id === p.region); return `${r?.icon || ''} ${p.name}`; }).join(', ')}.`;
   }
 
   function renderFolderContents(folder, vault) {
@@ -183,7 +159,7 @@ export function renderVault(container, navigate) {
       <div class="vault-breadcrumb mb-lg">
         <button class="btn btn--ghost btn--sm" id="btn-back-folders">← All Folders</button>
         <span style="color: var(--text-tertiary);">/</span>
-        <span style="font-weight: 600;">${folder.icon} ${folder.name}</span>
+        <span style="font-weight: 600;">${folder.name}</span>
       </div>
 
       ${formulas.length === 0 ? `
@@ -225,8 +201,82 @@ export function renderVault(container, navigate) {
     `;
   }
 
+  function renderOwnedModal() {
+    if (!addingSection) return '';
+    const owned = storage.getOwnedPerfumes();
+
+    if (addingSection === 'monAccord') {
+      return `
+        <div class="modal-overlay" id="vault-owned-modal-overlay">
+          <div class="modal vault-owned-modal">
+            <div class="modal__header">
+              <h3 class="modal__title">Add Mon Accord Perfume</h3>
+              <button class="modal__close" id="vault-close-owned-modal">✕</button>
+            </div>
+            <div class="modal__body">
+              <p class="vault-owned-modal-subtitle">Choose one of the six regions, then select Spray or Oil.</p>
+              <div class="vault-region-grid">
+                ${REGIONS.map(region => {
+                  const spray = PERFUMES.find(p => p.region === region.id && p.format === 'spray');
+                  const oil = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
+                  return `
+                    <div class="vault-region-card" style="--region-color:${region.color};">
+                      <p class="vault-region-card__title">${region.icon} ${region.name}</p>
+                      <div class="vault-region-card__actions">
+                        ${spray ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${spray.id}" ${owned.monAccord.includes(spray.id) ? 'disabled' : ''}>💨 Spray ${owned.monAccord.includes(spray.id) ? '✓' : ''}</button>` : ''}
+                        ${oil ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${oil.id}" ${owned.monAccord.includes(oil.id) ? 'disabled' : ''}>💧 Oil ${owned.monAccord.includes(oil.id) ? '✓' : ''}</button>` : ''}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    const unownedLoreal = LOREAL_LUXE_PERFUMES.filter(p => !owned.loreal.includes(p.id));
+    const brands = [...new Set(unownedLoreal.map(p => p.brand))].sort((a, b) => a.localeCompare(b));
+    const brandItems = selectedLorealBrand ? unownedLoreal.filter(p => p.brand === selectedLorealBrand) : [];
+
+    return `
+      <div class="modal-overlay" id="vault-owned-modal-overlay">
+        <div class="modal vault-owned-modal">
+          <div class="modal__header">
+            <h3 class="modal__title">Add L'Oréal Luxe Perfume</h3>
+            <button class="modal__close" id="vault-close-owned-modal">✕</button>
+          </div>
+          <div class="modal__body">
+            ${!selectedLorealBrand ? `
+              <p class="vault-owned-modal-subtitle">First choose a brand.</p>
+              <div class="vault-brand-grid">
+                ${brands.map(brand => `<button class="btn btn--secondary vault-brand-btn" data-brand="${brand}">${brand}</button>`).join('')}
+              </div>
+            ` : `
+              <div class="flex" style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-sm);margin-bottom:var(--space-md);">
+                <p class="vault-owned-modal-subtitle" style="margin:0;">${selectedLorealBrand}</p>
+                <button class="btn btn--ghost btn--sm" id="vault-back-to-brands">← Brands</button>
+              </div>
+              <div class="vault-loreal-list">
+                ${brandItems.length ? brandItems.map(item => `
+                  <div class="vault-loreal-item">
+                    <div>
+                      <p class="vault-loreal-item__name">${item.name}</p>
+                      <p class="vault-loreal-item__meta">${item.family}</p>
+                    </div>
+                    <button class="btn btn--primary btn--sm vault-owned-add-btn" data-type="loreal" data-id="${item.id}">Add</button>
+                  </div>
+                `).join('') : `<p style="font-size:var(--text-sm);color:var(--text-tertiary);">All perfumes in this brand are already added.</p>`}
+              </div>
+            `}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function bindEvents(vault) {
-    // Folder click
     container.querySelectorAll('.vault-folder-card').forEach(card => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.vault-folder-delete')) return;
@@ -236,29 +286,21 @@ export function renderVault(container, navigate) {
       });
     });
 
-    // Delete folder
     container.querySelectorAll('.vault-folder-delete').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.delete;
-        // Move formulas back to default
-        const vault = storage.getVault();
-        vault.forEach(f => { if (f.folderId === id) f.folderId = undefined; });
-        storage.set('vault', vault);
+        const currentVault = storage.getVault();
+        currentVault.forEach(f => { if (f.folderId === id) f.folderId = undefined; });
+        storage.set('vault', currentVault);
         folders = folders.filter(f => f.id !== id);
         saveFolders();
         render();
       });
     });
 
-    // Create folder
     const createBtn = container.querySelector('#btn-create-folder');
-    if (createBtn) {
-      createBtn.addEventListener('click', () => {
-        showCreateFolder = true;
-        render();
-      });
-    }
+    if (createBtn) createBtn.addEventListener('click', () => { showCreateFolder = true; render(); });
 
     const saveBtn = container.querySelector('#btn-save-folder');
     if (saveBtn) {
@@ -266,7 +308,7 @@ export function renderVault(container, navigate) {
         const nameInput = container.querySelector('#new-folder-name');
         const name = nameInput.value.trim();
         if (name) {
-          folders.push({ id: 'folder-' + Date.now(), name, icon: '📂' });
+          folders.push({ id: 'folder-' + Date.now(), name });
           saveFolders();
           showCreateFolder = false;
           render();
@@ -277,15 +319,12 @@ export function renderVault(container, navigate) {
     const cancelBtn = container.querySelector('#btn-cancel-folder');
     if (cancelBtn) cancelBtn.addEventListener('click', () => { showCreateFolder = false; render(); });
 
-    // Back to folders
     const backBtn = container.querySelector('#btn-back-folders');
     if (backBtn) backBtn.addEventListener('click', () => { activeFolder = null; render(); });
 
-    // Go to lab
     const labBtn = container.querySelector('#go-to-lab');
     if (labBtn) labBtn.addEventListener('click', () => navigate('#lab'));
 
-    // Load formula to lab
     container.querySelectorAll('.vault-load-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const formula = vault.find(f => f.id === btn.dataset.id);
@@ -297,7 +336,6 @@ export function renderVault(container, navigate) {
       });
     });
 
-    // Delete formula
     container.querySelectorAll('.vault-delete-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         storage.removeFormula(btn.dataset.id);
@@ -306,47 +344,78 @@ export function renderVault(container, navigate) {
       });
     });
 
-    // Move formula to folder
     container.querySelectorAll('.vault-move-select').forEach(sel => {
       sel.addEventListener('change', () => {
         const folderId = sel.value;
         if (!folderId) return;
-        const vault = storage.getVault();
-        const formula = vault.find(f => f.id === sel.dataset.id);
+        const currentVault = storage.getVault();
+        const formula = currentVault.find(f => f.id === sel.dataset.id);
         if (formula) {
           formula.folderId = folderId;
-          storage.set('vault', vault);
+          storage.set('vault', currentVault);
           render();
-          window.showToast(`Formula moved to folder.`);
+          window.showToast('Formula moved to folder.');
         }
       });
     });
 
-    // My Perfumes: show add input
     container.querySelectorAll('.vault-add-owned-btn').forEach(btn => {
-      btn.addEventListener('click', () => { addingSection = btn.dataset.section; render(); });
-    });
-
-    container.querySelectorAll('.vault-cancel-owned-btn').forEach(btn => {
-      btn.addEventListener('click', () => { addingSection = null; render(); });
-    });
-
-    container.querySelectorAll('.vault-save-owned-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const type = btn.dataset.type;
-        const sel = container.querySelector(`.vault-owned-select[data-type="${type}"]`);
-        if (!sel?.value) return;
-        const owned = storage.getOwnedPerfumes();
-        if (!owned[type].includes(sel.value)) {
-          owned[type] = [...owned[type], sel.value];
-          storage.setOwnedPerfumes(owned);
-        }
-        addingSection = null;
+        addingSection = btn.dataset.section;
+        selectedLorealBrand = null;
         render();
       });
     });
 
-    // My Perfumes: remove chip
+    container.querySelectorAll('.vault-cancel-owned-btn').forEach(btn => {
+      btn.addEventListener('click', () => { addingSection = null; selectedLorealBrand = null; render(); });
+    });
+
+    container.querySelectorAll('.vault-owned-add-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const owned = storage.getOwnedPerfumes();
+        const type = btn.dataset.type;
+        const id = btn.dataset.id;
+        if (!owned[type].includes(id)) {
+          owned[type] = [...owned[type], id];
+          storage.setOwnedPerfumes(owned);
+          window.showToast('Added to your collection.');
+        }
+        if (type === 'monAccord') addingSection = null;
+        render();
+      });
+    });
+
+    container.querySelectorAll('.vault-brand-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedLorealBrand = btn.dataset.brand;
+        render();
+      });
+    });
+
+    const backToBrandsBtn = container.querySelector('#vault-back-to-brands');
+    if (backToBrandsBtn) backToBrandsBtn.addEventListener('click', () => { selectedLorealBrand = null; render(); });
+
+    const closeOwnedModalBtn = container.querySelector('#vault-close-owned-modal');
+    if (closeOwnedModalBtn) {
+      closeOwnedModalBtn.addEventListener('click', () => {
+        addingSection = null;
+        selectedLorealBrand = null;
+        render();
+      });
+    }
+
+    const ownedModalOverlay = container.querySelector('#vault-owned-modal-overlay');
+    if (ownedModalOverlay) {
+      ownedModalOverlay.addEventListener('click', (e) => {
+        if (e.target.id === 'vault-owned-modal-overlay') {
+          addingSection = null;
+          selectedLorealBrand = null;
+          render();
+        }
+      });
+    }
+
     container.querySelectorAll('.vault-myperfume-remove').forEach(btn => {
       btn.addEventListener('click', () => {
         const { remove: id, type } = btn.dataset;
@@ -372,8 +441,6 @@ function addVaultStyles() {
       gap: var(--space-2xl);
       align-items: start;
     }
-
-    .vault-folders-col {}
 
     .vault-myperfumes-col {
       background: var(--surface);
@@ -430,7 +497,6 @@ function addVaultStyles() {
       position: relative;
     }
 
-    .vault-folder-icon { font-size: 2.5rem; margin-bottom: var(--space-sm); }
     .vault-folder-name { font-size: var(--text-base); margin-bottom: 4px; }
     .vault-folder-count { font-size: var(--text-xs); color: var(--text-tertiary); }
 
@@ -560,6 +626,82 @@ function addVaultStyles() {
       letter-spacing: 0.08em;
     }
 
+    .vault-owned-modal {
+      width: min(980px, calc(100vw - 2rem));
+      max-height: min(760px, calc(100vh - 2rem));
+      overflow: hidden;
+    }
+
+    .vault-owned-modal .modal__body {
+      overflow-y: auto;
+    }
+
+    .vault-owned-modal-subtitle {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-md);
+    }
+
+    .vault-region-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .vault-region-card {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--region-color);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      background: var(--bg-primary);
+    }
+
+    .vault-region-card__title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+    }
+
+    .vault-region-card__actions {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .vault-brand-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .vault-loreal-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .vault-loreal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .vault-loreal-item__name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .vault-loreal-item__meta {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      margin: 0;
+    }
+
     @media (max-width: 1100px) {
       .vault-main-layout { grid-template-columns: 1fr; }
       .vault-myperfumes-col { position: static; }
@@ -567,10 +709,13 @@ function addVaultStyles() {
 
     @media (max-width: 1024px) {
       .vault-formulas-list { grid-template-columns: repeat(2, 1fr); }
+      .vault-brand-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 640px) {
-      .vault-formulas-list { grid-template-columns: 1fr; }
+      .vault-formulas-list,
+      .vault-region-grid,
+      .vault-brand-grid { grid-template-columns: 1fr; }
     }
   `;
   document.head.appendChild(style);
