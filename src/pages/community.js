@@ -14,6 +14,23 @@ export function renderCommunity(container, navigate) {
   const profile = storage.getProfile();
   let sortBy = 'likes';
   let activeFormulaId = null;
+  const SUGGESTION_CACHE_KEY = 'community_daily_suggestion';
+  const todayKey = new Date().toISOString().slice(0, 10);
+  let cachedSuggestion = loadCachedSuggestion();
+  let currentSuggestion = cachedSuggestion?.date === todayKey ? cachedSuggestion.remix : null;
+  let suggestionLoading = !currentSuggestion;
+
+  function loadCachedSuggestion() {
+    try {
+      return JSON.parse(sessionStorage.getItem(SUGGESTION_CACHE_KEY) || 'null');
+    } catch {
+      return null;
+    }
+  }
+
+  function persistSuggestion(remix) {
+    sessionStorage.setItem(SUGGESTION_CACHE_KEY, JSON.stringify({ date: todayKey, remix }));
+  }
 
   // Calculate profile match % for each formula
   function getMatchPercent(formula) {
@@ -92,8 +109,7 @@ export function renderCommunity(container, navigate) {
               <h3 class="community-panel-title">✦ Today's selection for you</h3>
             </div>
             <div id="suggestion-container">
-              <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-md);">Based on trends and your preferences.</p>
-              <button class="btn btn--primary btn--sm" id="btn-generate-suggestion">Generate</button>
+              ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
             </div>
           </div>
 
@@ -130,82 +146,97 @@ export function renderCommunity(container, navigate) {
       });
     });
 
-    // AI Suggestion
-    const suggestBtn = container.querySelector('#btn-generate-suggestion');
-    if (suggestBtn) {
-      suggestBtn.addEventListener('click', async () => {
-        if (!isAIAvailable()) {
-          window.showToast('Set your Gemini API key in Settings.', 'error');
-          window.showSettings();
-          return;
-        }
-
-        const sugContainer = container.querySelector('#suggestion-container');
-        sugContainer.innerHTML = `
-          <div class="card" style="padding: var(--space-2xl); text-align: center;">
-            <span class="loading-spinner"></span>
-            <p style="margin-top: var(--space-md); color: var(--text-tertiary);">Crafting a suggestion...</p>
-          </div>
-        `;
-
-        const result = await generateRemixSuggestion();
-
-        if (result.success && result.remix) {
-          const remix = result.remix;
-          sugContainer.innerHTML = `
-            <div class="ai-response">
-              <div class="ai-response__label">✦ ${remix.remixName || 'AI Suggestion'}</div>
-              <div class="ai-response__text">
-                ${remix.layers?.length > 0 ? `
-                  <div style="margin-bottom: var(--space-md);">
-                    ${remix.layers.map(l => {
-                      const p = getPerfumeById(l.perfumeId);
-                      const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-                      return `<p>${r?.icon || '•'} ${l.amount} ${l.unit} of <strong>${p?.name || l.perfumeId}</strong></p>`;
-                    }).join('')}
-                  </div>
-                ` : ''}
-                ${remix.inspiration ? `<p><strong>Inspiration:</strong> ${remix.inspiration}</p>` : ''}
-                ${remix.scentDescription ? `<p><em>${remix.scentDescription}</em></p>` : ''}
-              </div>
-            </div>
-            <div class="flex gap-sm mt-md">
-              <button class="btn btn--primary btn--sm" id="btn-load-suggestion">Load to Lab</button>
-              <button class="btn btn--ghost btn--sm" id="btn-new-suggestion">Try Another</button>
-            </div>
-          `;
-
-          const loadBtn = sugContainer.querySelector('#btn-load-suggestion');
-          if (loadBtn) {
-            loadBtn.addEventListener('click', () => {
-              if (remix.layers?.length) {
-                const ids = remix.layers.map(l => l.perfumeId).filter(id => getPerfumeById(id));
-                sessionStorage.setItem('labPending', JSON.stringify(ids));
-                navigate('#lab');
-              }
-            });
-          }
-
-          const newBtn = sugContainer.querySelector('#btn-new-suggestion');
-          if (newBtn) {
-            newBtn.addEventListener('click', () => {
-              sugContainer.innerHTML = '<button class="btn btn--primary" id="btn-generate-suggestion">✦ Get AI Suggestion</button>';
-              sugContainer.querySelector('#btn-generate-suggestion').addEventListener('click', suggestBtn.onclick);
-            });
-          }
-        } else {
-          sugContainer.innerHTML = `
-            <div class="card" style="padding: var(--space-xl);">
-              <p style="color: var(--text-tertiary);">${result.error || 'Unable to generate. Try again.'}</p>
-              <button class="btn btn--ghost btn--sm mt-md" id="btn-retry-suggestion">Retry</button>
-            </div>
-          `;
+    const loadBtn = container.querySelector('#btn-load-suggestion');
+    if (loadBtn) {
+      loadBtn.addEventListener('click', () => {
+        if (currentSuggestion?.layers?.length) {
+          const ids = currentSuggestion.layers.map(l => l.perfumeId).filter(id => getPerfumeById(id));
+          sessionStorage.setItem('labPending', JSON.stringify(ids));
+          navigate('#lab');
         }
       });
     }
   }
 
   render();
+
+  if (!currentSuggestion) {
+    hydrateSuggestion();
+  }
+
+  async function hydrateSuggestion() {
+    const fallback = getFallbackSuggestion();
+
+    if (isAIAvailable()) {
+      const result = await generateRemixSuggestion();
+      if (result.success && result.remix) {
+        currentSuggestion = result.remix;
+      } else {
+        currentSuggestion = fallback;
+      }
+    } else {
+      currentSuggestion = fallback;
+    }
+
+    suggestionLoading = false;
+    persistSuggestion(currentSuggestion);
+    render();
+  }
+
+  function getFallbackSuggestion() {
+    const base = formulasWithMatch
+      .slice()
+      .sort((a, b) => b.matchPercent - a.matchPercent)[0] || trending[0];
+    return {
+      remixName: base?.name || 'Daily Selection',
+      layers: base?.layers || [],
+      inspiration: base?.description || 'A community-loved formula selected for your profile.',
+      scentDescription: 'Balanced for versatility across day and evening wear.',
+    };
+  }
+}
+
+function renderSuggestionContent(remix, isLoading) {
+  if (isLoading) {
+    return `
+      <div class="card" style="padding: var(--space-2xl); text-align: center;">
+        <span class="loading-spinner"></span>
+        <p style="margin-top: var(--space-md); color: var(--text-tertiary);">Preparing today’s suggestion...</p>
+      </div>
+    `;
+  }
+
+  if (!remix) {
+    return `<p style="font-size: var(--text-sm); color: var(--text-tertiary);">No suggestion available yet.</p>`;
+  }
+
+  return `
+    <div class="ai-response">
+      <div class="ai-response__label">✦ ${remix.remixName || 'AI Suggestion'}</div>
+      <div class="ai-response__text">
+        ${remix.layers?.length > 0 ? `
+          <div style="margin-bottom: var(--space-md);">
+            ${remix.layers.map(l => {
+              const p = getPerfumeById(l.perfumeId);
+              const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
+              return `<p>${r?.icon || '•'} ${l.amount} ${l.unit} of <strong>${p?.name || l.perfumeId}</strong></p>`;
+            }).join('')}
+          </div>
+        ` : ''}
+        ${remix.inspiration ? `<p><strong>Inspiration:</strong> ${limitToSentenceCount(remix.inspiration, 3)}</p>` : ''}
+        ${remix.scentDescription ? `<p><em>${limitToSentenceCount(remix.scentDescription, 1)}</em></p>` : ''}
+      </div>
+    </div>
+    <div class="flex gap-sm mt-md">
+      <button class="btn btn--primary btn--sm" id="btn-load-suggestion">Load to Lab</button>
+    </div>
+  `;
+}
+
+function limitToSentenceCount(text, maxSentences = 3) {
+  if (!text) return '';
+  const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [];
+  return sentences.slice(0, maxSentences).join(' ').trim();
 }
 
 function renderStars(rating, ci) {

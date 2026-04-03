@@ -291,6 +291,7 @@ export function renderLayeringLab(container, navigate) {
         layers = [];
         scentSimulation = null;
         contextResult = null;
+        persistState();
         render();
       });
     }
@@ -307,6 +308,7 @@ export function renderLayeringLab(container, navigate) {
           else if (group === 'occasion') selectedOccasion = val;
           else if (group === 'season') selectedSeason = val;
           else if (group === 'time') selectedTime = val;
+          persistState();
         });
       });
     });
@@ -318,6 +320,7 @@ export function renderLayeringLab(container, navigate) {
         selectedIntensity = parseInt(intensitySlider.value);
         const intensity = INTENSITIES.find(i => i.value === selectedIntensity);
         container.querySelector('#advisor-intensity-val').textContent = intensity?.name || 'Moderate';
+        persistState();
       });
     }
 
@@ -345,6 +348,7 @@ export function renderLayeringLab(container, navigate) {
 
         if (result.success) {
           contextResult = result.recommendation;
+          persistState();
         } else {
           window.showToast(result.error || 'Advice failed.', 'error');
         }
@@ -363,6 +367,7 @@ export function renderLayeringLab(container, navigate) {
             unit: l.unit || (l.perfumeId.includes('oil') ? 'drops' : 'sprays'),
           })).filter(l => getPerfumeById(l.perfumeId));
           scentSimulation = null;
+          persistState();
           render();
           window.showToast('Formula applied! Try simulating the scent.');
         }
@@ -417,10 +422,14 @@ function addLabStyles() {
   style.textContent = `
     .lab-layout {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: minmax(0, 1.25fr) minmax(420px, 520px);
       gap: var(--space-2xl);
       align-items: stretch;
-      max-width: 1400px;
+      max-width: 1680px;
+    }
+
+    .lab-workspace {
+      min-height: 100%;
     }
 
     /* ── Add Section ── */
@@ -643,6 +652,8 @@ function addLabStyles() {
       top: calc(var(--nav-height) + var(--space-lg));
       align-self: start;
       min-height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .lab-advisor__header {
