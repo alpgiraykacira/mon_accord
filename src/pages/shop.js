@@ -6,7 +6,21 @@ import { PERFUMES, REGIONS, getPerfumeById } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
 
 export function renderShop(container, navigate) {
-  let cart = [];
+  const existingCartIds = storage.getShopCart();
+  const pendingCartIds = [...new Set(storage.consumePendingShopCart())];
+  const mergedCartIds = [...new Set([...existingCartIds, ...pendingCartIds])];
+  let cart = mergedCartIds.map(id => ({ id }));
+
+  if (pendingCartIds.length) {
+    const addedCount = mergedCartIds.length - existingCartIds.length;
+    window.showToast(`Added ${addedCount} new item${addedCount !== 1 ? 's' : ''} from your recommended combination.`);
+  }
+
+  syncCart();
+
+  function syncCart() {
+    storage.setShopCart(cart.map(item => item.id));
+  }
 
   function render() {
     const ownedIds = storage.getOwnedPerfumes().monAccord || [];
@@ -104,6 +118,7 @@ export function renderShop(container, navigate) {
         } else {
           cart.push({ id });
         }
+        syncCart();
         render();
       });
     });
@@ -112,6 +127,7 @@ export function renderShop(container, navigate) {
     container.querySelectorAll('.shop-cart__item-remove').forEach(btn => {
       btn.addEventListener('click', () => {
         cart = cart.filter(c => c.id !== btn.dataset.id);
+        syncCart();
         render();
       });
     });
@@ -143,6 +159,7 @@ function getShopRecommendation(ownedIds, cart) {
 }
 
 function showOrderConfirmation(cart, container, navigate) {
+  storage.clearShopCart();
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.innerHTML = `
@@ -173,14 +190,14 @@ function addShopStyles() {
   style.textContent = `
     .shop-layout {
       display: grid;
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: minmax(0, 1.55fr) minmax(18rem, var(--sidebar-width));
       gap: var(--space-2xl);
       align-items: start;
     }
 
     .shop-products {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: var(--space-lg);
     }
 
@@ -190,6 +207,8 @@ function addShopStyles() {
       border-radius: var(--radius-xl);
       overflow: hidden;
       transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
     }
 
     .shop-region-card:hover {
@@ -198,28 +217,30 @@ function addShopStyles() {
     }
 
     .shop-region-card__header {
-      padding: var(--space-lg);
+      padding: var(--space-sm) var(--space-md);
       text-align: center;
       border-bottom: 1px solid var(--border);
       background: linear-gradient(135deg, rgba(var(--region-color), 0.03), transparent);
     }
 
-    .shop-region-card__icon { font-size: 1.8rem; display: block; margin-bottom: var(--space-xs); }
-    .shop-region-card__name { font-size: var(--text-lg); margin-bottom: 2px; }
+    .shop-region-card__icon { font-size: 1.3rem; display: block; margin-bottom: 2px; }
+    .shop-region-card__name { font-size: var(--text-base); margin-bottom: 1px; }
     .shop-region-card__tagline { font-size: var(--text-xs); color: var(--region-color); font-weight: 500; }
 
     .shop-region-card__products {
-      padding: var(--space-md);
+      padding: var(--space-sm);
       display: flex;
       flex-direction: column;
-      gap: var(--space-xs);
+      gap: 2px;
+      flex: 1;
+      justify-content: flex-start;
     }
 
     .shop-product {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: var(--space-sm) var(--space-md);
+      padding: var(--space-xs) var(--space-sm);
       border-radius: var(--radius-md);
       transition: all var(--transition-fast);
     }
@@ -329,7 +350,7 @@ function addShopStyles() {
     }
 
     @media (max-width: 640px) {
-      .shop-products { grid-template-columns: 1fr; }
+      .shop-region-card { min-height: auto; }
     }
   `;
   document.head.appendChild(style);

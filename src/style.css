@@ -96,6 +96,11 @@
   /* Layout */
   --max-width: 1280px;
   --nav-height: 72px;
+  --sidebar-width: clamp(18rem, 24vw, 22rem);
+  --card-min-compact: clamp(10rem, 16vw, 12rem);
+  --card-min-regular: clamp(15rem, 22vw, 18rem);
+  --card-min-tall: clamp(18.5rem, 28vw, 22rem);
+  --card-min-feature: clamp(22rem, 34vw, 26rem);
 }
 
 /* ── Reset & Base ── */
@@ -280,9 +285,9 @@ input, textarea, select {
 }
 
 .page__container {
-  max-width: var(--max-width);
+  width: min(100%, 1680px);
   margin: 0 auto;
-  padding: var(--space-2xl) var(--space-xl);
+  padding: var(--space-xl) var(--space-lg);
 }
 
 .page-enter {
@@ -787,7 +792,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   }
 
   .page__container {
-    padding: var(--space-lg) var(--space-md);
+    padding: var(--space-md) var(--space-sm);
   }
 
   .modal-overlay {

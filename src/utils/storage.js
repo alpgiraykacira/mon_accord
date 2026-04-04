@@ -128,4 +128,61 @@ export const storage = {
   clearQuizState() {
     this.remove('quiz_state');
   },
+
+  // —— Shop Prefill ——
+  setPendingShopCart(perfumeIds) {
+    this.set('pending_shop_cart', perfumeIds);
+  },
+
+  consumePendingShopCart() {
+    const perfumeIds = this.get('pending_shop_cart', []);
+    this.remove('pending_shop_cart');
+    return Array.isArray(perfumeIds) ? perfumeIds : [];
+  },
+
+  getShopCart() {
+    const perfumeIds = this.get('shop_cart', []);
+    return Array.isArray(perfumeIds) ? perfumeIds : [];
+  },
+
+  setShopCart(perfumeIds) {
+    this.set('shop_cart', perfumeIds);
+  },
+
+  clearShopCart() {
+    this.remove('shop_cart');
+  },
+
+  // ── Username ──
+  getUsername() {
+    const profile = this.getProfile();
+    return profile?.username || 'Anonymous';
+  },
+
+  // ── Community Posts ──
+  getPosts() {
+    return this.get('community_posts', []);
+  },
+
+  setPosts(posts) {
+    this.set('community_posts', posts);
+  },
+
+  // ── Post Likes (separate from formula likes) ──
+  getPostLikes() {
+    return this.get('post_likes', []);
+  },
+
+  togglePostLike(postId) {
+    const likes = this.getPostLikes();
+    const idx = likes.indexOf(postId);
+    if (idx >= 0) likes.splice(idx, 1);
+    else likes.push(postId);
+    this.set('post_likes', likes);
+    return likes;
+  },
+
+  isPostLiked(postId) {
+    return this.getPostLikes().includes(postId);
+  },
 };

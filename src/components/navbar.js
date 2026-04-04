@@ -23,7 +23,7 @@ export function renderNavbar(navigate, currentRoute) {
   nav.innerHTML = `
     <div class="navbar__brand">
       <a href="#landing" class="navbar__logo" id="nav-brand">
-        <span class="navbar__logo-accent">✦</span> MON ACCORD
+        MON ACCORD
         <span class="navbar__logo-sub">by L'Oreal Luxe</span>
       </a>
     </div>

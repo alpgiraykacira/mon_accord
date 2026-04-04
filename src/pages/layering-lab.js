@@ -54,9 +54,9 @@ export function renderLayeringLab(container, navigate) {
     container.innerHTML = `
       <div class="page__container">
         <div class="lab-layout">
-          <!-- Left: Lab workspace -->
+
+          <!-- Col 1: Workspace (add section + layers + actions + simulation) -->
           <div class="lab-workspace">
-            <!-- Add Perfume -->
             <div class="lab-add-section" id="lab-add-section">
               <p class="lab-add-label">Add a layer</p>
               <div class="lab-perfume-selector">
@@ -76,7 +76,6 @@ export function renderLayeringLab(container, navigate) {
               </div>
             </div>
 
-            <!-- Active Layers -->
             <div class="lab-layers" id="lab-layers">
               ${layers.length === 0 ? `
                 <div class="lab-empty">
@@ -114,7 +113,6 @@ export function renderLayeringLab(container, navigate) {
               }).join('')}
             </div>
 
-            <!-- Action Buttons -->
             ${layers.length > 0 ? `
               <div class="lab-actions" id="lab-actions">
                 <button class="btn btn--primary" id="btn-simulate">
@@ -125,7 +123,6 @@ export function renderLayeringLab(container, navigate) {
               </div>
             ` : ''}
 
-            <!-- Scent Simulation Result -->
             ${scentSimulation ? `
               <div class="ai-response mt-lg" id="simulation-result">
                 <div class="ai-response__label">✦ Virtual Scent Simulation</div>
@@ -136,7 +133,7 @@ export function renderLayeringLab(container, navigate) {
             ` : ''}
           </div>
 
-          <!-- Right: Contextual Advisor -->
+          <!-- Col 2: Contextual Advisor -->
           <div class="lab-advisor">
             <div class="lab-advisor__header">
               <h3 class="lab-advisor__title">✦ Contextual Advisor</h3>
@@ -185,7 +182,6 @@ export function renderLayeringLab(container, navigate) {
               </button>
             </div>
 
-            <!-- Advisor Result -->
             ${contextResult ? `
               <div class="lab-advisor__result mt-lg" id="advisor-result">
                 ${contextResult.layers?.length > 0 ? `
@@ -202,6 +198,7 @@ export function renderLayeringLab(container, navigate) {
               </div>
             ` : ''}
           </div>
+
         </div>
       </div>
     `;
@@ -422,19 +419,21 @@ function addLabStyles() {
   style.textContent = `
     .lab-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(420px, 520px);
+      grid-template-columns: 3fr 2fr;
       gap: var(--space-2xl);
-      align-items: stretch;
+      align-items: start;
       max-width: 1680px;
     }
 
+    /* ── Col 1: Workspace ── */
     .lab-workspace {
-      min-height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ── Add Section ── */
     .lab-add-section {
-      margin-bottom: var(--space-xl);
+      margin-bottom: var(--space-md);
     }
 
     .lab-add-label {
@@ -443,20 +442,22 @@ function addLabStyles() {
       color: var(--text-tertiary);
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin-bottom: var(--space-md);
+      margin-bottom: var(--space-sm);
     }
 
     .lab-perfume-selector {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-md);
+      gap: var(--space-sm);
     }
 
     .lab-region-group {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: var(--space-md);
+      padding: var(--space-sm);
+      display: flex;
+      flex-direction: column;
     }
 
     .lab-region-label {
@@ -469,6 +470,7 @@ function addLabStyles() {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      flex: 1;
     }
 
     .lab-add-btn {
@@ -507,7 +509,7 @@ function addLabStyles() {
 
     .lab-empty {
       text-align: center;
-      padding: var(--space-3xl) var(--space-xl);
+      padding: var(--space-md) var(--space-xl);
       border: 2px dashed var(--border);
       border-radius: var(--radius-lg);
     }
@@ -642,22 +644,18 @@ function addLabStyles() {
       flex-wrap: wrap;
     }
 
-    /* ── Advisor Panel ── */
+    /* ── Col 2: Advisor Panel ── */
     .lab-advisor {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: var(--space-xl);
-      position: sticky;
-      top: calc(var(--nav-height) + var(--space-lg));
-      align-self: start;
-      min-height: 100%;
       display: flex;
       flex-direction: column;
     }
 
     .lab-advisor__header {
-      margin-bottom: var(--space-xl);
+      margin-bottom: var(--space-md);
     }
 
     .lab-advisor__title {
@@ -673,7 +671,7 @@ function addLabStyles() {
     .lab-advisor__form {
       display: flex;
       flex-direction: column;
-      gap: var(--space-lg);
+      gap: var(--space-md);
     }
 
     .lab-advisor__chips {
@@ -708,20 +706,6 @@ function addLabStyles() {
 
     @media (max-width: 1024px) {
       .lab-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .lab-advisor {
-        position: static;
-      }
-
-      .lab-perfume-selector {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 640px) {
-      .lab-perfume-selector {
         grid-template-columns: 1fr;
       }
     }

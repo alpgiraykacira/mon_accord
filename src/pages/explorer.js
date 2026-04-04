@@ -151,7 +151,7 @@ function addExplorerStyles() {
   style.textContent = `
     .explorer-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: var(--space-lg);
     }
 
@@ -161,6 +161,9 @@ function addExplorerStyles() {
       border-radius: var(--radius-xl);
       overflow: hidden;
       transition: all var(--transition-base);
+      min-height: var(--card-min-feature);
+      display: flex;
+      flex-direction: column;
     }
 
     .explorer-region-card:hover {
@@ -179,9 +182,15 @@ function addExplorerStyles() {
     .explorer-region-name { font-size: var(--text-lg); margin-bottom: 2px; }
     .explorer-region-tagline { font-size: var(--text-xs); color: var(--region-color); font-weight: 500; }
 
-    .explorer-region-body { padding: var(--space-md) var(--space-lg) var(--space-lg); }
+    .explorer-region-body {
+      padding: var(--space-md) var(--space-lg) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      flex: 1;
+    }
 
-    .explorer-format-section { margin-bottom: var(--space-md); }
+    .explorer-format-section { margin-bottom: 0; }
     .explorer-format-section:last-child { margin-bottom: 0; }
 
     .explorer-format-label {
@@ -236,12 +245,8 @@ function addExplorerStyles() {
     .explorer-detail-btn:hover { border-color: var(--accent-light); color: var(--accent); }
     .explorer-add-btn:hover { border-color: var(--accent); color: var(--accent-dark); background: var(--accent-bg); }
 
-    @media (max-width: 1024px) {
-      .explorer-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
     @media (max-width: 640px) {
-      .explorer-grid { grid-template-columns: 1fr; }
+      .explorer-region-card { min-height: auto; }
     }
   `;
   document.head.appendChild(style);

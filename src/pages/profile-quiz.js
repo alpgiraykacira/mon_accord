@@ -7,7 +7,7 @@ import { generateProfile } from '../services/profile-engine.js';
 import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
 
 export function renderProfileQuiz(container, navigate) {
   const existingProfile = storage.getProfile();
@@ -21,6 +21,7 @@ export function renderProfileQuiz(container, navigate) {
   const savedState = storage.getQuizState();
   let currentStep = savedState?.step || 1;
   let answers = savedState?.answers || {
+    username: '',
     scentFamilies: [],
     knownPerfumes: [],
     sillage: 5,
@@ -103,6 +104,8 @@ export function renderProfileQuiz(container, navigate) {
         const result = await generateProfile(answers);
 
         if (result.success) {
+          result.profile.username = answers.username || 'Anonymous';
+          storage.setProfile(result.profile);
           storage.clearQuizState();
           renderRecommendations(container, result.profile, navigate);
           window.showToast('Your olfactory profile has been created! ✦');
@@ -123,6 +126,16 @@ function getStepContent(step, answers) {
   switch (step) {
     case 1:
       return `
+        <h2 class="quiz-title">Welcome! What should we call you?</h2>
+        <p class="quiz-subtitle">This name will appear on your posts and comments in the community.</p>
+        <div class="input-group" style="max-width: 360px; margin: var(--space-xl) auto;">
+          <label class="input-label">Username</label>
+          <input type="text" class="input" id="quiz-username" placeholder="Enter your username..." value="${answers.username || ''}" />
+        </div>
+      `;
+
+    case 2:
+      return `
         <h2 class="quiz-title">Which scent families draw you in?</h2>
         <p class="quiz-subtitle">Select all that resonate with you.</p>
         <div class="quiz-grid quiz-grid--families">
@@ -136,7 +149,7 @@ function getStepContent(step, answers) {
         </div>
       `;
 
-    case 2:
+    case 3:
       return `
         <h2 class="quiz-title">Perfumes you know and love</h2>
         <p class="quiz-subtitle">Select any fragrances you've worn or enjoyed.</p>
@@ -149,7 +162,7 @@ function getStepContent(step, answers) {
         <p class="quiz-hint">Selected: ${answers.knownPerfumes.length} perfume${answers.knownPerfumes.length !== 1 ? 's' : ''}</p>
       `;
 
-    case 3:
+    case 4:
       return `
         <h2 class="quiz-title">Performance Preferences</h2>
         <p class="quiz-subtitle">How do you like your fragrance to behave?</p>
@@ -181,7 +194,7 @@ function getStepContent(step, answers) {
         </div>
       `;
 
-    case 4:
+    case 5:
       return `
         <h2 class="quiz-title">What describes you best?</h2>
         <p class="quiz-subtitle">Choose the personality trait that resonates most with your style.</p>
@@ -239,7 +252,7 @@ function renderPerfumeList(selected, filter) {
 }
 
 function bindStepEvents(step, answers, container) {
-  if (step === 1) {
+  if (step === 2) {
     container.querySelectorAll('.quiz-grid--families .quiz-option').forEach(opt => {
       opt.addEventListener('click', () => {
         const val = opt.dataset.value;
@@ -254,7 +267,7 @@ function bindStepEvents(step, answers, container) {
     });
   }
 
-  if (step === 2) {
+  if (step === 3) {
     const searchInput = container.querySelector('#perfume-search');
     const listEl = container.querySelector('#perfume-list');
 
@@ -279,7 +292,7 @@ function bindStepEvents(step, answers, container) {
     updateList('');
   }
 
-  if (step === 3) {
+  if (step === 4) {
     ['sillage', 'longevity', 'intensity'].forEach(key => {
       const slider = container.querySelector(`#slider-${key}`);
       const valEl = container.querySelector(`#${key}-val`);
@@ -292,7 +305,7 @@ function bindStepEvents(step, answers, container) {
     });
   }
 
-  if (step === 4) {
+  if (step === 5) {
     container.querySelectorAll('.quiz-grid--context .quiz-option').forEach(opt => {
       opt.addEventListener('click', () => {
         container.querySelectorAll('.quiz-grid--context .quiz-option').forEach(o => o.classList.remove('quiz-option--selected'));
@@ -304,7 +317,11 @@ function bindStepEvents(step, answers, container) {
 }
 
 function collectStepAnswers(step, answers, container) {
-  if (step === 4) {
+  if (step === 1) {
+    const input = container.querySelector('#quiz-username');
+    if (input) answers.username = input.value.trim();
+  }
+  if (step === 5) {
     const notes = container.querySelector('#quiz-notes');
     if (notes) answers.notes = notes.value;
   }
@@ -324,16 +341,16 @@ function renderRecommendations(container, profile, navigate) {
           <h2 class="section-title">${profile.archetypeName || 'Your Scent Identity'}</h2>
         </div>
 
-        <div class="ai-response" id="profile-description">
+        <div class="profile-overview mt-xl">
+          <div class="ai-response profile-overview__identity" id="profile-description">
           <div class="ai-response__label">✦ Your Scent Identity</div>
           <div class="ai-response__text">
             <p>${profile.description || 'Your unique olfactory archetype has been defined.'}</p>
           </div>
-        </div>
+          </div>
 
         <!-- Merged Cards -->
-        <div class="profile-details mt-xl">
-          <div class="grid grid--2">
+          <div class="profile-details">
             <div class="card">
               <h4 style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-sm);">Scent Families & Sillage</h4>
               <div class="flex gap-sm mb-sm" style="flex-wrap: wrap;">
@@ -366,7 +383,7 @@ function renderRecommendations(container, profile, navigate) {
           <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-md);">✦ Recommended Combinations — Mon Accord</h3>
           <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-lg);">Sprays and oils from our 6 world regions, curated for your profile.</p>
           <div class="recommendation-grid">
-            ${regionCombos.map(combo => renderComboCard(combo)).join('')}
+            ${regionCombos.map(combo => renderComboCard(combo, { showBuyButton: true })).join('')}
           </div>
         </div>
 
@@ -391,6 +408,16 @@ function renderRecommendations(container, profile, navigate) {
   addQuizStyles();
 
   container.querySelector('#go-to-shop').addEventListener('click', () => navigate('#shop'));
+  container.querySelectorAll('[data-buy-combo]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const perfumeIds = btn.dataset.comboIds
+        .split(',')
+        .map(id => id.trim())
+        .filter(Boolean);
+      storage.setPendingShopCart(perfumeIds);
+      navigate('#shop');
+    });
+  });
   container.querySelector('#go-to-lab').addEventListener('click', () => navigate('#lab'));
   container.querySelector('#retake-quiz').addEventListener('click', () => {
     window.__retakeQuiz = true;
@@ -399,7 +426,8 @@ function renderRecommendations(container, profile, navigate) {
   });
 }
 
-function renderComboCard(combo) {
+function renderComboCard(combo, options = {}) {
+  const comboIds = (combo.productIds || []).join(',');
   return `
     <div class="combo-card card">
       <h4 class="combo-card__name">${combo.name}</h4>
@@ -413,6 +441,11 @@ function renderComboCard(combo) {
         }).join('')}
       </div>
       <p class="combo-card__desc">${combo.description}</p>
+      ${options.showBuyButton && combo.productIds?.length ? `
+        <button class="btn btn--primary combo-card__buy" data-buy-combo="true" data-combo-ids="${comboIds}">
+          Buy this combination
+        </button>
+      ` : ''}
     </div>
   `;
 }
@@ -426,7 +459,7 @@ function generateRegionCombinations(profile) {
     const p = getPerfumeById(id);
     if (!p) return null;
     const r = REGIONS.find(rg => rg.id === p.region);
-    return { name: p.name, amount, unit: p.format === 'spray' ? 'sprays' : 'drops', regionData: r };
+    return { id: p.id, name: p.name, amount, unit: p.format === 'spray' ? 'sprays' : 'drops', regionData: r };
   }
 
   // Prefer owned Mon Accord perfumes in the first slots
@@ -458,7 +491,10 @@ function generateRegionCombinations(profile) {
       description: ownedIds.length ? 'A layering of your owned collection that showcases your personal scent identity.' : 'A balanced blend drawing from multiple regions.',
       layers: [layer(spray1, 2), layer(spray3, 2), layer(oil1, 1)].filter(Boolean),
     },
-  ];
+  ].map(combo => ({
+    ...combo,
+    productIds: [...new Set(combo.layers.map(layer => layer.id).filter(Boolean))],
+  }));
 }
 
 function generateMixedCombinations(profile) {
@@ -469,7 +505,7 @@ function generateMixedCombinations(profile) {
   function maLayer(id, amount) {
     const p = getPerfumeById(id);
     if (!p) return null;
-    return { name: p.name, amount, unit: p.format === 'spray' ? 'sprays' : 'drops', regionData: REGIONS.find(r => r.id === p.region) };
+    return { id: p.id, name: p.name, amount, unit: p.format === 'spray' ? 'sprays' : 'drops', regionData: REGIONS.find(r => r.id === p.region) };
   }
 
   function lorealLayer(id, amount) {
@@ -550,19 +586,22 @@ function addQuizStyles() {
     .perfume-brand-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-xs); padding: var(--space-sm) var(--space-md); }
     .quiz-option--perfume { text-align: left; padding: var(--space-sm) var(--space-md); }
     .quiz-hint { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-sm); }
-    .profile-result { max-width: 900px; margin: 0 auto; padding: var(--space-3xl) 0; }
+    .profile-result { margin: 0 auto; }
+    .profile-overview { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr); gap: var(--space-lg); align-items: start; }
+    .profile-overview__identity { margin: 0; min-height: 100%; }
+    .profile-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-lg); align-content: start; }
     .profile-actions { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
-    .recommendation-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
-    .combo-card { display: flex; flex-direction: column; }
+    .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md); }
+    .combo-card { display: flex; flex-direction: column; min-height: var(--card-min-regular); }
     .combo-card__name { font-size: var(--text-lg); font-family: var(--font-display); margin-bottom: var(--space-md); }
-    .combo-card__layers { margin-bottom: var(--space-md); }
+    .combo-card__layers { margin-bottom: var(--space-md); flex: 1; }
     .combo-card__desc { font-size: var(--text-xs); color: var(--text-tertiary); line-height: 1.6; margin-top: auto; }
+    .combo-card__buy { width: 100%; margin-top: var(--space-md); }
 
-    @media (max-width: 1024px) { .recommendation-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1024px) { .profile-overview { grid-template-columns: 1fr; } }
     @media (max-width: 640px) {
       .quiz-grid--families, .quiz-grid--context { grid-template-columns: repeat(2, 1fr); }
       .perfume-brand-items { grid-template-columns: 1fr; }
-      .recommendation-grid { grid-template-columns: 1fr; }
     }
   `;
   document.head.appendChild(style);

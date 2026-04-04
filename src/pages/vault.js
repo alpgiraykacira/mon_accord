@@ -4,6 +4,7 @@
 
 import { storage } from '../utils/storage.js';
 import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
+import folderIconUrl from '../assets/open-folder.png';
 
 export function renderVault(container, navigate) {
   let folders = storage.get('vault_folders', [{ id: 'default', name: 'All Formulas' }]).map(f => ({ id: f.id, name: f.name }));
@@ -58,6 +59,7 @@ export function renderVault(container, navigate) {
               const count = getFormulasForFolder(f.id).length;
               return `
                 <div class="vault-folder-card card card--interactive" data-folder="${f.id}">
+                  <img src="${folderIconUrl}" class="vault-folder-icon" alt="folder" />
                   <h4 class="vault-folder-name">${f.name}</h4>
                   <span class="vault-folder-count">${count} formula${count !== 1 ? 's' : ''}</span>
                   ${f.id !== 'default' ? `<button class="vault-folder-delete" data-delete="${f.id}" title="Delete folder">✕</button>` : ''}
@@ -437,7 +439,7 @@ function addVaultStyles() {
   style.textContent = `
     .vault-main-layout {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: minmax(0, 1.55fr) minmax(18rem, var(--sidebar-width));
       gap: var(--space-2xl);
       align-items: start;
     }
@@ -486,18 +488,33 @@ function addVaultStyles() {
     }
 
     .vault-folders-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: var(--space-md);
     }
 
     .vault-folder-card {
       text-align: center;
-      padding: var(--space-xl);
+      padding: var(--space-xl) var(--space-md);
       position: relative;
+      width: 160px;
+      height: 160px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xs);
     }
 
-    .vault-folder-name { font-size: var(--text-base); margin-bottom: 4px; }
+    .vault-folder-icon {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      margin-bottom: var(--space-xs);
+    }
+
+    .vault-folder-name { font-size: var(--text-sm); font-weight: 600; margin-bottom: 2px; }
     .vault-folder-count { font-size: var(--text-xs); color: var(--text-tertiary); }
 
     .vault-folder-delete {
@@ -526,7 +543,7 @@ function addVaultStyles() {
 
     .vault-formulas-list {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: var(--space-md);
     }
 
@@ -538,6 +555,7 @@ function addVaultStyles() {
       transition: all var(--transition-fast);
       display: flex;
       flex-direction: column;
+      min-height: var(--card-min-regular);
     }
 
     .vault-formula-card:hover {
@@ -644,7 +662,7 @@ function addVaultStyles() {
 
     .vault-region-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: var(--space-md);
     }
 
@@ -654,6 +672,10 @@ function addVaultStyles() {
       border-radius: var(--radius-md);
       padding: var(--space-md);
       background: var(--bg-primary);
+      min-height: 9.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .vault-region-card__title {
@@ -670,7 +692,7 @@ function addVaultStyles() {
 
     .vault-brand-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: var(--space-sm);
     }
 
@@ -707,10 +729,6 @@ function addVaultStyles() {
       .vault-myperfumes-col { position: static; }
     }
 
-    @media (max-width: 1024px) {
-      .vault-formulas-list { grid-template-columns: repeat(2, 1fr); }
-      .vault-brand-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
 
     @media (max-width: 640px) {
       .vault-formulas-list,

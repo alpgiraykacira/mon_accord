@@ -3,7 +3,9 @@
     "allow": [
       "Bash(wc -l /d/projects/mon_accord/src/pages/*.js /d/projects/mon_accord/src/services/*.js)",
       "Bash(git push:*)",
-      "Bash(grep -n \"#suggestion-container\\\\|\\\\.cm-\\\\|};$\" D:/projects/mon_accord/src/pages/community.js)"
+      "Bash(grep -n \"#suggestion-container\\\\|\\\\.cm-\\\\|};$\" D:/projects/mon_accord/src/pages/community.js)",
+      "Bash(find D:projectsmon_accord/src/components -type f \\\\\\(-name *.js -o -name *.jsx -o -name *.ts -o -name *.tsx \\\\\\))",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

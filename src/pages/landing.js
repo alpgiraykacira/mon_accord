@@ -169,7 +169,6 @@ export function renderLanding(container, navigate) {
               <span class="notes-popup__val">${perfume.baseNotes.join(', ')}</span>
             </div>
           </div>
-          <button class="notes-popup__lab-btn">Add To Lab</button>
         </div>
       `;
       document.body.appendChild(popup);
@@ -200,14 +199,6 @@ export function renderLanding(container, navigate) {
       popup.querySelector('.notes-popup__close').addEventListener('click', close);
       setTimeout(() => document.addEventListener('click', close, { once: true }), 0);
 
-      popup.querySelector('.notes-popup__lab-btn').addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        const pending = JSON.parse(sessionStorage.getItem('labPending') || '[]');
-        if (!pending.includes(perfume.id)) pending.push(perfume.id);
-        sessionStorage.setItem('labPending', JSON.stringify(pending));
-        window.showToast(`${perfume.name} added to Lab!`);
-        close();
-      });
     });
   });
 
@@ -341,7 +332,7 @@ function addLandingStyles() {
 
     .regions-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-lg);
     }
 
@@ -357,6 +348,10 @@ function addLandingStyles() {
       transform: translateY(24px);
       position: relative;
       overflow: hidden;
+      min-height: var(--card-min-tall);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
     }
 
     .region-card::before {
@@ -415,6 +410,7 @@ function addLandingStyles() {
       color: var(--text-tertiary);
       line-height: 1.6;
       margin-bottom: var(--space-md);
+      flex: 1;
     }
 
     .region-card__formats {
@@ -422,6 +418,7 @@ function addLandingStyles() {
       gap: var(--space-xs);
       justify-content: center;
       margin-bottom: 0;
+      margin-top: auto;
     }
 
     .region-format-btn {
@@ -504,23 +501,6 @@ function addLandingStyles() {
 
     .notes-popup__val { color: var(--text-secondary); }
 
-    .notes-popup__lab-btn {
-      width: 100%;
-      padding: 7px;
-      font-size: var(--text-xs);
-      font-weight: 600;
-      border: 1px solid var(--rc);
-      border-radius: var(--radius-sm);
-      background: rgba(var(--rc-rgb), 0.07);
-      color: var(--rc);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .notes-popup__lab-btn:hover {
-      background: rgba(var(--rc-rgb), 0.15);
-    }
-
     /* ── How It Works ── */
     .landing-how {
       padding: var(--space-3xl) 0 var(--space-4xl);
@@ -578,15 +558,11 @@ function addLandingStyles() {
       border: 1px solid var(--border-accent);
       border-radius: var(--radius-xl);
       padding: var(--space-4xl) var(--space-2xl);
+      width: min(100%, 760px);
+      margin: 0 auto;
     }
 
     /* ── Responsive ── */
-    @media (max-width: 1024px) {
-      .regions-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 640px) {
       .regions-grid {
         grid-template-columns: 1fr;
