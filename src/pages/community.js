@@ -8,6 +8,7 @@ import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES, COMMUNITY_FORM
 import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 import { showSaveToVaultModal } from '../utils/save-modal.js';
+import duyguPhoto from '../assets/duyguozaslan.png';
 
 // ── Seed Posts ──
 const SEED_POSTS = [
@@ -17,9 +18,13 @@ const SEED_POSTS = [
     topicType: 'trending', topicRef: 'cf-4', content: 'Velvet Rose is absolutely stunning for evenings out. The oud-citrus balance is perfect — not too heavy, not too light. My partner always compliments this one!',
     likes: 18, comments: [
       { id: 'sc-1', author: 'RoseAddict', date: Date.now() - 86400000 * 2, text: 'Totally agree! I add an extra drop of the oil for more longevity.', replies: [
-        { id: 'sc-1r1', author: 'ScentExplorer', date: Date.now() - 86400000, text: 'Great tip, I\'ll try that next time!' }
+        { id: 'sc-1r1', author: 'ScentExplorer', date: Date.now() - 86400000, text: 'Great tip, I\'ll try that next time!' },
+        { id: 'sc-1r2', author: 'VelvetQueen', date: Date.now() - 86400000 * 0.5, text: 'The oil trick really does work — I noticed at least 2 extra hours of longevity with it.', replies: [] }
       ]},
-      { id: 'sc-2', author: 'NordicNose', date: Date.now() - 86400000, text: 'Have you tried mixing it with a Scandinavian spray? The contrast is amazing.', replies: [] },
+      { id: 'sc-2', author: 'NordicNose', date: Date.now() - 86400000, text: 'Have you tried mixing it with a Scandinavian spray? The contrast is amazing.', replies: [
+        { id: 'sc-2r1', author: 'ScentExplorer', date: Date.now() - 86400000 * 0.8, text: 'Not yet but that sounds like an interesting idea! Warm + cool could be really unique.', replies: [] },
+        { id: 'sc-2r2', author: 'LayeringPro', date: Date.now() - 86400000 * 0.3, text: 'I do this combo regularly. The birch from Scandinavia really grounds the rose beautifully.', replies: [] }
+      ] },
     ]
   },
   {
@@ -30,6 +35,9 @@ const SEED_POSTS = [
       { id: 'sc-3', author: 'CorporateChic', date: Date.now() - 86400000 * 4, text: 'Azure Morning is my daily driver for work. Very clean and inoffensive.', replies: [
         { id: 'sc-3r1', author: 'MinimalistMusk', date: Date.now() - 86400000 * 3, text: 'Oh that sounds perfect, adding it to my cart!' },
         { id: 'sc-3r2', author: 'FreshFan', date: Date.now() - 86400000 * 2, text: 'Second this. Mediterranean spray + Scandinavian oil is chef\'s kiss for office.' }
+      ]},
+      { id: 'sc-3b', author: 'QuietScenter', date: Date.now() - 86400000 * 3, text: 'I go with just 2 sprays of East Asia spray. The green tea and bamboo are super subtle but elegant.', replies: [
+        { id: 'sc-3b1', author: 'MinimalistMusk', date: Date.now() - 86400000 * 2, text: 'That\'s actually brilliant — single region, minimal projection. Love it.' }
       ]},
     ]
   },
@@ -42,7 +50,124 @@ const SEED_POSTS = [
       { perfumeId: 'southafrica-oil', amount: 2, unit: 'drops' },
     ],
     content: 'I\'ve been experimenting with this bold combo for a while. The saffron-oud meets vanilla-coffee and it\'s absolutely divine for cold winter nights. Who else loves intense combos?',
-    likes: 24, comments: []
+    likes: 24, comments: [
+      { id: 'sc-4', author: 'AmberAddict', date: Date.now() - 86400000 * 0.8, text: 'This is EXACTLY what I\'ve been looking for! The warmth from both regions must be incredible together.', replies: [
+        { id: 'sc-4r1', author: 'OudLover', date: Date.now() - 86400000 * 0.5, text: 'It really is — the saffron opens bright and then the rooibos-vanilla base just wraps around you.' }
+      ]},
+      { id: 'sc-5', author: 'NightOwlScents', date: Date.now() - 86400000 * 0.6, text: 'Have you tried adding a single drop of Scandinavian oil to cool it down slightly? Adds an interesting twist.', replies: [] },
+    ]
+  },
+  {
+    id: 'sp-4', author: 'FloralFusion', date: Date.now() - 86400000 * 2,
+    title: 'Spring cherry blossom layering',
+    topicType: 'combination',
+    topicCombination: [
+      { perfumeId: 'eastasia-spray', amount: 2, unit: 'sprays' },
+      { perfumeId: 'mediterranean-oil', amount: 2, unit: 'drops' },
+    ],
+    content: 'Cherry blossom from East Asia with neroli and fig from Mediterranean oil creates this gorgeous springtime aura. Light, feminine, and so uplifting. Perfect for daytime!',
+    likes: 31, comments: [
+      { id: 'sc-6', author: 'GardenBreeze', date: Date.now() - 86400000 * 1.5, text: 'This sounds absolutely heavenly! Trying this tomorrow morning.', replies: [
+        { id: 'sc-6r1', author: 'FloralFusion', date: Date.now() - 86400000 * 1, text: 'Let me know how you like it! The fig really brings out the floral notes.' },
+        { id: 'sc-6r2', author: 'GardenBreeze', date: Date.now() - 86400000 * 0.4, text: 'Update: I LOVE it. Got three compliments at brunch today. This is my new signature.' }
+      ]},
+      { id: 'sc-7', author: 'PerfumeNovice', date: Date.now() - 86400000 * 1.2, text: 'Would this work well in warm weather? I\'m worried about the oil being too heavy in summer.', replies: [
+        { id: 'sc-7r1', author: 'FloralFusion', date: Date.now() - 86400000 * 0.8, text: 'It\'s actually quite light! The Mediterranean oil is more fresh than heavy. Give it a try.' }
+      ]},
+    ]
+  },
+  {
+    id: 'sp-5', author: 'SeasonalSniffer', date: Date.now() - 86400000 * 4,
+    title: 'Summer vs winter layering strategies',
+    topicType: 'free', topicLabel: 'Seasonal Tips',
+    content: 'I\'ve noticed that in summer I prefer spray-only combos (2 regions, light application), while in winter I go heavy on oils with maybe one spray on top. Does anyone else change their approach with seasons?',
+    likes: 19, comments: [
+      { id: 'sc-8', author: 'AllSeasonScenter', date: Date.now() - 86400000 * 3.5, text: 'Absolutely! Summer is all about Mediterranean + East Asia for me. Winter I switch to Middle East + South Africa.', replies: [
+        { id: 'sc-8r1', author: 'SeasonalSniffer', date: Date.now() - 86400000 * 3, text: 'That\'s almost exactly my rotation! Great minds think alike.' },
+        { id: 'sc-8r2', author: 'NordicNose', date: Date.now() - 86400000 * 2.5, text: 'Don\'t sleep on Scandinavian in summer though — the birch and juniper are so refreshing.' }
+      ]},
+      { id: 'sc-9', author: 'TropicalVibes', date: Date.now() - 86400000 * 3, text: 'Living in a tropical climate I use light sprays year-round. Oils are too intense in 35°C heat!', replies: [] },
+      { id: 'sc-10', author: 'FourSeasons', date: Date.now() - 86400000 * 2, text: 'I keep a separate shelf for each season. Spring: florals. Summer: citrus. Fall: woody. Winter: spicy-sweet.', replies: [
+        { id: 'sc-10r1', author: 'SeasonalSniffer', date: Date.now() - 86400000 * 1.5, text: 'That level of organization is goals! Do you have a favorite fall combo?' },
+        { id: 'sc-10r2', author: 'FourSeasons', date: Date.now() - 86400000 * 1, text: 'Scandinavian spray + Middle East oil. The cedar-oud combination is *chef\'s kiss* for autumn walks.' }
+      ]},
+    ]
+  },
+  {
+    id: 'sp-6', author: 'GiftGuru', date: Date.now() - 86400000 * 6,
+    title: 'Gifting layering sets — any tips?',
+    topicType: 'trending', topicRef: 'cf-2',
+    content: 'I want to gift a friend a layering combo but I\'m not sure how to present it. Anyone wrapped up Mon Accord sets as gifts before? Which combos are crowd-pleasers?',
+    likes: 15, comments: [
+      { id: 'sc-11', author: 'ThoughtfulGifter', date: Date.now() - 86400000 * 5, text: 'Mediterranean + East Asia is always a safe bet. Almost everyone loves the freshness.', replies: [
+        { id: 'sc-11r1', author: 'GiftGuru', date: Date.now() - 86400000 * 4.5, text: 'That\'s what I was leaning towards! Simple and universally appealing.' }
+      ]},
+      { id: 'sc-12', author: 'WrapQueen', date: Date.now() - 86400000 * 5, text: 'I put the spray + oil in a nice pouch with a card explaining the layering technique. People love it!', replies: [] },
+    ]
+  },
+  {
+    id: 'sp-7', author: 'VanillaCloud', date: Date.now() - 86400000 * 1.5,
+    title: 'Gourmand lovers unite — best sweet combos?',
+    topicType: 'trending', topicRef: 'cf-5',
+    content: 'I\'m obsessed with Cocoa Cloud but looking for more sweet, cozy combinations. Who else here loves gourmand-leaning layering? Drop your favourites!',
+    likes: 22, comments: [
+      { id: 'sc-13', author: 'SweetTooth', date: Date.now() - 86400000 * 1.2, text: 'Cocoa Cloud is my absolute favourite! I also add 1 drop of Middle East oil on top for a rich amber-vanilla twist.', replies: [
+        { id: 'sc-13r1', author: 'VanillaCloud', date: Date.now() - 86400000 * 1, text: 'Oh that sounds amazing, the oud would add so much depth!' },
+        { id: 'sc-13r2', author: 'GourmandQueen', date: Date.now() - 86400000 * 0.8, text: 'Can confirm this works beautifully. The saffron note from Middle East pairs perfectly with the cocoa.', replies: [] }
+      ]},
+      { id: 'sc-14', author: 'CozyNights', date: Date.now() - 86400000 * 1, text: 'Try South America spray + South Africa oil + a single East Asia oil drop. Tonka-vanilla-cherry blossom is heavenly.', replies: [
+        { id: 'sc-14r1', author: 'VanillaCloud', date: Date.now() - 86400000 * 0.5, text: 'Three layers! That\'s ambitious. Adding it to my list to try this weekend.' }
+      ]},
+    ]
+  },
+  {
+    id: 'sp-8', author: 'NoseTrainer', date: Date.now() - 86400000 * 3.5,
+    title: 'How I trained my nose for layering',
+    topicType: 'free', topicLabel: 'Tips & Guides',
+    content: 'When I started layering I couldn\'t tell the difference between combos. Here\'s what helped: start with just ONE spray and ONE oil. Wear it for a full day. Next day, swap one layer. After 2 weeks you\'ll notice nuances you never imagined!',
+    likes: 34, comments: [
+      { id: 'sc-15', author: 'BeginnerSniffer', date: Date.now() - 86400000 * 3, text: 'This is exactly what I needed! I\'ve been overwhelmed trying 3-layer combos from the start.', replies: [
+        { id: 'sc-15r1', author: 'NoseTrainer', date: Date.now() - 86400000 * 2.8, text: 'Start simple! Mediterranean spray + Scandinavian oil is a great first combo. Very distinct notes.' },
+        { id: 'sc-15r2', author: 'ScentExplorer', date: Date.now() - 86400000 * 2.5, text: 'Agreed. I started the same way and now I can pick apart 4-layer combos no problem.' }
+      ]},
+      { id: 'sc-16', author: 'OlfactoryJourney', date: Date.now() - 86400000 * 2.5, text: 'Another tip: smell coffee beans between testing different combos. It resets your nose.', replies: [] },
+      { id: 'sc-17', author: 'FragranceNerd', date: Date.now() - 86400000 * 2, text: 'I keep a scent journal — I write down what I smell at 0min, 1hr, 4hr, and 8hr. Game changer for understanding how layers evolve.', replies: [
+        { id: 'sc-17r1', author: 'NoseTrainer', date: Date.now() - 86400000 * 1.5, text: 'The journal idea is brilliant! I should start doing that too.' }
+      ]},
+    ]
+  },
+  {
+    id: 'sp-9', author: 'MidnightRose', date: Date.now() - 86400000 * 0.5,
+    title: 'Amber Veil is the new obsession',
+    topicType: 'combination',
+    topicCombination: [
+      { perfumeId: 'middleeast-oil', amount: 2, unit: 'drops' },
+      { perfumeId: 'southamerica-spray', amount: 2, unit: 'sprays' },
+      { perfumeId: 'scandinavian-oil', amount: 1, unit: 'drops' },
+    ],
+    content: 'Just tried this three-layer combo and I\'m speechless. The Arabian amber opens rich and warm, the South American tonka adds this gorgeous sweetness, and that single drop of Scandinavian oil on top gives it a cool, clean edge. Pure sophistication!',
+    likes: 28, comments: [
+      { id: 'sc-18', author: 'LayeringPro', date: Date.now() - 86400000 * 0.4, text: 'Three regions in one combo? Bold move. How\'s the longevity?', replies: [
+        { id: 'sc-18r1', author: 'MidnightRose', date: Date.now() - 86400000 * 0.3, text: 'Easily 8+ hours. The oil base really anchors everything.' },
+        { id: 'sc-18r2', author: 'OudLover', date: Date.now() - 86400000 * 0.2, text: 'Middle East oil as a base is always a longevity cheat code. Great choice.' }
+      ]},
+      { id: 'sc-19', author: 'NordicNose', date: Date.now() - 86400000 * 0.3, text: 'Love the Scandinavian finishing touch. That birch-juniper coolness must cut through the sweetness perfectly.', replies: [] },
+    ]
+  },
+  {
+    id: 'sp-10', author: 'WorkdayScenter', date: Date.now() - 86400000 * 7,
+    title: 'My week of different combos — review',
+    topicType: 'free', topicLabel: 'Reviews',
+    content: 'I wore a different trending combo each workday last week: Mon — Azure Morning, Tue — Zen Garden, Wed — Golden Hour, Thu — Forest Ceremony, Fri — Velvet Rose. Here\'s my ranking: Velvet Rose > Azure Morning > Zen Garden > Golden Hour > Forest Ceremony. Friday combo got 4 compliments!',
+    likes: 21, comments: [
+      { id: 'sc-20', author: 'CorporateChic', date: Date.now() - 86400000 * 6.5, text: 'Velvet Rose for WORK? That\'s brave! I usually save that for evenings.', replies: [
+        { id: 'sc-20r1', author: 'WorkdayScenter', date: Date.now() - 86400000 * 6, text: 'I went light — just 1 spray + 1 drop instead of the full recommended amount. Keeps it office-appropriate.' },
+        { id: 'sc-20r2', author: 'MinimalistMusk', date: Date.now() - 86400000 * 5.5, text: 'Smart approach! Half-dosing heavier combos is underrated.' }
+      ]},
+      { id: 'sc-21', author: 'AllSeasonScenter', date: Date.now() - 86400000 * 6, text: 'Azure Morning on Monday is perfect — fresh and energizing to start the week. I do the same!', replies: [
+        { id: 'sc-21r1', author: 'WorkdayScenter', date: Date.now() - 86400000 * 5, text: 'Right?! It\'s like a morning espresso in fragrance form.' }
+      ]},
+    ]
   },
 ];
 
@@ -51,6 +176,14 @@ function getSeedPosts() {
   if (!posts.length) {
     posts = SEED_POSTS;
     storage.setPosts(posts);
+  } else {
+    // Merge any new seed posts that don't exist yet
+    const existingIds = new Set(posts.map(p => p.id));
+    const missing = SEED_POSTS.filter(sp => !existingIds.has(sp.id));
+    if (missing.length) {
+      posts = [...posts, ...missing];
+      storage.setPosts(posts);
+    }
   }
   return posts;
 }
@@ -116,6 +249,7 @@ export function renderCommunity(container, navigate) {
             <div class="community-trending-list">
               ${sorted.map((formula, i) => {
                 const isLiked = storage.isLiked(formula.id);
+                const displayLikes = (formula.likes || 0) + (isLiked ? 1 : 0);
                 return `
                 <div class="community-trending-item" data-id="${formula.id}">
                   <div class="community-trending-rank">${i + 1}</div>
@@ -130,12 +264,11 @@ export function renderCommunity(container, navigate) {
                         return `<span style="color: ${r?.color || 'var(--text-tertiary)'};">${r?.icon || ''} ${p?.name || ''}</span>`;
                       }).join(' <span style="color: var(--text-tertiary);">+</span> ')}
                     </div>
-                    ${formula.description ? `<p class="community-desc-clamp">${formula.description}</p>` : ''}
                   </div>
                   <div class="community-trending-meta">
                     <span class="community-trending-match" style="color: ${formula.matchPercent > 70 ? '#4CAF50' : formula.matchPercent > 50 ? 'var(--accent)' : 'var(--text-tertiary)'};">${formula.matchPercent}% match</span>
                     <button class="community-like-btn ${isLiked ? 'community-like-btn--active' : ''}" data-like-formula="${formula.id}">
-                      ${isLiked ? '♥' : '♡'} ${formula.likes || 0}
+                      ${isLiked ? '♥' : '♡'} ${displayLikes}
                     </button>
                     <button class="btn btn--ghost btn--sm community-vault-btn" data-vault-formula="${formula.id}">+ Vault</button>
                   </div>
@@ -144,13 +277,42 @@ export function renderCommunity(container, navigate) {
             </div>
           </div>
 
-          <!-- Today's Selection -->
-          <div class="community-panel community-panel--selection">
-            <div class="community-panel-header">
-              <h3 class="community-panel-title">✦ Today's Selection</h3>
+          <!-- Right Column: Today's Selection + Duygu's Choice -->
+          <div class="community-right-col">
+            <div class="community-panel community-panel--selection">
+              <div class="community-panel-header">
+                <h3 class="community-panel-title">✦ Today's Selection</h3>
+              </div>
+              <div id="suggestion-container">
+                ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
+              </div>
             </div>
-            <div id="suggestion-container">
-              ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
+
+            <!-- Duygu's Choice -->
+            <div class="community-panel community-duygu-choice">
+              <div class="community-panel-header">
+                <h3 class="community-panel-title">Duygu's Choice</h3>
+              </div>
+              <div class="duygu-card">
+                <div class="duygu-card__photo-wrap">
+                  <img src="${duyguPhoto}" alt="Duygu Özaslan" class="duygu-card__photo" />
+                </div>
+                <p class="duygu-card__name">Duygu Özaslan</p>
+                <p class="duygu-card__role">Influencer</p>
+                <p class="duygu-card__quote">"Cherry blossom and fig together feel like a spring garden by the sea — feminine, luminous, and unforgettable."</p>
+                <div class="duygu-card__combo">
+                  <div class="duygu-card__layer">
+                    <span style="color: ${REGIONS.find(r => r.id === 'eastasia')?.color || '#888'};">${REGIONS.find(r => r.id === 'eastasia')?.icon || ''}</span>
+                    <span>East Asia — Spray</span>
+                    <span class="duygu-card__amount">2 sprays</span>
+                  </div>
+                  <div class="duygu-card__layer">
+                    <span style="color: ${REGIONS.find(r => r.id === 'mediterranean')?.color || '#888'};">${REGIONS.find(r => r.id === 'mediterranean')?.icon || ''}</span>
+                    <span>Mediterranean — Oil</span>
+                    <span class="duygu-card__amount">3 drops</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -642,9 +804,13 @@ function addCommunityStyles() {
       flex-direction: column;
     }
 
-    .community-panel--selection {
+    .community-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
       position: sticky;
       top: calc(var(--nav-height) + var(--space-lg));
+      align-self: start;
     }
 
     .community-panel-header {
@@ -849,9 +1015,46 @@ function addCommunityStyles() {
     }
     .community-combo-remove:hover { color: #e74c3c; }
 
+    /* ── Duygu's Choice ── */
+    .community-duygu-choice { overflow: hidden; }
+
+    .duygu-card { padding: var(--space-lg); text-align: center; }
+
+    .duygu-card__photo-wrap {
+      display: flex; justify-content: center; margin-bottom: var(--space-md);
+    }
+
+    .duygu-card__photo {
+      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+      border: 3px solid var(--accent-light);
+    }
+
+    .duygu-card__name { font-size: var(--text-base); font-weight: 600; margin: 0 0 2px; }
+    .duygu-card__role { font-size: var(--text-xs); color: var(--text-tertiary); margin: 0 0 var(--space-md); }
+
+    .duygu-card__quote {
+      font-size: var(--text-sm); font-style: italic; color: var(--text-secondary);
+      line-height: 1.6; margin-bottom: var(--space-md); text-align: left;
+      padding-left: var(--space-md); border-left: 2px solid var(--accent-light);
+    }
+
+    .duygu-card__combo {
+      display: flex; flex-direction: column; gap: var(--space-xs); text-align: left;
+    }
+
+    .duygu-card__layer {
+      display: flex; align-items: center; gap: var(--space-sm);
+      font-size: var(--text-sm); padding: var(--space-xs) var(--space-sm);
+      background: var(--bg-primary); border-radius: var(--radius-md);
+    }
+
+    .duygu-card__amount {
+      margin-left: auto; font-size: var(--text-xs); color: var(--text-tertiary); font-weight: 500;
+    }
+
     @media (max-width: 1024px) {
       .community-top-grid { grid-template-columns: 1fr; }
-      .community-panel--selection { position: static; }
+      .community-right-col { position: static; }
       .community-discussion-layout { grid-template-columns: 1fr; }
       .community-post-list { border-right: none; border-bottom: 1px solid var(--border); max-height: 300px; }
     }

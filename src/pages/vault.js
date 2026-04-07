@@ -6,8 +6,32 @@ import { storage } from '../utils/storage.js';
 import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
 import folderIconUrl from '../assets/open-folder.png';
 
+const PRESET_FOLDERS = [
+  { id: 'default',  name: 'All Formulas' },
+  { id: 'evening',  name: 'Evening Wear' },
+  { id: 'daytime',  name: 'Daytime' },
+  { id: 'office',   name: 'Office' },
+  { id: 'weekend',  name: 'Weekend' },
+  { id: 'seasonal', name: 'Seasonal' },
+];
+
 export function renderVault(container, navigate) {
-  let folders = storage.get('vault_folders', [{ id: 'default', name: 'All Formulas' }]).map(f => ({ id: f.id, name: f.name }));
+  // Seed / merge preset folders for new and existing users
+  const rawFolders = storage.get('vault_folders', null);
+  let folders;
+  if (!rawFolders) {
+    folders = PRESET_FOLDERS.map(f => ({ ...f }));
+    storage.set('vault_folders', folders);
+  } else {
+    const existingIds = new Set(rawFolders.map(f => f.id));
+    const missing = PRESET_FOLDERS.filter(p => !existingIds.has(p.id));
+    if (missing.length) {
+      folders = [...rawFolders, ...missing].map(f => ({ id: f.id, name: f.name }));
+      storage.set('vault_folders', folders);
+    } else {
+      folders = rawFolders.map(f => ({ id: f.id, name: f.name }));
+    }
+  }
   let activeFolder = null;
   let showCreateFolder = false;
   let addingSection = null; // 'monAccord' | 'loreal' | null
@@ -646,12 +670,16 @@ function addVaultStyles() {
 
     .vault-owned-modal {
       width: min(980px, calc(100vw - 2rem));
-      max-height: min(760px, calc(100vh - 2rem));
+      max-height: min(600px, calc(100vh - 4rem));
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .vault-owned-modal .modal__body {
       overflow-y: auto;
+      flex: 1;
+      min-height: 0;
     }
 
     .vault-owned-modal-subtitle {

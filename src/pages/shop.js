@@ -4,6 +4,10 @@
 
 import { PERFUMES, REGIONS, getPerfumeById } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
+import sephoraLogo   from '../assets/Sephora-Logo.png';
+import boynerLogo    from '../assets/Boyner_Logo.jpg';
+import trendyolLogo  from '../assets/Trendyol_logo.png';
+import hepsiburadaLogo from '../assets/hepsiburada-logo.png';
 
 export function renderShop(container, navigate) {
   const existingCartIds = storage.getShopCart();
@@ -163,14 +167,29 @@ function showOrderConfirmation(cart, container, navigate) {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.innerHTML = `
-    <div class="modal" style="max-width: 480px; text-align: center;">
-      <div class="modal__body" style="padding: var(--space-3xl) var(--space-xl);">
-        <div style="font-size: 3rem; margin-bottom: var(--space-lg);">✦</div>
-        <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-md);">Order Confirmed!</h3>
-        <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
-          Your order of ${cart.length} item${cart.length !== 1 ? 's' : ''} has been placed successfully. 
-          We're crafting your signature collection.
-        </p>
+    <div class="modal order-confirmed-modal">
+      <button class="modal__close" id="btn-close-retailers" aria-label="Close">✕</button>
+      <div class="modal__body order-confirmed-body">
+        <div class="order-confirmed-icon">✦</div>
+        <h3 class="order-confirmed-title">Now Available</h3>
+
+        <div class="order-retailers">
+          <div class="order-retailers__grid">
+            <div class="order-retailer-card" aria-label="Sephora">
+              <img src="${sephoraLogo}" alt="Sephora" class="order-retailer-card__logo" />
+            </div>
+            <div class="order-retailer-card" aria-label="Boyner">
+              <img src="${boynerLogo}" alt="Boyner" class="order-retailer-card__logo" />
+            </div>
+            <div class="order-retailer-card" aria-label="Trendyol">
+              <img src="${trendyolLogo}" alt="Trendyol" class="order-retailer-card__logo" />
+            </div>
+            <div class="order-retailer-card" aria-label="Hepsiburada">
+              <img src="${hepsiburadaLogo}" alt="Hepsiburada" class="order-retailer-card__logo" />
+            </div>
+          </div>
+        </div>
+
         <button class="btn btn--primary btn--lg" id="btn-go-profile">Go to Profile →</button>
       </div>
     </div>
@@ -180,7 +199,10 @@ function showOrderConfirmation(cart, container, navigate) {
     overlay.remove();
     navigate('#profile');
   });
-  overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); navigate('#profile'); } };
+  overlay.querySelector('#btn-close-retailers').addEventListener('click', () => {
+    overlay.remove();
+  });
+  overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); } };
 }
 
 function addShopStyles() {
@@ -188,6 +210,89 @@ function addShopStyles() {
   const style = document.createElement('style');
   style.id = 'shop-styles';
   style.textContent = `
+
+    /* ── Order Confirmed Modal ── */
+    .order-confirmed-modal {
+      max-width: 480px;
+      text-align: center;
+      position: relative;
+    }
+
+    .order-confirmed-modal .modal__close {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+    }
+
+    .order-confirmed-body {
+      padding: var(--space-2xl) var(--space-xl);
+    }
+
+    .order-confirmed-icon {
+      font-size: 2.4rem;
+      margin-bottom: var(--space-md);
+      color: var(--accent);
+    }
+
+    .order-confirmed-title {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-sm);
+    }
+
+    .order-confirmed-sub {
+      color: var(--text-secondary);
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      margin-bottom: var(--space-xl);
+    }
+
+    .order-retailers {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .order-retailers__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-sm);
+    }
+
+    .order-retailer-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-xs);
+      height: 52px;
+      transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+    }
+
+    .order-retailer-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(200,169,126,0.18);
+      transform: translateY(-2px);
+    }
+
+    .order-retailer-card__logo {
+      max-width: 100%;
+      max-height: 28px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: grayscale(25%);
+      transition: filter 0.18s;
+    }
+
+    .order-retailer-card:hover .order-retailer-card__logo {
+      filter: grayscale(0%);
+    }
+
+    /* ── Shop Layout ── */
     .shop-layout {
       display: grid;
       grid-template-columns: minmax(0, 1.55fr) minmax(18rem, var(--sidebar-width));

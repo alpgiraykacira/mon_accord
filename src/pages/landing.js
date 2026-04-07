@@ -32,6 +32,7 @@ export function renderLanding(container, navigate) {
           <button class="btn btn--primary btn--lg" id="hero-cta">
             ${hasProfile ? 'Enter the Lab' : 'Begin Your Journey'}
           </button>
+          <!-- Watch Demo moved to Settings -->
         </div>
       </div>
       <div class="hero__scroll-hint" id="scroll-hint">
@@ -302,6 +303,14 @@ function addLandingStyles() {
       justify-content: center;
       flex-wrap: wrap;
       animation: fadeIn 0.8s var(--ease-out) 0.7s both;
+    }
+
+    .hero__demo-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--text-base);
+      letter-spacing: 0.02em;
     }
 
     .hero__scroll-hint {

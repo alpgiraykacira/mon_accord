@@ -100,5 +100,5 @@ export function getTrendingCombinations() {
   // Also factor in community data
   return COMMUNITY_FORMULAS
     .sort((a, b) => (b.likes + (formulaCounts[b.id] || 0) * 10) - (a.likes + (formulaCounts[a.id] || 0) * 10))
-    .slice(0, 5);
+    .slice(0, 10);
 }

@@ -11,6 +11,7 @@ import { renderVault } from './pages/vault.js';
 import { renderCommunity } from './pages/community.js';
 import { renderShop } from './pages/shop.js';
 import { storage } from './utils/storage.js';
+import { startTour, endTour } from './demo-tour.js';
 
 const app = document.getElementById('app');
 
@@ -98,9 +99,13 @@ window.showSettings = function() {
           <label class="input-label">Profile</label>
           ${storage.getProfile()
             ? `<p style="font-size: var(--text-sm); color: var(--text-secondary);">Archetype: <strong>${storage.getProfile().archetypeName || 'Set'}</strong></p>
-               <button class="btn btn--ghost btn--sm mt-sm" id="reset-profile-btn" style="color: #e74c3c;">Reset Profile</button>`
+               <button class="btn btn--ghost btn--sm mt-sm" id="reset-profile-btn" style="color: #e74c3c;">Reset All Data</button>`
             : '<p style="font-size: var(--text-sm); color: var(--text-tertiary);">No profile created yet.</p>'
           }
+        </div>
+        <div class="input-group" style="margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--border);">
+          <label class="input-label">Demo</label>
+          <button class="btn btn--secondary btn--sm" id="settings-demo-btn">▶ Watch Demo</button>
         </div>
       </div>
       <div class="modal__footer">
@@ -127,14 +132,30 @@ window.showSettings = function() {
   const resetBtn = overlay.querySelector('#reset-profile-btn');
   if (resetBtn) {
     resetBtn.onclick = () => {
-      storage.remove('monaccord_profile');
-      storage.set('profile', null);
-      window.showToast('Profile reset.');
+      // Clear all localStorage data
+      ['profile', 'quiz_state', 'vault', 'interactions', 'likes',
+       'my_perfumes', 'pending_shop_cart', 'shop_cart',
+       'community_posts', 'post_likes', 'vault_folders'].forEach(k => storage.remove(k));
+      // Clear all sessionStorage
+      sessionStorage.clear();
+      window.showToast('All data cleared. Starting fresh!');
       overlay.remove();
       render();
     };
   }
+
+  const demoBtn = overlay.querySelector('#settings-demo-btn');
+  if (demoBtn) {
+    demoBtn.onclick = () => {
+      overlay.remove();
+      if (typeof window.startDemoTour === 'function') window.startDemoTour();
+    };
+  }
 };
+
+// ── Demo Tour ──
+window.startDemoTour = startTour;
+window.endDemoTour   = endTour;
 
 // ── Init ──
 window.addEventListener('hashchange', render);
