@@ -77,7 +77,6 @@ window.showSettings = function() {
   const existing = document.querySelector('.modal-overlay');
   if (existing) existing.remove();
 
-  const apiKey = storage.getApiKey();
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'settings-modal';
@@ -88,13 +87,6 @@ window.showSettings = function() {
         <button class="modal__close" id="close-settings">✕</button>
       </div>
       <div class="modal__body">
-        <div class="input-group mb-lg">
-          <label class="input-label">Gemini API Key</label>
-          <input type="password" class="input" id="api-key-input" placeholder="Enter your Gemini API key..." value="${apiKey}" />
-          <p style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">
-            Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color: var(--accent);">Google AI Studio</a>
-          </p>
-        </div>
         <div class="input-group">
           <label class="input-label">Profile</label>
           ${storage.getProfile()
@@ -121,10 +113,6 @@ window.showSettings = function() {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
   overlay.querySelector('#save-settings').onclick = () => {
-    const key = overlay.querySelector('#api-key-input').value.trim();
-    storage.setApiKey(key);
-    // Reset AI so it picks up new key
-    import('./services/ai-engine.js').then(m => m.resetAI());
     window.showToast('Settings saved!');
     overlay.remove();
   };

@@ -9,6 +9,15 @@ import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 import { showSaveToVaultModal } from '../utils/save-modal.js';
 
+const REGION_IMGS = {
+  scandinavian: new URL('../assets/scandinavian.png',   import.meta.url).href,
+  eastasia:     new URL('../assets/east_asia.png',      import.meta.url).href,
+  southafrica:  new URL('../assets/south_africa.png',   import.meta.url).href,
+  mediterranean:new URL('../assets/mediterranean.png',  import.meta.url).href,
+  southamerica: new URL('../assets/south_america.png',  import.meta.url).href,
+  middleeast:   new URL('../assets/middle_east.png',    import.meta.url).href,
+};
+
 const LAB_STATE_KEY = 'lab_session_state';
 
 function saveLabState(state) {
@@ -53,34 +62,122 @@ export function renderLayeringLab(container, navigate) {
   function render() {
     container.innerHTML = `
       <div class="page__container">
+
+        <div class="lab-page-header">
+          <p class="lab-page-header__label">The Lab</p>
+          <h1 class="lab-page-header__title">Compose Your Signature</h1>
+          <p class="lab-page-header__desc">Layer fragrances from six world regions — combine sprays for projection with oils for depth and longevity.</p>
+        </div>
+
         <div class="lab-layout">
 
-          <!-- Col 1: Workspace (add section + layers + actions + simulation) -->
-          <div class="lab-workspace">
+          <!-- Col 1: Select Layers + Advisor -->
+          <div class="lab-left-col">
+
             <div class="lab-add-section" id="lab-add-section">
-              <p class="lab-add-label">Add a layer</p>
+              <p class="lab-section-label">Select Layers</p>
               <div class="lab-perfume-selector">
                 ${REGIONS.map(r => `
-                  <div class="lab-region-group">
-                    <p class="lab-region-label" style="color: ${r.color};">${r.icon} ${r.name}</p>
-                    <div class="lab-region-items">
-                      ${getPerfumesByRegionLocal(r.id).map(p => `
-                        <button class="lab-add-btn ${layers.find(l => l.perfumeId === p.id) ? 'lab-add-btn--added' : ''}" data-id="${p.id}" style="--region-color: ${r.color};">
-                          ${p.format === 'spray' ? '💨' : '💧'} ${p.format === 'spray' ? 'Spray' : 'Oil'}
-                          ${layers.find(l => l.perfumeId === p.id) ? ' ✓' : ' +'}
-                        </button>
-                      `).join('')}
+                  <div class="lab-region-group" style="--region-color: ${r.color};">
+                    <div class="lab-region-layout">
+                      <img class="lab-region-img" src="${REGION_IMGS[r.id]}" alt="${r.name}" />
+                      <div class="lab-region-right">
+                        <p class="lab-region-label">${r.name}</p>
+                        <div class="lab-region-items">
+                          ${getPerfumesByRegionLocal(r.id).map(p => {
+                            const isAdded = layers.find(l => l.perfumeId === p.id);
+                            return `
+                              <button class="lab-add-btn ${isAdded ? 'lab-add-btn--added' : ''}" data-id="${p.id}" style="--region-color: ${r.color};">
+                                <span class="lab-format-badge lab-format-badge--${p.format}">${p.format === 'spray' ? 'SPRAY' : 'OIL'}</span>
+                                <span class="lab-add-btn__indicator">${isAdded ? '✓' : '+'}</span>
+                              </button>
+                            `;
+                          }).join('')}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 `).join('')}
               </div>
             </div>
 
+            <div class="lab-advisor">
+              <div class="lab-advisor__header">
+                <h3 class="lab-advisor__title">✦ Curated for Your Profile</h3>
+                <p class="lab-advisor__subtitle">Set the mood and moment — we'll compose a formula aligned with your olfactory identity.</p>
+              </div>
+
+              <div class="lab-advisor__form">
+                <div class="input-group">
+                  <label class="input-label">Mood</label>
+                  <div class="lab-advisor__chips" id="mood-chips">
+                    ${MOODS.map(m => `<button class="lab-chip ${selectedMood === m.id ? 'lab-chip--active' : ''}" data-value="${m.id}">${m.icon} ${m.name}</button>`).join('')}
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label class="input-label">Occasion</label>
+                  <div class="lab-advisor__chips" id="occasion-chips">
+                    ${OCCASIONS.map(o => `<button class="lab-chip ${selectedOccasion === o.id ? 'lab-chip--active' : ''}" data-value="${o.id}">${o.icon} ${o.name}</button>`).join('')}
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label class="input-label">Season</label>
+                  <div class="lab-advisor__chips" id="season-chips">
+                    ${SEASONS.map(s => `<button class="lab-chip ${selectedSeason === s.id ? 'lab-chip--active' : ''}" data-value="${s.id}">${s.icon} ${s.name}</button>`).join('')}
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label class="input-label">Time of Day</label>
+                  <div class="lab-advisor__chips" id="time-chips">
+                    ${['Morning', 'Afternoon', 'Evening', 'Night'].map(t => `<button class="lab-chip ${selectedTime === t.toLowerCase() ? 'lab-chip--active' : ''}" data-value="${t.toLowerCase()}">${t}</button>`).join('')}
+                  </div>
+                </div>
+
+                <div class="slider-container">
+                  <div class="slider-header">
+                    <span class="slider-label">Intensity</span>
+                    <span class="slider-value" id="advisor-intensity-val">${(INTENSITIES.find(i => i.value === selectedIntensity) || {}).name || 'Moderate'}</span>
+                  </div>
+                  <input type="range" min="1" max="9" value="${selectedIntensity}" step="2" id="advisor-intensity" />
+                </div>
+
+                <button class="btn btn--primary w-full" id="btn-get-advice" ${isAdvising ? 'disabled' : ''}>
+                  ${isAdvising ? '<span class="loading-spinner"></span> Crafting...' : '✦ Get Recommendation'}
+                </button>
+              </div>
+
+              ${contextResult ? `
+                <div class="lab-advisor__result mt-lg" id="advisor-result">
+                  <div class="ai-response">
+                    <div class="ai-response__label">✦ ${contextResult.formulaName || 'Your Formula'}</div>
+                    <div class="ai-response__text ai-response__text--compact">
+                      ${contextResult.reasoning ? `<p>${truncateText(contextResult.reasoning, 150)}</p>` : ''}
+                      ${contextResult.scentPreview ? `<p><em>${truncateText(contextResult.scentPreview, 100)}</em></p>` : ''}
+                      ${contextResult.tips ? `<p style="color: var(--accent); font-size: var(--text-xs);">◈ ${truncateText(contextResult.tips, 100)}</p>` : ''}
+                    </div>
+                  </div>
+                  ${contextResult.layers?.length > 0 ? `
+                    <button class="btn btn--primary w-full mt-md" id="btn-apply-recommendation">✦ Apply This Formula</button>
+                  ` : ''}
+                </div>
+              ` : ''}
+            </div>
+
+          </div>
+
+          <!-- Col 2: Canvas (sticky) -->
+          <div class="lab-canvas">
+            <p class="lab-section-label">Your Canvas</p>
+
             <div class="lab-layers" id="lab-layers">
               ${layers.length === 0 ? `
                 <div class="lab-empty">
-                  <p class="lab-empty__text">Add perfumes above to start layering.</p>
-                  <p class="lab-empty__hint">Combine sprays and oils from different regions to create your unique blend.</p>
+                  <p class="lab-empty__symbol">◈</p>
+                  <p class="lab-empty__text">Your canvas is empty</p>
+                  <p class="lab-empty__hint">Select fragrances to begin composing your accord.</p>
                 </div>
               ` : layers.map((layer, idx) => {
                 const p = getPerfumeById(layer.perfumeId);
@@ -88,25 +185,24 @@ export function renderLayeringLab(container, navigate) {
                 return `
                   <div class="lab-layer" data-idx="${idx}" style="--region-color: ${r.color};">
                     <div class="lab-layer__header">
-                      <div class="lab-layer__info">
-                        <span class="lab-layer__icon">${r.icon}</span>
-                        <div>
+                      <div class="lab-layer__identity">
+                        <span class="lab-layer__region-icon">${r.icon}</span>
+                        <div class="lab-layer__info">
                           <span class="lab-layer__name">${p.name}</span>
-                          <span class="lab-layer__meta">${p.scentFamily} · ${p.layeringRole}</span>
+                          <span class="lab-layer__region">${r.name}</span>
                         </div>
+                        <span class="lab-format-badge lab-format-badge--${p.format}">${p.format === 'spray' ? 'SPRAY' : 'OIL'}</span>
                       </div>
                       <button class="lab-layer__remove" data-idx="${idx}" title="Remove">✕</button>
                     </div>
-                    <div class="lab-layer__controls">
+                    <div class="lab-layer__footer">
                       <div class="lab-layer__amount">
                         <button class="lab-layer__amount-btn" data-action="decrease" data-idx="${idx}">−</button>
                         <span class="lab-layer__amount-value">${layer.amount}</span>
                         <button class="lab-layer__amount-btn" data-action="increase" data-idx="${idx}">+</button>
                         <span class="lab-layer__amount-unit">${layer.unit}</span>
                       </div>
-                      <div class="lab-layer__notes">
-                        Top: ${p.topNotes.slice(0, 2).join(', ')} · Base: ${p.baseNotes.slice(0, 2).join(', ')}
-                      </div>
+                      <span class="lab-layer__notes">${p.topNotes.slice(0, 2).join(', ')} · ${p.baseNotes[0]}</span>
                     </div>
                   </div>
                 `;
@@ -125,75 +221,9 @@ export function renderLayeringLab(container, navigate) {
 
             ${scentSimulation ? `
               <div class="ai-response mt-lg" id="simulation-result">
-                <div class="ai-response__label">✦ Virtual Scent Simulation</div>
+                <div class="ai-response__label">✦ Scent Portrait</div>
                 <div class="ai-response__text">
                   ${formatSimulationText(scentSimulation)}
-                </div>
-              </div>
-            ` : ''}
-          </div>
-
-          <!-- Col 2: Contextual Advisor -->
-          <div class="lab-advisor">
-            <div class="lab-advisor__header">
-              <h3 class="lab-advisor__title">✦ Contextual Advisor</h3>
-              <p class="lab-advisor__subtitle">Tell us the moment, we'll craft the formula.</p>
-            </div>
-
-            <div class="lab-advisor__form">
-              <div class="input-group">
-                <label class="input-label">Mood</label>
-                <div class="lab-advisor__chips" id="mood-chips">
-                  ${MOODS.map(m => `<button class="lab-chip ${selectedMood === m.id ? 'lab-chip--active' : ''}" data-value="${m.id}">${m.icon} ${m.name}</button>`).join('')}
-                </div>
-              </div>
-
-              <div class="input-group">
-                <label class="input-label">Occasion</label>
-                <div class="lab-advisor__chips" id="occasion-chips">
-                  ${OCCASIONS.map(o => `<button class="lab-chip ${selectedOccasion === o.id ? 'lab-chip--active' : ''}" data-value="${o.id}">${o.icon} ${o.name}</button>`).join('')}
-                </div>
-              </div>
-
-              <div class="input-group">
-                <label class="input-label">Season</label>
-                <div class="lab-advisor__chips" id="season-chips">
-                  ${SEASONS.map(s => `<button class="lab-chip ${selectedSeason === s.id ? 'lab-chip--active' : ''}" data-value="${s.id}">${s.icon} ${s.name}</button>`).join('')}
-                </div>
-              </div>
-
-              <div class="input-group">
-                <label class="input-label">Time of Day</label>
-                <div class="lab-advisor__chips" id="time-chips">
-                  ${['Morning', 'Afternoon', 'Evening', 'Night'].map(t => `<button class="lab-chip ${selectedTime === t.toLowerCase() ? 'lab-chip--active' : ''}" data-value="${t.toLowerCase()}">${t}</button>`).join('')}
-                </div>
-              </div>
-
-              <div class="slider-container">
-                <div class="slider-header">
-                  <span class="slider-label">Intensity</span>
-                  <span class="slider-value" id="advisor-intensity-val">${(INTENSITIES.find(i => i.value === selectedIntensity) || {}).name || 'Moderate'}</span>
-                </div>
-                <input type="range" min="1" max="9" value="${selectedIntensity}" step="2" id="advisor-intensity" />
-              </div>
-
-              <button class="btn btn--primary w-full" id="btn-get-advice" ${isAdvising ? 'disabled' : ''}>
-                ${isAdvising ? '<span class="loading-spinner"></span> Crafting...' : '✦ Get Recommendation'}
-              </button>
-            </div>
-
-            ${contextResult ? `
-              <div class="lab-advisor__result mt-lg" id="advisor-result">
-                ${contextResult.layers?.length > 0 ? `
-                  <button class="btn btn--primary btn--sm w-full" id="btn-apply-recommendation" style="margin-bottom: var(--space-md);">✦ Apply This Formula</button>
-                ` : ''}
-                <div class="ai-response">
-                  <div class="ai-response__label">✦ ${contextResult.formulaName || 'Recommendation'}</div>
-                  <div class="ai-response__text ai-response__text--compact">
-                    ${contextResult.reasoning ? `<p>${truncateText(contextResult.reasoning, 150)}</p>` : ''}
-                    ${contextResult.scentPreview ? `<p><em>${truncateText(contextResult.scentPreview, 100)}</em></p>` : ''}
-                    ${contextResult.tips ? `<p style="color: var(--accent); font-size: var(--text-xs);">💡 ${truncateText(contextResult.tips, 100)}</p>` : ''}
-                  </div>
                 </div>
               </div>
             ` : ''}
@@ -417,32 +447,70 @@ function addLabStyles() {
   const style = document.createElement('style');
   style.id = 'lab-styles';
   style.textContent = `
+    /* ── Page Header ── */
+    .lab-page-header {
+      text-align: center;
+      padding: var(--space-2xl) 0 var(--space-2xl);
+    }
+    .lab-page-header__label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-sm);
+    }
+    .lab-page-header__title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 500;
+      line-height: 1.1;
+      margin-bottom: var(--space-sm);
+    }
+    .lab-page-header__desc {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Layout ── */
     .lab-layout {
       display: grid;
       grid-template-columns: 3fr 2fr;
       gap: var(--space-2xl);
       align-items: start;
-      max-width: 1680px;
     }
 
-    /* ── Col 1: Workspace ── */
-    .lab-workspace {
+    .lab-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+    }
+
+    .lab-canvas {
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-lg));
+      max-height: calc(100vh - var(--nav-height) - var(--space-lg) * 2);
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
     }
 
-    /* ── Add Section ── */
-    .lab-add-section {
-      margin-bottom: var(--space-md);
-    }
-
-    .lab-add-label {
-      font-size: var(--text-sm);
-      font-weight: 600;
+    /* ── Section label ── */
+    .lab-section-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
       color: var(--text-tertiary);
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    /* ── Add Section ── */
+    .lab-add-section {
+      margin-bottom: var(--space-xl);
     }
 
     .lab-perfume-selector {
@@ -452,29 +520,54 @@ function addLabStyles() {
     }
 
     .lab-region-group {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: transparent;
+      border: none;
       border-radius: var(--radius-md);
-      padding: var(--space-sm);
+      overflow: hidden;
+    }
+
+    .lab-region-layout {
       display: flex;
       flex-direction: column;
+    }
+
+    .lab-region-img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      display: block;
+    }
+
+    .lab-region-right {
+      flex: 1;
+      padding: var(--space-sm) 0;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      border-left: none;
     }
 
     .lab-region-label {
       font-size: var(--text-xs);
       font-weight: 700;
+      color: var(--region-color);
       margin-bottom: var(--space-sm);
     }
 
     .lab-region-items {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
       flex: 1;
     }
 
     .lab-add-btn {
-      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 6px 8px;
       font-size: var(--text-xs);
       font-weight: 500;
       border: 1px solid var(--border);
@@ -483,43 +576,72 @@ function addLabStyles() {
       color: var(--text-secondary);
       cursor: pointer;
       transition: all var(--transition-fast);
-      text-align: left;
     }
 
     .lab-add-btn:hover {
       border-color: var(--region-color);
-      color: var(--region-color);
       background: var(--surface);
     }
 
     .lab-add-btn--added {
       border-color: var(--region-color);
-      background: rgba(0,0,0,0.02);
+      background: color-mix(in srgb, var(--region-color) 6%, transparent);
+    }
+
+    .lab-add-btn__indicator {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--text-tertiary);
+    }
+
+    .lab-add-btn--added .lab-add-btn__indicator {
       color: var(--region-color);
-      font-weight: 600;
+    }
+
+    /* ── Format badges ── */
+    .lab-format-badge {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 2px 5px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .lab-format-badge--spray {
+      background: rgba(99, 132, 255, 0.12);
+      color: #6384ff;
+    }
+    .lab-format-badge--oil {
+      background: rgba(200, 169, 126, 0.18);
+      color: var(--accent-dark);
     }
 
     /* ── Layers ── */
     .lab-layers {
       display: flex;
       flex-direction: column;
-      gap: var(--space-md);
-      margin-bottom: var(--space-xl);
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
     }
 
     .lab-empty {
       text-align: center;
-      padding: var(--space-md) var(--space-xl);
-      border: 2px dashed var(--border);
+      padding: var(--space-2xl) var(--space-xl);
+      border: 1.5px dashed var(--border);
       border-radius: var(--radius-lg);
     }
-
-    .lab-empty__text {
-      font-size: var(--text-lg);
-      color: var(--text-tertiary);
-      margin-bottom: var(--space-xs);
+    .lab-empty__symbol {
+      font-size: 2rem;
+      color: var(--border);
+      margin-bottom: var(--space-sm);
+      line-height: 1;
     }
-
+    .lab-empty__text {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
     .lab-empty__hint {
       font-size: var(--text-sm);
       color: var(--text-tertiary);
@@ -531,39 +653,47 @@ function addLabStyles() {
       border-left: 3px solid var(--region-color);
       border-radius: var(--radius-md);
       padding: var(--space-md) var(--space-lg);
-      transition: all var(--transition-fast);
+      transition: box-shadow var(--transition-fast);
     }
-
-    .lab-layer:hover {
-      box-shadow: var(--shadow-sm);
-    }
+    .lab-layer:hover { box-shadow: var(--shadow-sm); }
 
     .lab-layer__header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: var(--space-sm);
     }
 
-    .lab-layer__info {
+    .lab-layer__identity {
       display: flex;
       align-items: center;
       gap: var(--space-sm);
+      flex: 1;
+      min-width: 0;
     }
 
-    .lab-layer__icon {
-      font-size: 1.3rem;
+    .lab-layer__region-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    .lab-layer__info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
     }
 
     .lab-layer__name {
       font-weight: 600;
-      font-size: var(--text-sm);
-      display: block;
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .lab-layer__meta {
+    .lab-layer__region {
       font-size: var(--text-xs);
-      color: var(--text-tertiary);
+      color: var(--region-color);
+      font-weight: 600;
     }
 
     .lab-layer__remove {
@@ -574,19 +704,17 @@ function addLabStyles() {
       justify-content: center;
       border-radius: var(--radius-sm);
       color: var(--text-tertiary);
-      font-size: var(--text-sm);
+      font-size: var(--text-xs);
       cursor: pointer;
       transition: all var(--transition-fast);
       background: none;
       border: none;
+      flex-shrink: 0;
+      margin-left: var(--space-sm);
     }
+    .lab-layer__remove:hover { background: rgba(244,67,54,0.08); color: #F44336; }
 
-    .lab-layer__remove:hover {
-      background: rgba(244, 67, 54, 0.08);
-      color: #F44336;
-    }
-
-    .lab-layer__controls {
+    .lab-layer__footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -613,18 +741,13 @@ function addLabStyles() {
       font-weight: 600;
       transition: all var(--transition-fast);
     }
-
-    .lab-layer__amount-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
+    .lab-layer__amount-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     .lab-layer__amount-value {
       font-size: var(--text-lg);
       font-weight: 700;
       min-width: 24px;
       text-align: center;
-      color: var(--text-primary);
     }
 
     .lab-layer__amount-unit {
@@ -635,6 +758,7 @@ function addLabStyles() {
     .lab-layer__notes {
       font-size: var(--text-xs);
       color: var(--text-tertiary);
+      text-align: right;
     }
 
     .lab-actions {
@@ -644,7 +768,7 @@ function addLabStyles() {
       flex-wrap: wrap;
     }
 
-    /* ── Col 2: Advisor Panel ── */
+    /* ── Col 2: Advisor ── */
     .lab-advisor {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -654,18 +778,18 @@ function addLabStyles() {
       flex-direction: column;
     }
 
-    .lab-advisor__header {
-      margin-bottom: var(--space-md);
-    }
+    .lab-advisor__header { margin-bottom: var(--space-lg); }
 
     .lab-advisor__title {
       font-size: var(--text-lg);
-      margin-bottom: 4px;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
 
     .lab-advisor__subtitle {
       font-size: var(--text-sm);
-      color: var(--text-tertiary);
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
 
     .lab-advisor__form {
@@ -681,7 +805,7 @@ function addLabStyles() {
     }
 
     .lab-chip {
-      padding: 6px 12px;
+      padding: 5px 12px;
       font-size: var(--text-xs);
       font-weight: 500;
       border: 1px solid var(--border);
@@ -691,12 +815,7 @@ function addLabStyles() {
       cursor: pointer;
       transition: all var(--transition-fast);
     }
-
-    .lab-chip:hover {
-      border-color: var(--accent-light);
-      color: var(--accent-dark);
-    }
-
+    .lab-chip:hover { border-color: var(--accent-light); color: var(--accent-dark); }
     .lab-chip--active {
       border-color: var(--accent);
       background: var(--accent-bg);
@@ -705,9 +824,8 @@ function addLabStyles() {
     }
 
     @media (max-width: 1024px) {
-      .lab-layout {
-        grid-template-columns: 1fr;
-      }
+      .lab-layout { grid-template-columns: 1fr; }
+      .lab-canvas { position: static; }
     }
   `;
   document.head.appendChild(style);

@@ -309,7 +309,7 @@ input, textarea, select {
 }
 
 .page__container {
-  width: min(100%, 1680px);
+  width: min(100%, 1280px);
   margin: 0 auto;
   padding: var(--space-xl) var(--space-lg);
 }

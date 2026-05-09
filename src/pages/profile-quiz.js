@@ -356,44 +356,32 @@ function renderRecommendations(container, profile, navigate) {
   container.innerHTML = `
     <div class="page__container">
       <div class="profile-result">
-        <div class="section-header">
-          <p class="section-label">Your Olfactory Profile</p>
-          <h2 class="section-title">${profile.archetypeName || 'Your Scent Identity'}</h2>
+        <div class="profile-hero">
+          <p class="profile-hero__label">Your Olfactory Profile</p>
+          <h1 class="profile-hero__title">${profile.archetypeName || 'Your Scent Identity'}</h1>
         </div>
 
-        <div class="profile-overview mt-xl">
-          <div class="ai-response profile-overview__identity" id="profile-description">
-          <div class="ai-response__label">✦ Your Scent Identity</div>
-          <div class="ai-response__text">
-            <p>${profile.description || 'Your unique olfactory archetype has been defined.'}</p>
-          </div>
-          </div>
+        <div class="profile-summary-card card mt-xl">
+          <p class="profile-summary-card__desc">${profile.description || 'Your unique olfactory archetype has been defined.'}</p>
 
-        <!-- Merged Cards -->
-          <div class="profile-details">
-            <div class="card">
-              <h4 style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-sm);">Scent Families & Sillage</h4>
-              <div class="flex gap-sm mb-sm" style="flex-wrap: wrap;">
-                ${(profile.primaryFamilies || []).map(f => `<span class="tag tag--accent">${f}</span>`).join('')}
+          <div class="profile-summary-card__divider"></div>
+
+          <div class="profile-summary-card__meta">
+            ${profile.notePreferences ? `
+            <div class="profile-summary-card__section">
+              <p class="profile-summary-card__heading">Note Preferences</p>
+              <div class="profile-summary-card__notes">
+                <div><span class="note-label note-label--love">♥ Love</span><span class="note-values">${(profile.notePreferences.loves || []).join(', ')}</span></div>
+                <div><span class="note-label note-label--explore">✦ Explore</span><span class="note-values">${(profile.notePreferences.explore || []).join(', ')}</span></div>
+                <div><span class="note-label note-label--avoid">↓ Avoid</span><span class="note-values">${(profile.notePreferences.avoid || []).join(', ')}</span></div>
               </div>
-              <p style="font-size: var(--text-sm); color: var(--accent); font-weight: 600;">Sillage: ${profile.sillageProfile || 'Medium'}</p>
-            </div>
-            <div class="card">
-              <h4 style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-sm);">Note Preferences</h4>
-              ${profile.notePreferences ? `
-                <div style="margin-bottom: var(--space-xs);">
-                  <span style="font-size: var(--text-xs); color: #4CAF50; font-weight: 600;">♥ Love: </span>
-                  <span style="font-size: var(--text-xs);">${(profile.notePreferences.loves || []).join(', ')}</span>
-                </div>
-                <div style="margin-bottom: var(--space-xs);">
-                  <span style="font-size: var(--text-xs); color: var(--accent); font-weight: 600;">✦ Explore: </span>
-                  <span style="font-size: var(--text-xs);">${(profile.notePreferences.explore || []).join(', ')}</span>
-                </div>
-                <div>
-                  <span style="font-size: var(--text-xs); color: var(--text-tertiary); font-weight: 600;">↓ Avoid: </span>
-                  <span style="font-size: var(--text-xs);">${(profile.notePreferences.avoid || []).join(', ')}</span>
-                </div>
-              ` : '<p style="font-size: var(--text-xs); color: var(--text-tertiary);">Not available yet.</p>'}
+            </div>` : ''}
+            <div class="profile-summary-card__section">
+              <p class="profile-summary-card__heading">Scent Families</p>
+              <ul class="profile-families-list">
+                ${(profile.primaryFamilies || []).map(f => `<li>${f}</li>`).join('')}
+              </ul>
+              <p class="profile-summary-card__sillage">Sillage — ${profile.sillageProfile || 'Medium'}</p>
             </div>
           </div>
         </div>
@@ -460,7 +448,6 @@ function renderComboCard(combo, options = {}) {
           </p>`;
         }).join('')}
       </div>
-      <p class="combo-card__desc">${combo.description}</p>
       ${options.showBuyButton && combo.productIds?.length ? `
         <button class="btn btn--primary combo-card__buy" data-buy-combo="true" data-combo-ids="${comboIds}">
           Buy this combination
@@ -899,15 +886,105 @@ function addQuizStyles() {
 
     /* ── Profile result ── */
     .profile-result { margin: 0 auto; }
-    .profile-overview { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr); gap: var(--space-lg); align-items: start; }
-    .profile-overview__identity { margin: 0; min-height: 100%; }
-    .profile-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-lg); align-content: start; }
+
+    .profile-hero { text-align: center; padding: var(--space-2xl) 0 var(--space-lg); }
+    .profile-hero__label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-sm);
+    }
+    .profile-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 500;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .profile-summary-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .profile-summary-card__desc {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .profile-summary-card__divider {
+      height: 1px;
+      background: var(--border);
+    }
+    .profile-summary-card__meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-lg);
+    }
+    .profile-summary-card__heading {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-sm);
+    }
+    .profile-families-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--space-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .profile-families-list li {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-primary);
+      padding-left: var(--space-md);
+      position: relative;
+    }
+    .profile-families-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .profile-summary-card__sillage {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-top: var(--space-xs);
+    }
+    .profile-summary-card__notes { display: flex; flex-direction: column; gap: 6px; }
+    .profile-summary-card__notes > div { display: flex; align-items: baseline; gap: var(--space-sm); }
+    .note-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      white-space: nowrap;
+      min-width: 64px;
+    }
+    .note-label--love    { color: #4CAF50; }
+    .note-label--explore { color: var(--accent); }
+    .note-label--avoid   { color: var(--text-tertiary); }
+    .note-values { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.5; }
+
     .profile-actions { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
     .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md); }
-    .combo-card { display: flex; flex-direction: column; min-height: var(--card-min-regular); }
+    .combo-card { display: flex; flex-direction: column; }
     .combo-card__name { font-size: var(--text-lg); font-family: var(--font-display); margin-bottom: var(--space-md); }
-    .combo-card__layers { margin-bottom: var(--space-md); flex: 1; }
-    .combo-card__desc { font-size: var(--text-xs); color: var(--text-tertiary); line-height: 1.6; margin-top: auto; }
+    .combo-card__layers { flex: 1; }
     .combo-card__buy { width: 100%; margin-top: var(--space-md); }
 
     @media (max-width: 1024px) { .profile-overview { grid-template-columns: 1fr; } }
