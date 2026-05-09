@@ -21,23 +21,29 @@ export function renderLanding(container, navigate) {
       </div>
       <div class="hero__content">
         <h1 class="hero__title" id="hero-title">
-          <span class="hero__title-line">Build Your</span>
-          <span class="hero__title-line hero__title-accent">Signature.</span>
+          <span class="hero__title-line">Scent is personal.</span>
+          <span class="hero__title-line hero__title-accent">Make it yours.</span>
         </h1>
         <p class="hero__subtitle">
-          Discover the art of fragrance layering with six world regions.<br>
-          Create your unique olfactory identity.
+          Layer fragrances from six world regions.<br>
+          Your olfactory identity, composed by you.
         </p>
-        <div class="hero__actions">
-          <button class="btn btn--primary btn--lg" id="hero-cta">
-            ${hasProfile ? 'Enter the Lab' : 'Begin Your Journey'}
-          </button>
-          <!-- Watch Demo moved to Settings -->
-        </div>
       </div>
       <div class="hero__scroll-hint" id="scroll-hint">
-        <span>Discover</span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <div class="hero__discover-ring">
+          <span class="hero__discover-label">Discover</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAME ORIGIN -->
+    <section class="landing-origin" id="origin-section">
+      <div class="page__container">
+        <div class="origin-block">
+          <p class="origin-word">Mon Accord</p>
+          <p class="origin-definition">French for <em>my harmony</em>. A fragrance is never just a scent — it is an agreement between notes, between cultures, between a moment and a memory. Find yours.</p>
+        </div>
       </div>
     </section>
 
@@ -82,29 +88,22 @@ export function renderLanding(container, navigate) {
           <div class="how-step" id="how-step-1">
             <div class="how-step__number">01</div>
             <div class="how-step__content">
-              <h3 class="how-step__title">Discover Your Profile</h3>
-              <p class="how-step__text">Our AI analyzes your scent preferences, experience, and lifestyle to create your unique olfactory archetype.</p>
+              <h3 class="how-step__title">Build Your Profile</h3>
+              <p class="how-step__text">Answer a short quiz and our AI creates your unique olfactory archetype — your taste, your language, your starting point.</p>
             </div>
           </div>
           <div class="how-step" id="how-step-2">
             <div class="how-step__number">02</div>
             <div class="how-step__content">
-              <h3 class="how-step__title">Explore & Layer</h3>
-              <p class="how-step__text">Combine sprays and oils from different regions. Our AI simulates the scent and guides your layering ratios.</p>
+              <h3 class="how-step__title">Layer & Compose</h3>
+              <p class="how-step__text">Combine sprays and oils from six world regions. Adjust ratios, simulate the scent, and get advice tailored to your mood, occasion, and season.</p>
             </div>
           </div>
           <div class="how-step" id="how-step-3">
             <div class="how-step__number">03</div>
             <div class="how-step__content">
-              <h3 class="how-step__title">Get Contextual Advice</h3>
-              <p class="how-step__text">Tell us your mood, occasion, and season — the AI crafts a personalized formula just for that moment.</p>
-            </div>
-          </div>
-          <div class="how-step" id="how-step-4">
-            <div class="how-step__number">04</div>
-            <div class="how-step__content">
-              <h3 class="how-step__title">Evolve Your Scent</h3>
-              <p class="how-step__text">Your profile grows with you. AI tracks your preferences and suggests remixes as your taste evolves.</p>
+              <h3 class="how-step__title">Save & Evolve</h3>
+              <p class="how-step__text">Vault your formulas, revisit them anytime. Your profile grows with every session — refining your accord as your taste evolves.</p>
             </div>
           </div>
         </div>
@@ -127,8 +126,8 @@ export function renderLanding(container, navigate) {
   `;
 
   // ── Event Listeners ──
-  container.querySelector('#hero-cta').addEventListener('click', () => {
-    navigate(hasProfile ? '#lab' : '#profile');
+  container.querySelector('#scroll-hint').addEventListener('click', () => {
+    document.getElementById('origin-section')?.scrollIntoView({ behavior: 'smooth' });
   });
 
   container.querySelector('#bottom-cta').addEventListener('click', () => {
@@ -258,12 +257,12 @@ function addLandingStyles() {
       animation: float 8s ease-in-out infinite;
     }
 
-    .hero__orb--1 { width: 300px; height: 300px; background: var(--region-scandinavian-light); top: 10%; left: 5%; animation-delay: 0s; }
-    .hero__orb--2 { width: 250px; height: 250px; background: var(--region-eastasia-light); top: 20%; right: 10%; animation-delay: 1.5s; }
-    .hero__orb--3 { width: 350px; height: 350px; background: var(--region-mediterranean-light); bottom: 15%; left: 15%; animation-delay: 3s; }
-    .hero__orb--4 { width: 200px; height: 200px; background: var(--region-middleeast-light); top: 50%; right: 20%; animation-delay: 2s; }
-    .hero__orb--5 { width: 280px; height: 280px; background: var(--region-southamerica-light); bottom: 20%; right: 5%; animation-delay: 4s; }
-    .hero__orb--6 { width: 220px; height: 220px; background: var(--region-southafrica-light); top: 5%; left: 40%; animation-delay: 1s; }
+    .hero__orb--1 { width: 420px; height: 420px; background: var(--region-scandinavian-light); top: -8%; left: -6%; animation-delay: 0s; opacity: 0.18; }
+    .hero__orb--2 { width: 320px; height: 320px; background: var(--region-eastasia-light); top: 10%; right: -4%; animation-delay: 1.5s; opacity: 0.15; }
+    .hero__orb--3 { width: 500px; height: 500px; background: var(--region-mediterranean-light); bottom: -20%; left: -10%; animation-delay: 3s; opacity: 0.12; }
+    .hero__orb--4 { width: 260px; height: 260px; background: var(--region-middleeast-light); top: 55%; right: 8%; animation-delay: 2s; opacity: 0.14; }
+    .hero__orb--5 { width: 360px; height: 360px; background: var(--region-southamerica-light); bottom: -10%; right: -5%; animation-delay: 4s; opacity: 0.13; }
+    .hero__orb--6 { width: 280px; height: 280px; background: var(--region-southafrica-light); top: 2%; left: 38%; animation-delay: 1s; opacity: 0.1; }
 
     .hero__content {
       text-align: center;
@@ -320,18 +319,79 @@ function addLandingStyles() {
       right: 0;
       width: fit-content;
       margin: 0 auto;
+      animation: float 3s ease-in-out infinite, fadeIn 1s var(--ease-out) 1.2s both;
+      cursor: pointer;
+    }
+
+    .hero__discover-ring {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      font-size: var(--text-lg);
+      padding: 16px 28px;
+      border: 1.5px solid rgba(200,169,126,0.45);
+      border-radius: var(--radius-full);
+      background: rgba(200,169,126,0.06);
+      backdrop-filter: blur(8px);
+      transition: all var(--transition-base);
+      box-shadow: 0 0 0 0 rgba(200,169,126,0.2);
+      animation: discoverPulse 3s ease-in-out infinite;
+    }
+
+    .hero__discover-ring:hover {
+      background: rgba(200,169,126,0.14);
+      border-color: rgba(200,169,126,0.8);
+    }
+
+    .hero__discover-label {
+      font-size: var(--text-base);
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       color: var(--accent);
-      animation: float 3s ease-in-out infinite, fadeIn 1s var(--ease-out) 1.2s both;
-      cursor: pointer;
       text-transform: uppercase;
+    }
+
+    .hero__discover-ring svg {
+      color: var(--accent);
+    }
+
+    @keyframes discoverPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,126,0.25); }
+      50% { box-shadow: 0 0 0 10px rgba(200,169,126,0); }
+    }
+
+    /* ── Name Origin ── */
+    .landing-origin {
+      padding: var(--space-3xl) 0 var(--space-2xl);
+    }
+
+    .origin-block {
+      max-width: 640px;
+      margin: 0 auto;
       text-align: center;
+      border-left: 2px solid var(--accent);
+      padding-left: var(--space-xl);
+      text-align: left;
+    }
+
+    .origin-word {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: var(--space-md);
+    }
+
+    .origin-definition {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .origin-definition em {
+      color: var(--text-primary);
+      font-style: italic;
     }
 
     /* ── Regions Grid ── */
@@ -516,45 +576,57 @@ function addLandingStyles() {
     }
 
     .how-steps {
-      max-width: 700px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
+      max-width: 760px;
+      margin: var(--space-2xl) auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: var(--space-xl);
     }
 
     .how-step {
       display: flex;
-      gap: var(--space-xl);
-      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
       opacity: 0;
-      transform: translateX(-24px);
+      transform: translateY(20px);
       transition: all var(--transition-slow);
+      position: relative;
     }
 
     .how-step.visible {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateY(0);
     }
 
     .how-step__number {
       font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 600;
-      color: var(--accent-light);
-      min-width: 60px;
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      color: var(--accent);
       line-height: 1;
+      opacity: 0.35;
     }
 
     .how-step__title {
       font-size: var(--text-lg);
-      margin-bottom: var(--space-xs);
+      font-weight: 600;
+      margin-bottom: 0;
     }
 
     .how-step__text {
       font-size: var(--text-sm);
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 720px) {
+      .how-steps {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* ── Bottom CTA ── */
