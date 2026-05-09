@@ -5,22 +5,23 @@
 import { REGIONS, PERFUMES } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
 
+const REGION_IMAGES = {
+  scandinavian: new URL('../assets/scandinavian.png',   import.meta.url).href,
+  eastasia:     new URL('../assets/east_asia.png',      import.meta.url).href,
+  southafrica:  new URL('../assets/south_africa.png',   import.meta.url).href,
+  mediterranean:new URL('../assets/mediterranean.png',  import.meta.url).href,
+  southamerica: new URL('../assets/south_america.png',  import.meta.url).href,
+  middleeast:   new URL('../assets/middle_east.png',    import.meta.url).href,
+};
+
 export function renderLanding(container, navigate) {
   const hasProfile = !!storage.getProfile();
 
   container.innerHTML = `
     <!-- HERO -->
     <section class="hero" id="hero-section">
-      <div class="hero__bg">
-        <div class="hero__orb hero__orb--1"></div>
-        <div class="hero__orb hero__orb--2"></div>
-        <div class="hero__orb hero__orb--3"></div>
-        <div class="hero__orb hero__orb--4"></div>
-        <div class="hero__orb hero__orb--5"></div>
-        <div class="hero__orb hero__orb--6"></div>
-      </div>
       <div class="hero__content">
-        <h1 class="hero__title" id="hero-title">
+        <h1 class="hero__title">
           <span class="hero__title-line">Scent is personal.</span>
           <span class="hero__title-line hero__title-accent">Make it yours.</span>
         </h1>
@@ -47,33 +48,33 @@ export function renderLanding(container, navigate) {
       </div>
     </section>
 
-    <!-- REGIONS -->
+    <!-- COLLECTION -->
     <section class="landing-regions" id="regions-section">
-      <div class="page__container">
-        <div class="section-header">
-          <p class="section-label">The Collection</p>
-          <h2 class="section-title">Six Regions, One Language</h2>
-          <p class="section-subtitle">Each region carries centuries of olfactory tradition — distilled into spray and oil formats for infinite layering.</p>
-        </div>
-        <div class="regions-grid" id="regions-grid">
-          ${REGIONS.map((region, i) => {
-            const spray = PERFUMES.find(p => p.region === region.id && p.format === 'spray');
-            const oil   = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
-            const rgb = hexToRgb(region.color);
-            return `
-              <div class="region-card" data-region="${region.id}" id="region-card-${region.id}" style="--delay: ${i * 0.1}s; --region-color: ${region.color}; --region-light: ${region.colorLight};">
-                <div class="region-card__orb">${region.icon}</div>
-                <h3 class="region-card__name">${region.name}</h3>
-                <p class="region-card__tagline">${region.tagline}</p>
-                <p class="region-card__description">${region.description}</p>
-                <div class="region-card__formats">
-                  ${spray ? `<button class="region-format-btn" data-region="${region.id}" data-format="spray" style="--rc: ${region.color}; --rc-rgb: ${rgb};">💨 Spray</button>` : ''}
-                  ${oil   ? `<button class="region-format-btn" data-region="${region.id}" data-format="oil"   style="--rc: ${region.color}; --rc-rgb: ${rgb};">💧 Oil</button>`   : ''}
-                </div>
+      <div class="cf-showcase">
+
+        <!-- Left: visual carousel -->
+        <div class="cf-visual">
+          <button class="cf-nav cf-nav--prev" id="cf-prev" aria-label="Previous">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="cf-stage" id="cf-stage">
+            ${REGIONS.map((r, i) => `
+              <div class="cf-card" data-index="${i}" data-region="${r.id}">
+                <img src="${REGION_IMAGES[r.id]}" alt="${r.name}" class="cf-card__img" draggable="false" />
               </div>
-            `;
-          }).join('')}
+            `).join('')}
+          </div>
+          <button class="cf-nav cf-nav--next" id="cf-next" aria-label="Next">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <div class="cf-dots" id="cf-dots">
+            ${REGIONS.map((r, i) => `<button class="cf-dot" data-index="${i}" style="--rc: ${r.color};" aria-label="${r.name}"></button>`).join('')}
+          </div>
         </div>
+
+        <!-- Right: info panel -->
+        <div class="cf-info" id="cf-info"></div>
+
       </div>
     </section>
 
@@ -125,105 +126,146 @@ export function renderLanding(container, navigate) {
     </section>
   `;
 
-  // ── Event Listeners ──
+  addLandingStyles();
+
+  // ── Scroll hint ──
   container.querySelector('#scroll-hint').addEventListener('click', () => {
     document.getElementById('origin-section')?.scrollIntoView({ behavior: 'smooth' });
   });
 
+  // ── Bottom CTA ──
   container.querySelector('#bottom-cta').addEventListener('click', () => {
     navigate(hasProfile ? '#lab' : '#profile');
   });
 
-  // Format buttons → popup
-  container.querySelectorAll('.region-format-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const regionId = btn.dataset.region;
-      const format   = btn.dataset.format;
-      const region   = REGIONS.find(r => r.id === regionId);
-      const perfume  = PERFUMES.find(p => p.region === regionId && p.format === format);
-      if (!perfume || !region) return;
+  // ── Coverflow ring buffer ──
+  // slots[2] = active center. Slot index → visual pos: slotIdx - 2
+  // slot 0 = pos -2 (hidden left), slots 1/2/3 visible, slot 4/5 hidden right
+  let slots = [0, 1, 2, 3, 4, 5];
 
-      // Remove any existing popup
-      document.querySelector('.notes-popup')?.remove();
+  function cardEl(regionIdx) {
+    return container.querySelector(`.cf-card[data-index="${regionIdx}"]`);
+  }
 
-      const popup = document.createElement('div');
-      popup.className = 'notes-popup';
-      popup.innerHTML = `
-        <div class="notes-popup__inner" style="--rc: ${region.color}; --rc-rgb: ${hexToRgb(region.color)};">
-          <div class="notes-popup__header">
-            <span class="notes-popup__title">${region.icon} ${region.name} — ${format === 'spray' ? '💨 Spray' : '💧 Oil'}</span>
-            <button class="notes-popup__close">✕</button>
-          </div>
-          <div class="notes-popup__rows">
-            <div class="notes-popup__row">
-              <span class="notes-popup__label">Top</span>
-              <span class="notes-popup__val">${perfume.topNotes.join(', ')}</span>
-            </div>
-            <div class="notes-popup__row">
-              <span class="notes-popup__label">Middle</span>
-              <span class="notes-popup__val">${perfume.middleNotes.join(', ')}</span>
-            </div>
-            <div class="notes-popup__row">
-              <span class="notes-popup__label">Base</span>
-              <span class="notes-popup__val">${perfume.baseNotes.join(', ')}</span>
-            </div>
-          </div>
+  function applyPos(card, pos, instant = false) {
+    const absP  = Math.abs(pos);
+    const tx    = pos * 230;
+    const scale = absP === 0 ? 1 : absP === 1 ? 0.68 : 0.50;
+    const op    = absP === 0 ? 1 : absP === 1 ? 0.55 : 0;
+    const z     = absP === 0 ? 5 : absP === 1 ? 3 : 1;
+    if (instant) card.style.transition = 'none';
+    card.style.transform = `translateX(calc(-50% + ${tx}px)) translateY(-50%) scale(${scale})`;
+    card.style.opacity   = op;
+    card.style.zIndex    = z;
+    if (instant) { card.offsetHeight; card.style.transition = ''; }
+  }
+
+  function renderSlots(instant = false) {
+    slots.forEach((regionIdx, slotIdx) => {
+      applyPos(cardEl(regionIdx), slotIdx - 2, instant);
+      cardEl(regionIdx).classList.toggle('cf-card--active', slotIdx === 2);
+    });
+    container.querySelectorAll('.cf-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === slots[2]);
+    });
+    renderDetail();
+  }
+
+  function renderDetail() {
+    const region = REGIONS[slots[2]];
+    const spray  = PERFUMES.find(p => p.region === region.id && p.format === 'spray');
+    const oil    = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
+    const info   = container.querySelector('#cf-info');
+
+    const noteCol = (label, notes) => `
+      <div class="cf-info__note-col">
+        <p class="cf-info__note-heading">${label}</p>
+        <p class="cf-info__note-vals">${notes.join(', ')}</p>
+      </div>`;
+
+    info.innerHTML = `
+      <div class="cf-info__inner" style="--rc: ${region.color}; --rcl: ${region.colorLight};">
+        <div class="cf-info__top">
+          <p class="cf-info__label">The Collection</p>
+          <h2 class="cf-info__name">${region.name}</h2>
+          <p class="cf-info__tagline">${region.tagline}</p>
         </div>
-      `;
-      document.body.appendChild(popup);
+        <p class="cf-info__desc">${region.description}</p>
+        <div class="cf-info__divider"></div>
+        ${spray ? `
+          <div class="cf-info__notes-block">
+            <p class="cf-info__notes-type">💨 Spray</p>
+            <div class="cf-info__notes-cols">
+              ${noteCol('TOP', spray.topNotes)}
+              ${noteCol('HEART', spray.middleNotes)}
+              ${noteCol('BASE', spray.baseNotes)}
+            </div>
+          </div>` : ''}
+        ${oil ? `
+          <div class="cf-info__notes-block">
+            <p class="cf-info__notes-type">💧 Oil</p>
+            <div class="cf-info__notes-cols">
+              ${noteCol('TOP', oil.topNotes)}
+              ${noteCol('HEART', oil.middleNotes)}
+              ${noteCol('BASE', oil.baseNotes)}
+            </div>
+          </div>` : ''}
+      </div>
+    `;
 
-      // Position near the button
-      const rect = btn.getBoundingClientRect();
-      const inner = popup.querySelector('.notes-popup__inner');
-      // Wait for paint so we know popup size
-      requestAnimationFrame(() => {
-        const pw = inner.offsetWidth;
-        const ph = inner.offsetHeight;
-        let left = rect.left + rect.width / 2 - pw / 2;
-        let top  = rect.bottom + window.scrollY + 10;
-        // Keep inside viewport
-        if (left + pw > window.innerWidth - 12) left = window.innerWidth - pw - 12;
-        if (left < 12) left = 12;
-        const viewportBottom = window.scrollY + window.innerHeight - 12;
-        if (top + ph > viewportBottom) {
-          top = rect.top + window.scrollY - ph - 10;
-        }
-        const viewportTop = window.scrollY + 12;
-        if (top < viewportTop) top = viewportTop;
-        popup.style.left = left + 'px';
-        popup.style.top  = top + 'px';
-      });
+    info.querySelector('.cf-info__inner').animate(
+      [{ opacity: 0, transform: 'translateX(16px)' }, { opacity: 1, transform: 'translateX(0)' }],
+      { duration: 340, easing: 'cubic-bezier(0.16,1,0.3,1)', fill: 'forwards' }
+    );
+  }
 
-      const close = () => popup.remove();
-      popup.querySelector('.notes-popup__close').addEventListener('click', close);
-      setTimeout(() => document.addEventListener('click', close, { once: true }), 0);
+  function goRight() {
+    applyPos(cardEl(slots[0]), 3, true); // snap hidden-left to hidden-right
+    slots = [...slots.slice(1), slots[0]];
+    renderSlots();
+  }
 
+  function goLeft() {
+    applyPos(cardEl(slots[5]), -3, true); // snap hidden-right to hidden-left
+    slots = [slots[5], ...slots.slice(0, 5)];
+    renderSlots();
+  }
+
+  function snapToRegion(targetIdx) {
+    const pos = slots.indexOf(targetIdx) - 2;
+    if (pos === 0) return;
+    const shift = slots.indexOf(targetIdx);
+    slots = [...slots.slice(shift), ...slots.slice(0, shift)];
+    renderSlots(true);
+  }
+
+  container.querySelector('#cf-prev').addEventListener('click', goLeft);
+  container.querySelector('#cf-next').addEventListener('click', goRight);
+
+  container.querySelectorAll('.cf-dot').forEach((dot, i) => {
+    dot.addEventListener('click', () => snapToRegion(i));
+  });
+
+  container.querySelectorAll('.cf-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const slotIdx = slots.indexOf(Number(card.dataset.index));
+      if (slotIdx === 2) return;
+      if (slotIdx > 2) goRight(); else goLeft();
     });
   });
 
-  // Intersection observer for animations
+  container.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  goLeft();
+    if (e.key === 'ArrowRight') goRight();
+  });
+
+  renderSlots(true);
+
+  // ── Intersection observer for how-steps ──
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
-
-  container.querySelectorAll('.region-card, .how-step').forEach(el => {
-    observer.observe(el);
-  });
-
-  // ── Landing-specific styles ──
-  addLandingStyles();
-}
-
-function hexToRgb(hex) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `${r}, ${g}, ${b}`;
+  container.querySelectorAll('.how-step').forEach(el => observer.observe(el));
 }
 
 function addLandingStyles() {
@@ -233,41 +275,18 @@ function addLandingStyles() {
   style.textContent = `
     /* ── Hero ── */
     .hero {
-      min-height: 100vh;
+      min-height: calc(100vh - var(--nav-height));
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
       padding: var(--space-xl);
+      padding-bottom: 100px;
     }
-
-    .hero__bg {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-
-    .hero__orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.25;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .hero__orb--1 { width: 420px; height: 420px; background: var(--region-scandinavian-light); top: -8%; left: -6%; animation-delay: 0s; opacity: 0.18; }
-    .hero__orb--2 { width: 320px; height: 320px; background: var(--region-eastasia-light); top: 10%; right: -4%; animation-delay: 1.5s; opacity: 0.15; }
-    .hero__orb--3 { width: 500px; height: 500px; background: var(--region-mediterranean-light); bottom: -20%; left: -10%; animation-delay: 3s; opacity: 0.12; }
-    .hero__orb--4 { width: 260px; height: 260px; background: var(--region-middleeast-light); top: 55%; right: 8%; animation-delay: 2s; opacity: 0.14; }
-    .hero__orb--5 { width: 360px; height: 360px; background: var(--region-southamerica-light); bottom: -10%; right: -5%; animation-delay: 4s; opacity: 0.13; }
-    .hero__orb--6 { width: 280px; height: 280px; background: var(--region-southafrica-light); top: 2%; left: 38%; animation-delay: 1s; opacity: 0.1; }
 
     .hero__content {
       text-align: center;
-      position: relative;
-      z-index: 1;
       max-width: 700px;
     }
 
@@ -279,9 +298,7 @@ function addLandingStyles() {
       animation: fadeIn 0.8s var(--ease-out) 0.3s both;
     }
 
-    .hero__title-line {
-      display: block;
-    }
+    .hero__title-line { display: block; }
 
     .hero__title-accent {
       color: var(--accent);
@@ -292,31 +309,13 @@ function addLandingStyles() {
       font-size: var(--text-lg);
       color: var(--text-secondary);
       line-height: 1.6;
-      margin-bottom: var(--space-2xl);
       animation: fadeIn 0.8s var(--ease-out) 0.5s both;
-    }
-
-    .hero__actions {
-      display: flex;
-      gap: var(--space-md);
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeIn 0.8s var(--ease-out) 0.7s both;
-    }
-
-    .hero__demo-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: var(--text-base);
-      letter-spacing: 0.02em;
     }
 
     .hero__scroll-hint {
       position: absolute;
       bottom: var(--space-xl);
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       width: fit-content;
       margin: 0 auto;
       animation: float 3s ease-in-out infinite, fadeIn 1s var(--ease-out) 1.2s both;
@@ -329,19 +328,10 @@ function addLandingStyles() {
       align-items: center;
       gap: 8px;
       padding: 16px 28px;
-      border: 1.5px solid rgba(200,169,126,0.45);
-      border-radius: var(--radius-full);
-      background: rgba(200,169,126,0.06);
-      backdrop-filter: blur(8px);
-      transition: all var(--transition-base);
-      box-shadow: 0 0 0 0 rgba(200,169,126,0.2);
-      animation: discoverPulse 3s ease-in-out infinite;
+      transition: opacity var(--transition-base);
     }
 
-    .hero__discover-ring:hover {
-      background: rgba(200,169,126,0.14);
-      border-color: rgba(200,169,126,0.8);
-    }
+    .hero__discover-ring:hover { opacity: 0.65; }
 
     .hero__discover-label {
       font-size: var(--text-base);
@@ -351,27 +341,16 @@ function addLandingStyles() {
       text-transform: uppercase;
     }
 
-    .hero__discover-ring svg {
-      color: var(--accent);
-    }
-
-    @keyframes discoverPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,126,0.25); }
-      50% { box-shadow: 0 0 0 10px rgba(200,169,126,0); }
-    }
+    .hero__discover-ring svg { color: var(--accent); }
 
     /* ── Name Origin ── */
-    .landing-origin {
-      padding: var(--space-3xl) 0 var(--space-2xl);
-    }
+    .landing-origin { padding: var(--space-3xl) 0 var(--space-2xl); }
 
     .origin-block {
       max-width: 640px;
       margin: 0 auto;
-      text-align: center;
       border-left: 2px solid var(--accent);
       padding-left: var(--space-xl);
-      text-align: left;
     }
 
     .origin-word {
@@ -394,213 +373,224 @@ function addLandingStyles() {
       font-style: italic;
     }
 
-    /* ── Regions Grid ── */
-    .landing-regions {
-      padding: var(--space-4xl) 0;
-    }
+    /* ── Collection showcase ── */
+    .landing-regions { padding: var(--space-3xl) 0; }
 
-    .regions-grid {
+    .cf-showcase {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-lg);
+      grid-template-columns: 58% 42%;
+      height: 580px;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
     }
 
-    .region-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: var(--space-2xl) var(--space-xl);
-      text-align: center;
-      cursor: pointer;
-      transition: all var(--transition-slow);
-      opacity: 0;
-      transform: translateY(24px);
+    /* ── Visual carousel ── */
+    .cf-visual {
       position: relative;
-      overflow: hidden;
-      min-height: var(--card-min-tall);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-    }
-
-    .region-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--region-color), var(--region-light));
-      opacity: 0;
-      transition: opacity var(--transition-base);
-    }
-
-    .region-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: var(--delay);
-    }
-
-    .region-card:hover {
-      border-color: var(--region-color);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
-      transform: translateY(-4px);
-    }
-
-    .region-card:hover::before {
-      opacity: 1;
-    }
-
-    .region-card__orb {
-      font-size: 2.5rem;
-      margin-bottom: var(--space-md);
-      display: inline-block;
-      transition: transform var(--transition-base);
-    }
-
-    .region-card:hover .region-card__orb {
-      transform: scale(1.15);
-    }
-
-    .region-card__name {
-      font-size: var(--text-xl);
-      margin-bottom: var(--space-xs);
-    }
-
-    .region-card__tagline {
-      font-size: var(--text-sm);
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: var(--space-md);
-    }
-
-    .region-card__description {
-      font-size: var(--text-sm);
-      color: var(--text-tertiary);
-      line-height: 1.6;
-      margin-bottom: var(--space-md);
-      flex: 1;
-    }
-
-    .region-card__formats {
-      display: flex;
-      gap: var(--space-xs);
-      justify-content: center;
-      margin-bottom: 0;
-      margin-top: auto;
-    }
-
-    .region-format-btn {
-      padding: 6px 16px;
-      font-size: var(--text-xs);
-      font-weight: 600;
-      border: 1px solid rgba(var(--rc-rgb), 0.35);
-      border-radius: var(--radius-full);
-      background: rgba(var(--rc-rgb), 0.07);
-      color: var(--rc);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .region-format-btn:hover,
-    .region-format-btn--active {
-      background: rgba(var(--rc-rgb), 0.18);
-      border-color: var(--rc);
-    }
-
-    .notes-popup {
-      position: absolute;
-      z-index: 2000;
-      animation: fadeIn 0.15s var(--ease-out);
-    }
-
-    .notes-popup__inner {
-      background: var(--surface);
-      border: 1px solid rgba(var(--rc-rgb), 0.3);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-      padding: var(--space-lg);
-      width: 280px;
-    }
-
-    .notes-popup__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-md);
-      padding-bottom: var(--space-sm);
-      border-bottom: 1px solid rgba(var(--rc-rgb), 0.2);
-    }
-
-    .notes-popup__title {
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--rc);
-    }
-
-    .notes-popup__close {
-      font-size: var(--text-xs);
-      color: var(--text-tertiary);
-      cursor: pointer;
-      padding: 2px 6px;
-      border-radius: var(--radius-sm);
-      transition: background var(--transition-fast);
-    }
-
-    .notes-popup__close:hover { background: var(--bg-secondary); }
-
-    .notes-popup__rows { margin-bottom: var(--space-md); }
-
-    .notes-popup__row {
-      display: flex;
-      gap: var(--space-sm);
-      margin-bottom: 6px;
-      font-size: var(--text-xs);
-      line-height: 1.5;
-    }
-
-    .notes-popup__label {
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-tertiary);
-      min-width: 46px;
+      height: 520px;
       flex-shrink: 0;
     }
 
-    .notes-popup__val { color: var(--text-secondary); }
-
-    /* ── How It Works ── */
-    .landing-how {
-      padding: var(--space-3xl) 0 var(--space-4xl);
+    .cf-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
 
+    .cf-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 420px;
+      cursor: pointer;
+      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1),
+                  opacity  0.55s cubic-bezier(0.16,1,0.3,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cf-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      display: block;
+    }
+
+    /* Nav buttons */
+    .cf-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cf-nav:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .cf-nav--prev { left: 16px; }
+    .cf-nav--next { right: 16px; }
+
+    /* Dots */
+    .cf-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .cf-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(26,26,46,0.2);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      padding: 0;
+    }
+
+    .cf-dot.active {
+      background: var(--rc);
+      transform: scale(1.35);
+    }
+
+    /* ── Info panel ── */
+    .cf-info {
+      display: flex;
+      align-items: center;
+      padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) var(--space-3xl);
+    }
+
+    .cf-info__inner {
+      width: 100%;
+    }
+
+    .cf-info__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: var(--space-sm);
+    }
+
+    .cf-info__name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 500;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .cf-info__tagline {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--rc);
+      margin-bottom: var(--space-lg);
+    }
+
+    .cf-info__desc {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-width: 380px;
+      margin-bottom: var(--space-lg);
+    }
+
+    .cf-info__divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--rc), transparent);
+      opacity: 0.35;
+      margin-bottom: var(--space-lg);
+    }
+
+    .cf-info__notes-block {
+      margin-bottom: var(--space-md);
+    }
+
+    .cf-info__notes-type {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .cf-info__notes-cols {
+      display: flex;
+      gap: var(--space-xl);
+    }
+
+    .cf-info__note-col { flex: 1; }
+
+    .cf-info__note-heading {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .cf-info__note-vals {
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .cf-info__cta {
+      margin-top: var(--space-xl);
+    }
+
+    /* ── How It Works ── */
+    .landing-how { padding: var(--space-3xl) 0 var(--space-4xl); }
+
     .how-steps {
-      max-width: 760px;
       margin: var(--space-2xl) auto 0;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-xl);
+      grid-template-columns: repeat(3, auto);
+      justify-content: center;
+      gap: var(--space-3xl);
     }
 
     .how-step {
       display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
+      flex-direction: row;
+      gap: var(--space-lg);
       padding: var(--space-xl);
       opacity: 0;
       transform: translateY(20px);
       transition: all var(--transition-slow);
-      position: relative;
     }
 
-    .how-step.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .how-step.visible { opacity: 1; transform: translateY(0); }
 
     .how-step__number {
       font-family: var(--font-display);
@@ -611,28 +601,18 @@ function addLandingStyles() {
       opacity: 0.35;
     }
 
-    .how-step__title {
-      font-size: var(--text-lg);
-      font-weight: 600;
-      margin-bottom: 0;
-    }
+    .how-step__title { font-size: var(--text-lg); font-weight: 600; }
 
     .how-step__text {
       font-size: var(--text-sm);
       color: var(--text-secondary);
       line-height: 1.65;
-    }
-
-    @media (max-width: 720px) {
-      .how-steps {
-        grid-template-columns: 1fr;
-      }
+      width: 250px;
+      margin-top: var(--space-lg);
     }
 
     /* ── Bottom CTA ── */
-    .landing-cta {
-      padding: var(--space-2xl) 0 var(--space-4xl);
-    }
+    .landing-cta { padding: var(--space-2xl) 0 var(--space-4xl); }
 
     .cta-card {
       background: linear-gradient(135deg, var(--accent-bg), rgba(200,169,126,0.03));
@@ -644,19 +624,12 @@ function addLandingStyles() {
     }
 
     /* ── Responsive ── */
-    @media (max-width: 640px) {
-      .regions-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .how-step {
-        flex-direction: column;
-        gap: var(--space-sm);
-      }
-
-      .hero__title {
-        font-size: 2.2rem;
-      }
+    @media (max-width: 900px) {
+      .cf-showcase { grid-template-columns: 1fr; height: auto; }
+      .cf-visual { height: 420px; }
+      .cf-info { padding: var(--space-xl); }
+      .how-steps { grid-template-columns: 1fr; }
+      .hero__title { font-size: 2.2rem; }
     }
   `;
   document.head.appendChild(style);

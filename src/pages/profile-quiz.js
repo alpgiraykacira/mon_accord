@@ -36,10 +36,16 @@ export function renderProfileQuiz(container, navigate) {
     const content = `
       <div class="page__container">
         <div class="quiz-container">
-          <div class="quiz-progress">
-            <div class="quiz-progress__bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+          <div class="quiz-stepper">
+            ${Array.from({length: TOTAL_STEPS}, (_, i) => {
+              const n = i + 1;
+              const cls = n < currentStep ? 'completed' : n === currentStep ? 'active' : '';
+              const lineCls = n < currentStep ? 'done' : '';
+              const label = n < currentStep ? '✓' : String(n);
+              const line = i < TOTAL_STEPS - 1 ? `<div class="quiz-stepper__line ${lineCls}"></div>` : '';
+              return `<div class="quiz-stepper__item ${cls}"><div class="quiz-stepper__circle">${label}</div></div>${line}`;
+            }).join('')}
           </div>
-          <p class="quiz-step-label">Step ${currentStep} of ${TOTAL_STEPS}</p>
           <div class="quiz-content" id="quiz-step-content">
             ${getStepContent(currentStep, answers)}
           </div>
@@ -175,7 +181,7 @@ function getStepContent(step, answers) {
               <span class="slider-label">Sillage (Projection)</span>
               <span class="slider-value" id="sillage-val">${answers.sillage}/10</span>
             </div>
-            <input type="range" min="1" max="10" value="${answers.sillage}" id="slider-sillage" />
+            <input type="range" class="slider-range" min="1" max="10" value="${answers.sillage}" id="slider-sillage" style="--pct: ${(answers.sillage - 1) / 9 * 100}%" />
             <div class="slider-labels"><span>Intimate</span><span>Room-filling</span></div>
           </div>
           <div class="slider-container">
@@ -183,7 +189,7 @@ function getStepContent(step, answers) {
               <span class="slider-label">Longevity</span>
               <span class="slider-value" id="longevity-val">${answers.longevity}/10</span>
             </div>
-            <input type="range" min="1" max="10" value="${answers.longevity}" id="slider-longevity" />
+            <input type="range" class="slider-range" min="1" max="10" value="${answers.longevity}" id="slider-longevity" style="--pct: ${(answers.longevity - 1) / 9 * 100}%" />
             <div class="slider-labels"><span>Few hours</span><span>All day</span></div>
           </div>
           <div class="slider-container">
@@ -191,7 +197,7 @@ function getStepContent(step, answers) {
               <span class="slider-label">Intensity</span>
               <span class="slider-value" id="intensity-val">${answers.intensity}/10</span>
             </div>
-            <input type="range" min="1" max="10" value="${answers.intensity}" id="slider-intensity" />
+            <input type="range" class="slider-range" min="1" max="10" value="${answers.intensity}" id="slider-intensity" style="--pct: ${(answers.intensity - 1) / 9 * 100}%" />
             <div class="slider-labels"><span>Subtle</span><span>Bold</span></div>
           </div>
         </div>
@@ -303,6 +309,7 @@ function bindStepEvents(step, answers, container) {
         slider.addEventListener('input', () => {
           answers[key] = parseInt(slider.value);
           valEl.textContent = `${slider.value}/10`;
+          slider.style.setProperty('--pct', `${(parseInt(slider.value) - 1) / 9 * 100}%`);
         });
       }
     });
@@ -563,49 +570,248 @@ function addQuizStyles() {
   const style = document.createElement('style');
   style.id = 'quiz-styles';
   style.textContent = `
-    /* ── Quiz container ── */
-    .quiz-container { margin: 0 auto; padding: var(--space-2xl) var(--space-2xl); }
-    .quiz-progress { height: 3px; background: var(--bg-tertiary); border-radius: var(--radius-full); margin-bottom: var(--space-sm); overflow: hidden; }
-    .quiz-progress__bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-dark)); border-radius: var(--radius-full); transition: width var(--transition-slow); }
-    .quiz-step-label { font-size: var(--text-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-tertiary); margin-bottom: var(--space-xl); }
-    .quiz-title { font-size: var(--text-3xl); margin-bottom: var(--space-sm); }
-    .quiz-subtitle { font-size: var(--text-base); color: var(--text-secondary); margin-bottom: var(--space-lg); }
-    .quiz-step-centered { text-align: center; }
+    /* ── Quiz layout ── */
+    .quiz-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: var(--space-3xl) var(--space-2xl);
+    }
 
-    /* ── Grids: more columns so rows are shorter ── */
+    /* ── Step indicator ── */
+    .quiz-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-3xl);
+    }
+
+    .quiz-stepper__item {
+      display: flex;
+      align-items: center;
+    }
+
+    .quiz-stepper__circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--text-tertiary);
+      background: var(--surface);
+      transition: all var(--transition-base);
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .quiz-stepper__item.active .quiz-stepper__circle {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 5px rgba(200,169,126,0.15);
+    }
+
+    .quiz-stepper__item.completed .quiz-stepper__circle {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .quiz-stepper__line {
+      width: 56px;
+      height: 2px;
+      background: var(--border);
+      transition: background var(--transition-base);
+    }
+
+    .quiz-stepper__line.done {
+      background: linear-gradient(90deg, var(--accent), rgba(200,169,126,0.3));
+    }
+
+    /* ── Step content animation ── */
+    .quiz-content {
+      animation: quizStepIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes quizStepIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Titles ── */
+    .quiz-title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 500;
+      margin-bottom: var(--space-sm);
+      line-height: 1.2;
+    }
+
+    .quiz-subtitle {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xl);
+      line-height: 1.6;
+    }
+
+    .quiz-step-centered { text-align: center; padding: var(--space-2xl) 0; }
+
+    /* ── Option grids ── */
     .quiz-grid { display: grid; gap: var(--space-md); }
     .quiz-grid--families { grid-template-columns: repeat(5, 1fr); }
     .quiz-grid--context  { grid-template-columns: repeat(3, 1fr); }
 
     .quiz-option {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      padding: var(--space-lg) var(--space-md); cursor: pointer; transition: all var(--transition-fast);
-      text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 120px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl) var(--space-md);
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background var(--transition-fast),
+                  transform var(--transition-fast), box-shadow var(--transition-fast);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 130px;
     }
-    .quiz-option:hover { border-color: var(--accent-light); background: var(--accent-bg); }
-    .quiz-option--selected { border-color: var(--accent); background: var(--accent-bg); box-shadow: var(--shadow-gold); }
-    .quiz-option__icon { display: block; font-size: 1.8rem; margin-bottom: var(--space-sm); }
-    .quiz-option__name { display: block; font-weight: 600; font-size: var(--text-sm); margin-bottom: 4px; }
-    .quiz-option__desc { display: block; font-size: var(--text-xs); color: var(--text-tertiary); line-height: 1.4; }
-    .quiz-actions { display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--border); }
 
-    /* ── Sliders: vertical stack, centered ── */
-    .quiz-sliders { display: flex; flex-direction: column; gap: var(--space-xl); max-width: 600px; margin: 0 auto; }
+    .quiz-option:hover {
+      border-color: var(--accent-light);
+      background: var(--accent-bg);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .quiz-option--selected {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .quiz-option__icon { font-size: 2.2rem; line-height: 1; display: block; }
+    .quiz-option__name { font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); display: block; }
+    .quiz-option__desc { font-size: var(--text-xs); color: var(--text-tertiary); line-height: 1.4; display: block; }
+
+    /* ── Actions ── */
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Sliders ── */
+    .quiz-sliders {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
     .slider-container { display: flex; flex-direction: column; }
-    .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xs); }
-    .slider-label { font-size: var(--text-sm); font-weight: 600; }
-    .slider-value { font-size: var(--text-sm); color: var(--text-tertiary); }
-    .slider-labels { display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px; }
 
-    /* ── Perfume list: more columns, no fixed max-height ── */
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .slider-label { font-size: var(--text-base); font-weight: 600; }
+    .slider-value { font-size: var(--text-sm); font-weight: 700; color: var(--accent); min-width: 40px; text-align: right; }
+
+    input[type="range"].slider-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent) var(--pct, 50%), var(--bg-tertiary) var(--pct, 50%));
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"].slider-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(200,169,126,0.45);
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    input[type="range"].slider-range::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 2px 14px rgba(200,169,126,0.65);
+    }
+
+    input[type="range"].slider-range::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(200,169,126,0.45);
+      cursor: pointer;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      margin-top: var(--space-sm);
+    }
+
+    /* ── Perfume list ── */
     .quiz-search-container { margin-bottom: var(--space-md); }
     .quiz-search { width: 100%; }
-    .quiz-perfume-list { overflow-y: auto; max-height: calc(100vh - 340px); display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+    .quiz-perfume-list {
+      overflow-y: auto;
+      max-height: calc(100vh - 380px);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
     .perfume-brand-group { position: relative; }
-    .perfume-brand-label { position: sticky; top: 0; z-index: 2; font-size: var(--text-sm); font-weight: 700; color: var(--text-primary); background: var(--bg-secondary); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border); letter-spacing: 0.01em; }
-    .perfume-brand-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-xs); padding: var(--space-sm) var(--space-md); }
-    .quiz-option--perfume { text-align: left; padding: var(--space-sm) var(--space-md); }
+    .perfume-brand-label {
+      position: sticky; top: 0; z-index: 2;
+      font-size: var(--text-sm); font-weight: 700;
+      color: var(--text-primary); background: var(--bg-secondary);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.01em;
+    }
+    .perfume-brand-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-xs);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .quiz-option--perfume {
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      min-height: unset;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: var(--space-sm);
+    }
     .quiz-hint { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-sm); }
 
     /* ── Profile result ── */
@@ -626,6 +832,7 @@ function addQuizStyles() {
       .quiz-grid--families { grid-template-columns: repeat(2, 1fr); }
       .quiz-grid--context  { grid-template-columns: repeat(2, 1fr); }
       .perfume-brand-items { grid-template-columns: 1fr; }
+      .quiz-stepper__line { width: 32px; }
     }
   `;
   document.head.appendChild(style);
