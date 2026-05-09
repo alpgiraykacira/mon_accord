@@ -29,8 +29,12 @@ Always respond in English.
 When describing scents, be vivid and sensory — help the user "smell" through words.
 Keep responses concise but rich. Use fragrance terminology naturally.`;
 
+function getApiKey() {
+  return import.meta.env.VITE_GEMINI_API_KEY || storage.getApiKey();
+}
+
 function initializeAI() {
-  const apiKey = storage.getApiKey();
+  const apiKey = getApiKey();
   if (!apiKey) return false;
   try {
     ai = new GoogleGenAI({ apiKey });
@@ -102,7 +106,7 @@ export async function generateAIResponse(prompt, retries = 2) {
 }
 
 export function isAIAvailable() {
-  return !!storage.getApiKey();
+  return !!getApiKey();
 }
 
 export function resetAI() {
