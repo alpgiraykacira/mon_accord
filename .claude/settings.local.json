@@ -5,7 +5,8 @@
       "Bash(git push:*)",
       "Bash(grep -n \"#suggestion-container\\\\|\\\\.cm-\\\\|};$\" D:/projects/mon_accord/src/pages/community.js)",
       "Bash(find D:projectsmon_accord/src/components -type f \\\\\\(-name *.js -o -name *.jsx -o -name *.ts -o -name *.tsx \\\\\\))",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(Select-String -Pattern \"scripts|vite|webpack\" -Context 2)"
     ]
   }
 }

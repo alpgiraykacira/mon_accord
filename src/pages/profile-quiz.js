@@ -7,6 +7,20 @@ import { generateProfile } from '../services/profile-engine.js';
 import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 
+const SCENT_FAMILY_IMGS = Object.fromEntries(
+  ['fresh', 'floral', 'woody', 'oriental', 'citrus', 'gourmand', 'green', 'aromatic', 'spicy', 'musky']
+    .map(id => [id, new URL(`../assets/quiz_scent_families/${id}.png`, import.meta.url).href])
+);
+
+const TRAIT_IMGS = {
+  elegant:     new URL('../assets/quiz_traits/elegant_classic.png',     import.meta.url).href,
+  adventurous: new URL('../assets/quiz_traits/adventurous_bold.png',    import.meta.url).href,
+  romantic:    new URL('../assets/quiz_traits/romantic_dreamy.png',     import.meta.url).href,
+  minimalist:  new URL('../assets/quiz_traits/minimalist_clean.png',    import.meta.url).href,
+  creative:    new URL('../assets/quiz_traits/creative_expressive.png', import.meta.url).href,
+  confident:   new URL('../assets/quiz_traits/confident_powerful.png',  import.meta.url).href,
+};
+
 const TOTAL_STEPS = 5;
 
 export function renderProfileQuiz(container, navigate) {
@@ -147,10 +161,8 @@ function getStepContent(step, answers) {
         <p class="quiz-subtitle">Select all that resonate with you.</p>
         <div class="quiz-grid quiz-grid--families">
           ${SCENT_FAMILIES.map(f => `
-            <div class="quiz-option ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}">
-              <span class="quiz-option__icon">${f.icon}</span>
-              <span class="quiz-option__name">${f.name}</span>
-              <span class="quiz-option__desc">${f.description}</span>
+            <div class="quiz-option quiz-option--img-card ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}">
+              <img class="quiz-option__img" src="${SCENT_FAMILY_IMGS[f.id]}" alt="${f.name}" />
             </div>
           `).join('')}
         </div>
@@ -209,17 +221,15 @@ function getStepContent(step, answers) {
         <p class="quiz-subtitle">Choose the personality trait that resonates most with your style.</p>
         <div class="quiz-grid quiz-grid--context">
           ${[
-            { id: 'elegant', name: 'Elegant & Classic', icon: '👑', desc: 'Timeless sophistication' },
-            { id: 'adventurous', name: 'Adventurous & Bold', icon: '🌍', desc: 'Love discovering the new' },
-            { id: 'romantic', name: 'Romantic & Dreamy', icon: '🌙', desc: 'Soft, poetic, emotional' },
-            { id: 'minimalist', name: 'Minimalist & Clean', icon: '✨', desc: 'Less is more' },
-            { id: 'creative', name: 'Creative & Expressive', icon: '🎨', desc: 'Unique, unconventional' },
-            { id: 'confident', name: 'Confident & Powerful', icon: '🔥', desc: 'Commands attention' },
+            { id: 'elegant',     name: 'Elegant & Classic',      desc: 'Timeless sophistication' },
+            { id: 'adventurous', name: 'Adventurous & Bold',     desc: 'Love discovering the new' },
+            { id: 'romantic',    name: 'Romantic & Dreamy',      desc: 'Soft, poetic, emotional' },
+            { id: 'minimalist',  name: 'Minimalist & Clean',     desc: 'Less is more' },
+            { id: 'creative',    name: 'Creative & Expressive',  desc: 'Unique, unconventional' },
+            { id: 'confident',   name: 'Confident & Powerful',   desc: 'Commands attention' },
           ].map(ctx => `
-            <div class="quiz-option ${answers.personality === ctx.id ? 'quiz-option--selected' : ''}" data-value="${ctx.id}" id="ctx-${ctx.id}">
-              <span class="quiz-option__icon">${ctx.icon}</span>
-              <span class="quiz-option__name">${ctx.name}</span>
-              <span class="quiz-option__desc">${ctx.desc}</span>
+            <div class="quiz-option quiz-option--img-card ${answers.personality === ctx.id ? 'quiz-option--selected' : ''}" data-value="${ctx.id}" id="ctx-${ctx.id}">
+              <img class="quiz-option__img" src="${TRAIT_IMGS[ctx.id]}" alt="${ctx.name}" />
             </div>
           `).join('')}
         </div>
@@ -699,6 +709,36 @@ function addQuizStyles() {
     .quiz-option__icon { font-size: 2.2rem; line-height: 1; display: block; }
     .quiz-option__name { font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); display: block; }
     .quiz-option__desc { font-size: var(--text-xs); color: var(--text-tertiary); line-height: 1.4; display: block; }
+
+    .quiz-option--img-card {
+      padding: 0;
+      overflow: hidden;
+      gap: 0;
+      justify-content: flex-start;
+      min-height: unset;
+    }
+
+    .quiz-option__img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+      transition: transform 0.35s ease;
+    }
+
+    .quiz-option--img-card:hover .quiz-option__img,
+    .quiz-option--img-card.quiz-option--selected .quiz-option__img {
+      transform: scale(1.04);
+    }
+
+    .quiz-option--img-card .quiz-option__name {
+      padding: var(--space-sm) var(--space-md) 2px;
+    }
+
+    .quiz-option--img-card .quiz-option__desc {
+      padding: 0 var(--space-md) var(--space-md);
+    }
 
     /* ── Actions ── */
     .quiz-actions {
