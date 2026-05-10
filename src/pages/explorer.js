@@ -28,7 +28,7 @@ export function renderExplorer(container, navigate) {
                 <div class="explorer-region-body">
                   <!-- Sprays -->
                   <div class="explorer-format-section">
-                    <p class="explorer-format-label">💨 Sprays</p>
+                    <p class="explorer-format-label">Sprays</p>
                     ${sprays.map(p => `
                       <div class="explorer-perfume-row" data-id="${p.id}">
                         <div>
@@ -45,7 +45,7 @@ export function renderExplorer(container, navigate) {
 
                   <!-- Oils -->
                   <div class="explorer-format-section">
-                    <p class="explorer-format-label">💧 Oils</p>
+                    <p class="explorer-format-label">Oils</p>
                     ${oils.map(p => `
                       <div class="explorer-perfume-row" data-id="${p.id}">
                         <div>
@@ -105,8 +105,8 @@ function showDetailPopup(perfume) {
       </div>
       <div class="modal__body">
         <div class="flex gap-sm mb-md" style="flex-wrap: wrap;">
-          <span class="tag" style="color: ${r?.color || 'inherit'};">${r?.icon || ''} ${r?.name || ''}</span>
-          <span class="tag">${perfume.format === 'spray' ? '💨 Spray' : '💧 Oil'}</span>
+          <span class="tag" style="color: ${r?.color || 'inherit'};">${r?.name || ''}</span>
+          <span class="tag">${perfume.format === 'spray' ? 'Spray' : 'Oil'}</span>
           <span class="tag tag--accent">${perfume.scentFamily}</span>
           <span class="tag">${perfume.layeringRole}</span>
         </div>

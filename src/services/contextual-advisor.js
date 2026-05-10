@@ -7,28 +7,28 @@ import { storage } from '../utils/storage.js';
 import { PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
 
 export const MOODS = [
-  { id: 'confident', name: 'Confident', icon: '💪', description: 'Bold and commanding' },
-  { id: 'romantic', name: 'Romantic', icon: '💕', description: 'Soft and alluring' },
-  { id: 'calm', name: 'Calm', icon: '🧘', description: 'Peaceful and centered' },
-  { id: 'energetic', name: 'Energetic', icon: '⚡', description: 'Vibrant and lively' },
-  { id: 'mysterious', name: 'Mysterious', icon: '🌙', description: 'Enigmatic and deep' },
-  { id: 'playful', name: 'Playful', icon: '✨', description: 'Light and fun' },
+  { id: 'confident', name: 'Confident', icon: '', description: 'Bold and commanding' },
+  { id: 'romantic', name: 'Romantic', icon: '', description: 'Soft and alluring' },
+  { id: 'calm', name: 'Calm', icon: '', description: 'Peaceful and centered' },
+  { id: 'energetic', name: 'Energetic', icon: '', description: 'Vibrant and lively' },
+  { id: 'mysterious', name: 'Mysterious', icon: '', description: 'Enigmatic and deep' },
+  { id: 'playful', name: 'Playful', icon: '', description: 'Light and fun' },
 ];
 
 export const OCCASIONS = [
-  { id: 'office', name: 'Office / Work', icon: '💼' },
-  { id: 'date-night', name: 'Date Night', icon: '🕯' },
-  { id: 'casual', name: 'Casual Outing', icon: '☀️' },
-  { id: 'formal', name: 'Formal Event', icon: '🎩' },
-  { id: 'outdoor', name: 'Outdoor Adventure', icon: '🏔' },
-  { id: 'cozy', name: 'Cozy Night In', icon: '🛋' },
+  { id: 'office', name: 'Office / Work', icon: '' },
+  { id: 'date-night', name: 'Date Night', icon: '' },
+  { id: 'casual', name: 'Casual Outing', icon: '' },
+  { id: 'formal', name: 'Formal Event', icon: '' },
+  { id: 'outdoor', name: 'Outdoor Adventure', icon: '' },
+  { id: 'cozy', name: 'Cozy Night In', icon: '' },
 ];
 
 export const SEASONS = [
-  { id: 'spring', name: 'Spring', icon: '🌸' },
-  { id: 'summer', name: 'Summer', icon: '☀️' },
-  { id: 'autumn', name: 'Autumn', icon: '🍂' },
-  { id: 'winter', name: 'Winter', icon: '❄️' },
+  { id: 'spring', name: 'Spring', icon: '' },
+  { id: 'summer', name: 'Summer', icon: '' },
+  { id: 'autumn', name: 'Autumn', icon: '' },
+  { id: 'winter', name: 'Winter', icon: '' },
 ];
 
 export const INTENSITIES = [

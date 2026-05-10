@@ -6,7 +6,10 @@
       "Bash(grep -n \"#suggestion-container\\\\|\\\\.cm-\\\\|};$\" D:/projects/mon_accord/src/pages/community.js)",
       "Bash(find D:projectsmon_accord/src/components -type f \\\\\\(-name *.js -o -name *.jsx -o -name *.ts -o -name *.tsx \\\\\\))",
       "mcp__Claude_Preview__preview_start",
-      "Bash(Select-String -Pattern \"scripts|vite|webpack\" -Context 2)"
+      "Bash(Select-String -Pattern \"scripts|vite|webpack\" -Context 2)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit -m 'fix: add contents:write permission and upgrade to Node.js 22 for gh-pages deploy *)"
     ]
   }
 }

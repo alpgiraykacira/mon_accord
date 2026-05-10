@@ -15,7 +15,7 @@ import { storage } from './storage.js';
 export function showSaveToVaultModal(formula, options = {}) {
   const { showNameInput = true, onSaved } = options;
 
-  let folders = storage.get('vault_folders', [{ id: 'default', name: 'All Formulas', icon: '📁' }]);
+  let folders = storage.get('vault_folders', [{ id: 'default', name: 'All Formulas', icon: '' }]);
   let selectedFolderId = 'default';
   let showNewFolder = false;
 
@@ -77,7 +77,7 @@ export function showSaveToVaultModal(formula, options = {}) {
         </div>
         <div class="modal__footer">
           <button class="btn btn--secondary" id="sv-cancel">Cancel</button>
-          <button class="btn btn--primary" id="sv-confirm">Save ✦</button>
+          <button class="btn btn--primary" id="sv-confirm">Save</button>
         </div>
       </div>
     `;
@@ -107,7 +107,7 @@ export function showSaveToVaultModal(formula, options = {}) {
         const nameInput = overlay.querySelector('#sv-new-folder-name');
         const name = nameInput.value.trim();
         if (!name) return;
-        const newFolder = { id: 'folder-' + Date.now(), name, icon: '📂' };
+        const newFolder = { id: 'folder-' + Date.now(), name, icon: '' };
         folders.push(newFolder);
         storage.set('vault_folders', folders);
         selectedFolderId = newFolder.id;
@@ -141,7 +141,7 @@ export function showSaveToVaultModal(formula, options = {}) {
       overlay.remove();
 
       const folderName = folders.find(f => f.id === selectedFolderId)?.name || 'Vault';
-      window.showToast(`"${finalName}" saved to ${folderName}! ✦`);
+      window.showToast(`"${finalName}" saved to ${folderName}!`);
 
       if (onSaved) onSaved(savedFormula);
     };

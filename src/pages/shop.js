@@ -51,7 +51,7 @@ export function renderShop(container, navigate) {
                       return `
                         <div class="shop-product ${inCart ? 'shop-product--in-cart' : ''} ${isOwned ? 'shop-product--owned' : ''}" data-id="${p.id}">
                           <div class="shop-product__info">
-                            <span class="shop-product__format">${p.format === 'spray' ? '💨 Spray' : '💧 Oil'}</span>
+                            <span class="shop-product__format">${p.format === 'spray' ? 'Spray' : 'Oil'}</span>
                             <span class="shop-product__name">${p.name}${isOwned ? ' <span class="shop-owned-badge">Owned</span>' : ''}</span>
                           </div>
                           <button class="shop-product__btn ${inCart ? 'shop-product__btn--added' : ''}" data-id="${p.id}">
@@ -85,8 +85,7 @@ export function renderShop(container, navigate) {
                   return `
                     <div class="shop-cart__item">
                       <div class="shop-cart__item-info">
-                        <span style="color: ${r.color};">${r.icon}</span>
-                        <span>${p.format === 'spray' ? '💨' : '💧'} ${p.name}</span>
+                        <span>${p.name}</span>
                       </div>
                       <button class="shop-cart__item-remove" data-id="${p.id}">✕</button>
                     </div>
@@ -94,13 +93,13 @@ export function renderShop(container, navigate) {
                 }).join('')}
               </div>
               <div class="shop-cart__footer">
-                <button class="btn btn--primary w-full" id="btn-confirm-order">Confirm Order ✦</button>
+                <button class="btn btn--primary w-full" id="btn-confirm-order">Confirm Order</button>
               </div>
             `}
 
             ${recommendation ? `
               <div class="shop-cart__rec">
-                <p class="shop-cart__rec-label">✦ Pairs with your collection</p>
+                <p class="shop-cart__rec-label">Pairs with your collection</p>
                 <p style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.6;">${recommendation}</p>
               </div>
             ` : ''}
@@ -159,7 +158,7 @@ function getShopRecommendation(ownedIds, cart) {
     p.scentFamily.split('-').some(f => families.includes(f))
   ).slice(0, 2);
   if (!complements.length) return null;
-  return `Based on your owned ${owned.map(p => p.name).join(' & ')}: try adding ${complements.map(p => { const r = REGIONS.find(rg => rg.id === p.region); return `${r?.icon || ''} ${p.name}`; }).join(' or ')}.`;
+  return `Based on your owned ${owned.map(p => p.name).join(' & ')}: try adding ${complements.map(p => p.name).join(' or ')}.`;
 }
 
 function showOrderConfirmation(cart, container, navigate) {
@@ -170,7 +169,7 @@ function showOrderConfirmation(cart, container, navigate) {
     <div class="modal order-confirmed-modal">
       <button class="modal__close" id="btn-close-retailers" aria-label="Close">✕</button>
       <div class="modal__body order-confirmed-body">
-        <div class="order-confirmed-icon">✦</div>
+        <div class="order-confirmed-icon"></div>
         <h3 class="order-confirmed-title">Now Available</h3>
 
         <div class="order-retailers">
@@ -190,7 +189,7 @@ function showOrderConfirmation(cart, container, navigate) {
           </div>
         </div>
 
-        <button class="btn btn--primary btn--lg" id="btn-go-profile">Go to Profile →</button>
+        <button class="btn btn--primary btn--lg" id="btn-go-profile">Go to Profile</button>
       </div>
     </div>
   `;

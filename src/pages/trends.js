@@ -17,7 +17,7 @@ export function renderTrends(container, navigate) {
   container.innerHTML = `
     <div class="page__container">
       <div class="section-header">
-        <p class="section-label">✦ Continuous Learning</p>
+        <p class="section-label">Continuous Learning</p>
         <h2 class="section-title">Your Scent Evolution</h2>
         <p class="section-subtitle">Track your journey, discover trends, and let AI surprise you with fresh remixes.</p>
       </div>
@@ -77,19 +77,19 @@ export function renderTrends(container, navigate) {
             }).join('')}
           </div>
           <p class="mt-md" style="font-size: var(--text-sm); color: var(--text-tertiary);">
-            Format preference: <strong style="color: var(--accent);">${trends.formatPreference === 'spray-dominant' ? 'Spray Dominant 💨' : trends.formatPreference === 'oil-dominant' ? 'Oil Dominant 💧' : 'Balanced ⚖️'}</strong>
+            Format preference: <strong style="color: var(--accent);">${trends.formatPreference === 'spray-dominant' ? 'Spray Dominant' : trends.formatPreference === 'oil-dominant' ? 'Oil Dominant' : 'Balanced'}</strong>
           </p>
         </div>
       ` : ''}
 
       <!-- AI Remix -->
       <div class="mt-2xl">
-        <h3 class="trends-section-title">✦ AI Remix Suggestion</h3>
+        <h3 class="trends-section-title">AI Remix Suggestion</h3>
         <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-lg);">
           Based on your journey and current trends, here's something new to try.
         </p>
         <div id="remix-container">
-          <button class="btn btn--primary" id="btn-generate-remix">✦ Generate Remix</button>
+          <button class="btn btn--primary" id="btn-generate-remix">Generate Remix</button>
         </div>
       </div>
 
@@ -109,11 +109,11 @@ export function renderTrends(container, navigate) {
                   ${(formula.layers || []).map(l => {
                     const p = getPerfumeById(l.perfumeId);
                     const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-                    return `<span style="font-size: var(--text-xs); color: ${r?.color || 'var(--text-tertiary)'};">${r?.icon || ''} ${l.amount} ${l.unit} ${p?.name || ''}</span>`;
+                    return `<span style="font-size: var(--text-xs); color: ${r?.color || 'var(--text-tertiary)'};">${l.amount} ${l.unit} ${p?.name || ''}</span>`;
                   }).join(' <span style="color: var(--text-tertiary);">+</span> ')}
                 </div>
               </div>
-              <div class="trends-trending-likes">♥ ${formula.likes || 0}</div>
+              <div class="trends-trending-likes">${formula.likes || 0}</div>
             </div>
           `).join('')}
         </div>
@@ -172,7 +172,7 @@ export function renderTrends(container, navigate) {
         const remix = result.remix;
         remixContainer.innerHTML = `
           <div class="ai-response">
-            <div class="ai-response__label">✦ ${remix.remixName || 'AI Remix'}</div>
+            <div class="ai-response__label">${remix.remixName || 'AI Remix'}</div>
             <div class="ai-response__text">
               ${remix.layers?.length > 0 ? `
                 <div style="margin-bottom: var(--space-md);">

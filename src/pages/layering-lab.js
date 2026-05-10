@@ -317,7 +317,6 @@ export function renderLayeringLab(container, navigate) {
       clearBtn.addEventListener('click', () => {
         layers = [];
         scentSimulation = null;
-        contextResult = null;
         persistState();
         render();
       });

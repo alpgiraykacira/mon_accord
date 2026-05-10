@@ -12,7 +12,7 @@ export const REGIONS = [
     color: '#7BA7BC',
     colorLight: '#A8D0E0',
     gradient: 'linear-gradient(135deg, #7BA7BC, #A8D0E0)',
-    icon: '❄',
+    icon: '',
   },
   {
     id: 'eastasia',
@@ -22,7 +22,7 @@ export const REGIONS = [
     color: '#D4A0A0',
     colorLight: '#EACFCF',
     gradient: 'linear-gradient(135deg, #D4A0A0, #EACFCF)',
-    icon: '🌸',
+    icon: '',
   },
   {
     id: 'southafrica',
@@ -32,7 +32,7 @@ export const REGIONS = [
     color: '#C4956A',
     colorLight: '#DDB892',
     gradient: 'linear-gradient(135deg, #C4956A, #DDB892)',
-    icon: '🌍',
+    icon: '',
   },
   {
     id: 'mediterranean',
@@ -42,7 +42,7 @@ export const REGIONS = [
     color: '#7BAF8E',
     colorLight: '#A8D4B8',
     gradient: 'linear-gradient(135deg, #7BAF8E, #A8D4B8)',
-    icon: '🫒',
+    icon: '',
   },
   {
     id: 'southamerica',
@@ -52,7 +52,7 @@ export const REGIONS = [
     color: '#8B9F6B',
     colorLight: '#B0C490',
     gradient: 'linear-gradient(135deg, #8B9F6B, #B0C490)',
-    icon: '🌿',
+    icon: '',
   },
   {
     id: 'middleeast',
@@ -62,7 +62,7 @@ export const REGIONS = [
     color: '#B8879B',
     colorLight: '#D4ADC0',
     gradient: 'linear-gradient(135deg, #B8879B, #D4ADC0)',
-    icon: '🌙',
+    icon: '',
   },
 ];
 

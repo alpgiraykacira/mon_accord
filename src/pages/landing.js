@@ -21,6 +21,7 @@ export function renderLanding(container, navigate) {
     <!-- HERO -->
     <section class="hero" id="hero-section">
       <div class="hero__content">
+        <p class="hero__brand">mon accord</p>
         <h1 class="hero__title">
           <span class="hero__title-line">Scent is personal.</span>
           <span class="hero__title-line hero__title-accent">Make it yours.</span>
@@ -34,16 +35,6 @@ export function renderLanding(container, navigate) {
         <div class="hero__discover-ring">
           <span class="hero__discover-label">Discover</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        </div>
-      </div>
-    </section>
-
-    <!-- NAME ORIGIN -->
-    <section class="landing-origin" id="origin-section">
-      <div class="page__container">
-        <div class="origin-block">
-          <p class="origin-word">Mon Accord</p>
-          <p class="origin-definition">French for <em>my harmony</em>. A fragrance is never just a scent — it is an agreement between notes, between cultures, between a moment and a memory. Find yours.</p>
         </div>
       </div>
     </section>
@@ -75,6 +66,16 @@ export function renderLanding(container, navigate) {
         <!-- Right: info panel -->
         <div class="cf-info" id="cf-info"></div>
 
+      </div>
+    </section>
+
+    <!-- NAME ORIGIN -->
+    <section class="landing-origin" id="origin-section">
+      <div class="page__container">
+        <div class="origin-block">
+          <p class="origin-word">Mon Accord</p>
+          <p class="origin-definition">French for <em>my harmony</em>. A fragrance is never just a scent — it is an agreement between notes, between cultures, between a moment and a memory. Find yours.</p>
+        </div>
       </div>
     </section>
 
@@ -188,13 +189,13 @@ export function renderLanding(container, navigate) {
         <div class="cf-info__top">
           <p class="cf-info__label">The Collection</p>
           <h2 class="cf-info__name">${region.name}</h2>
-          <p class="cf-info__tagline">${region.tagline}</p>
+
         </div>
         <p class="cf-info__desc">${region.description}</p>
         <div class="cf-info__divider"></div>
         ${spray ? `
           <div class="cf-info__notes-block">
-            <p class="cf-info__notes-type">💨 Spray</p>
+            <p class="cf-info__notes-type">Spray</p>
             <div class="cf-info__notes-cols">
               ${noteCol('TOP', spray.topNotes)}
               ${noteCol('HEART', spray.middleNotes)}
@@ -203,7 +204,7 @@ export function renderLanding(container, navigate) {
           </div>` : ''}
         ${oil ? `
           <div class="cf-info__notes-block">
-            <p class="cf-info__notes-type">💧 Oil</p>
+            <p class="cf-info__notes-type">Oil</p>
             <div class="cf-info__notes-cols">
               ${noteCol('TOP', oil.topNotes)}
               ${noteCol('HEART', oil.middleNotes)}
@@ -288,6 +289,17 @@ function addLandingStyles() {
     .hero__content {
       text-align: center;
       max-width: 700px;
+    }
+
+    .hero__brand {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+      animation: fadeIn 0.8s var(--ease-out) 0.1s both;
     }
 
     .hero__title {
@@ -506,14 +518,6 @@ function addLandingStyles() {
       margin-bottom: var(--space-sm);
     }
 
-    .cf-info__tagline {
-      font-size: var(--text-sm);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--rc);
-      margin-bottom: var(--space-lg);
-    }
 
     .cf-info__desc {
       font-size: var(--text-sm);

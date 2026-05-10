@@ -261,7 +261,7 @@ export function renderCommunity(container, navigate) {
                       ${(formula.layers || []).map(l => {
                         const p = getPerfumeById(l.perfumeId);
                         const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-                        return `<span style="color: ${r?.color || 'var(--text-tertiary)'};">${r?.icon || ''} ${p?.name || ''}</span>`;
+                        return `<span style="color: ${r?.color || 'var(--text-tertiary)'};">${p?.name || ''}</span>`;
                       }).join(' <span style="color: var(--text-tertiary);">+</span> ')}
                     </div>
                   </div>
@@ -281,7 +281,7 @@ export function renderCommunity(container, navigate) {
           <div class="community-right-col">
             <div class="community-panel community-panel--selection">
               <div class="community-panel-header">
-                <h3 class="community-panel-title">✦ Today's Selection</h3>
+                <h3 class="community-panel-title">Today's Selection</h3>
               </div>
               <div id="suggestion-container">
                 ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
@@ -339,7 +339,7 @@ export function renderCommunity(container, navigate) {
                     <h4 class="community-post-item__title">${post.title}</h4>
                     <div class="community-post-item__bottom">
                       <span class="community-post-item__topic">${getTopicLabel(post)}</span>
-                      <span class="community-post-item__stats">♥ ${post.likes || 0} · ${countAllComments(post)} comments</span>
+                      <span class="community-post-item__stats">${post.likes || 0} · ${countAllComments(post)} comments</span>
                     </div>
                   </div>
                 `).join('')}
@@ -493,9 +493,9 @@ export function renderCommunity(container, navigate) {
   function getTopicLabel(post) {
     if (post.topicType === 'trending') {
       const f = COMMUNITY_FORMULAS.find(cf => cf.id === post.topicRef);
-      return f ? `📈 ${f.name}` : '📈 Trending';
+      return f ? f.name : 'Trending';
     }
-    if (post.topicType === 'combination') return '🧪 Custom Combo';
+    if (post.topicType === 'combination') return 'Custom Combo';
     return post.topicLabel || 'General';
   }
 
@@ -503,13 +503,12 @@ export function renderCommunity(container, navigate) {
     if (post.topicType === 'trending') {
       const f = COMMUNITY_FORMULAS.find(cf => cf.id === post.topicRef);
       if (!f) return '';
-      return `<div class="community-post-topic-badge">📈 Trending: ${f.name}</div>`;
+      return `<div class="community-post-topic-badge">Trending: ${f.name}</div>`;
     }
     if (post.topicType === 'combination' && post.topicCombination?.length) {
-      return `<div class="community-post-topic-badge">🧪 ${post.topicCombination.map(l => {
+      return `<div class="community-post-topic-badge">${post.topicCombination.map(l => {
         const p = getPerfumeById(l.perfumeId);
-        const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-        return `${r?.icon || ''} ${p?.name || l.perfumeId} (${l.amount} ${l.unit})`;
+        return `${p?.name || l.perfumeId} (${l.amount} ${l.unit})`;
       }).join(' + ')}</div>`;
     }
     if (post.topicType === 'free' && post.topicLabel) {
@@ -568,7 +567,7 @@ export function renderCommunity(container, navigate) {
         const enrichedLayers = (formula.layers || []).map(l => {
           const p = getPerfumeById(l.perfumeId);
           const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-          return { ...l, name: `${r?.icon || ''} ${p?.name || l.perfumeId}` };
+          return { ...l, name: p?.name || l.perfumeId };
         });
         showSaveToVaultModal({ ...formula, id: 'saved-' + formula.id, layers: enrichedLayers }, { showNameInput: false });
       });
@@ -766,7 +765,7 @@ function renderSuggestionContent(remix, isLoading) {
   return `
     <div style="padding:var(--space-lg);">
       <div class="ai-response">
-        <div class="ai-response__label">✦ ${remix.remixName || 'AI Suggestion'}</div>
+        <div class="ai-response__label">${remix.remixName || 'AI Suggestion'}</div>
         <div class="ai-response__text">
           ${remix.layers?.length ? `<div style="margin-bottom:var(--space-md);">${remix.layers.map(l => {
             const p = getPerfumeById(l.perfumeId);

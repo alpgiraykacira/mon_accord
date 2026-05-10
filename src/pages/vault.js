@@ -161,7 +161,7 @@ export function renderVault(container, navigate) {
 
         ${recText ? `
           <div class="vault-myperfumes-rec mt-md">
-            <p class="vault-myperfumes-rec-label">✦ Based on your collection</p>
+            <p class="vault-myperfumes-rec-label">Based on your collection</p>
             <p style="font-size:var(--text-sm);color:var(--text-secondary);line-height:1.6;">${recText}</p>
           </div>
         ` : ''}
@@ -176,7 +176,7 @@ export function renderVault(container, navigate) {
     const families = [...new Set(perfumes.flatMap(p => p.scentFamily.split('-')))];
     const complementary = PERFUMES.filter(p => !maIds.includes(p.id) && p.scentFamily.split('-').some(f => families.includes(f))).slice(0, 3);
     if (!complementary.length) return `Your collection spans ${families.slice(0, 3).join(', ')} notes. Explore the Layering Lab to create blends.`;
-    return `Pairs well with: ${complementary.map(p => { const r = REGIONS.find(rg => rg.id === p.region); return `${r?.icon || ''} ${p.name}`; }).join(', ')}.`;
+    return `Pairs well with: ${complementary.map(p => p.name).join(', ')}.`;
   }
 
   function renderFolderContents(folder, vault) {
@@ -247,10 +247,10 @@ export function renderVault(container, navigate) {
                   const oil = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
                   return `
                     <div class="vault-region-card" style="--region-color:${region.color};">
-                      <p class="vault-region-card__title">${region.icon} ${region.name}</p>
+                      <p class="vault-region-card__title">${region.name}</p>
                       <div class="vault-region-card__actions">
-                        ${spray ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${spray.id}" ${owned.monAccord.includes(spray.id) ? 'disabled' : ''}>💨 Spray ${owned.monAccord.includes(spray.id) ? '✓' : ''}</button>` : ''}
-                        ${oil ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${oil.id}" ${owned.monAccord.includes(oil.id) ? 'disabled' : ''}>💧 Oil ${owned.monAccord.includes(oil.id) ? '✓' : ''}</button>` : ''}
+                        ${spray ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${spray.id}" ${owned.monAccord.includes(spray.id) ? 'disabled' : ''}>Spray ${owned.monAccord.includes(spray.id) ? '✓' : ''}</button>` : ''}
+                        ${oil ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${oil.id}" ${owned.monAccord.includes(oil.id) ? 'disabled' : ''}>Oil ${owned.monAccord.includes(oil.id) ? '✓' : ''}</button>` : ''}
                       </div>
                     </div>
                   `;
