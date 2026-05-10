@@ -4,7 +4,28 @@
 
 import { storage } from '../utils/storage.js';
 import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
-import folderIconUrl from '../assets/open-folder.png';
+import folderIconUrl from '../assets/folder.png';
+
+const PERFUME_IMGS = {
+  scandinavian: new URL('../assets/perfumes/scandinavian.png',   import.meta.url).href,
+  eastasia:     new URL('../assets/perfumes/east_asia.png',      import.meta.url).href,
+  southafrica:  new URL('../assets/perfumes/south_africa.png',   import.meta.url).href,
+  mediterranean:new URL('../assets/perfumes/mediterranean.png',  import.meta.url).href,
+  southamerica: new URL('../assets/perfumes/south_america.png',  import.meta.url).href,
+  middleeast:   new URL('../assets/perfumes/middle_east.png',    import.meta.url).href,
+};
+
+const OIL_IMGS = {
+  scandinavian: new URL('../assets/oils/scandinavian.png',   import.meta.url).href,
+  eastasia:     new URL('../assets/oils/east_asia.png',      import.meta.url).href,
+  southafrica:  new URL('../assets/oils/south_africa.png',   import.meta.url).href,
+  mediterranean:new URL('../assets/oils/mediterranean.png',  import.meta.url).href,
+  southamerica: new URL('../assets/oils/south_america.png',  import.meta.url).href,
+  middleeast:   new URL('../assets/oils/middle_east.png',    import.meta.url).href,
+};
+
+// Populate as images are added to src/assets/loreal/{id}.png
+const LOREAL_IMGS = {};
 
 const PRESET_FOLDERS = [
   { id: 'default',  name: 'All Formulas' },
@@ -109,38 +130,44 @@ export function renderVault(container, navigate) {
   function renderMyPerfumes() {
     const owned = storage.getOwnedPerfumes();
 
-    function renderChips(ids, type) {
-      if (!ids.length) return `<p style="font-size:var(--text-xs);color:var(--text-tertiary);">None added yet.</p>`;
-      return `<div class="vault-myperfumes-list">
+    function renderMonAccordCards(ids) {
+      if (!ids.length) return `<p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-sm);">None added yet.</p>`;
+      return `<div class="vault-bottle-grid">
         ${ids.map(id => {
-          let label, iconHtml;
-          if (type === 'monAccord') {
-            const p = getPerfumeById(id);
-            const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-            label = p?.name || id;
-            iconHtml = `<span style="color:${r?.color || 'inherit'};">${r?.icon || '•'}</span>`;
-          } else {
-            const p = LOREAL_LUXE_PERFUMES.find(lp => lp.id === id);
-            label = p ? `${p.brand} — ${p.name}` : id;
-            iconHtml = `<span>✦</span>`;
-          }
-          return `<div class="vault-myperfume-chip">
-            ${iconHtml}<span>${label}</span>
-            <button class="vault-myperfume-remove" data-remove="${id}" data-type="${type}">✕</button>
-          </div>`;
+          const p = getPerfumeById(id);
+          const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
+          const img = p?.format === 'spray' ? PERFUME_IMGS[p.region] : OIL_IMGS[p.region];
+          const label = p?.name || id;
+          return `
+            <div class="vault-bottle-card" style="--region-color:${r?.color || 'var(--accent)'};">
+              <button class="vault-bottle-remove" data-remove="${id}" data-type="monAccord">✕</button>
+              <img src="${img}" alt="${label}" class="vault-bottle-img" />
+              <span class="vault-bottle-name">${label}</span>
+            </div>`;
         }).join('')}
       </div>`;
     }
 
-    function renderAddInput(type) {
-      if (addingSection !== type) return `<button class="btn btn--ghost btn--sm vault-add-owned-btn" data-section="${type}" style="margin-top:var(--space-xs);">+ Add</button>`;
-      return `<div class="vault-myperfumes-input">
-        <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin:0;">Selection opens in popup.</p>
-        <button class="btn btn--ghost btn--sm vault-cancel-owned-btn">Cancel</button>
+    function renderLorealCards(ids) {
+      if (!ids.length) return `<p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-sm);">None added yet.</p>`;
+      return `<div class="vault-bottle-grid">
+        ${ids.map(id => {
+          const p = LOREAL_LUXE_PERFUMES.find(lp => lp.id === id);
+          const img = LOREAL_IMGS[id];
+          const label = p ? p.name : id;
+          const brand = p?.brand || '';
+          return `
+            <div class="vault-bottle-card vault-bottle-card--loreal">
+              <button class="vault-bottle-remove" data-remove="${id}" data-type="loreal">✕</button>
+              ${img
+                ? `<img src="${img}" alt="${label}" class="vault-bottle-img" />`
+                : `<div class="vault-bottle-placeholder">${brand.charAt(0)}</div>`}
+              <span class="vault-bottle-name">${label}</span>
+              <span class="vault-bottle-brand">${brand}</span>
+            </div>`;
+        }).join('')}
       </div>`;
     }
-
-    const recText = getRecommendationText(owned);
 
     return `
       <div class="vault-myperfumes-col">
@@ -149,35 +176,19 @@ export function renderVault(container, navigate) {
 
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">Mon Accord</p>
-          ${renderChips(owned.monAccord, 'monAccord')}
-          ${renderAddInput('monAccord')}
+          ${renderMonAccordCards(owned.monAccord)}
+          <button class="btn btn--ghost btn--sm vault-add-owned-btn" data-section="monAccord" style="margin-top:var(--space-xs);">+ Add</button>
         </div>
 
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">L'Oréal Luxe</p>
-          ${renderChips(owned.loreal, 'loreal')}
-          ${renderAddInput('loreal')}
+          ${renderLorealCards(owned.loreal)}
+          <button class="btn btn--ghost btn--sm vault-add-owned-btn" data-section="loreal" style="margin-top:var(--space-xs);">+ Add</button>
         </div>
-
-        ${recText ? `
-          <div class="vault-myperfumes-rec mt-md">
-            <p class="vault-myperfumes-rec-label">Based on your collection</p>
-            <p style="font-size:var(--text-sm);color:var(--text-secondary);line-height:1.6;">${recText}</p>
-          </div>
-        ` : ''}
       </div>
     `;
   }
 
-  function getRecommendationText(owned) {
-    const maIds = owned.monAccord || [];
-    if (!maIds.length) return '';
-    const perfumes = maIds.map(id => getPerfumeById(id)).filter(Boolean);
-    const families = [...new Set(perfumes.flatMap(p => p.scentFamily.split('-')))];
-    const complementary = PERFUMES.filter(p => !maIds.includes(p.id) && p.scentFamily.split('-').some(f => families.includes(f))).slice(0, 3);
-    if (!complementary.length) return `Your collection spans ${families.slice(0, 3).join(', ')} notes. Explore the Layering Lab to create blends.`;
-    return `Pairs well with: ${complementary.map(p => p.name).join(', ')}.`;
-  }
 
   function renderFolderContents(folder, vault) {
     const formulas = getFormulasForFolder(folder.id);
@@ -240,17 +251,32 @@ export function renderVault(container, navigate) {
               <button class="modal__close" id="vault-close-owned-modal">✕</button>
             </div>
             <div class="modal__body">
-              <p class="vault-owned-modal-subtitle">Choose one of the six regions, then select Spray or Oil.</p>
-              <div class="vault-region-grid">
+              <div class="vault-modal-bottle-grid">
                 ${REGIONS.map(region => {
                   const spray = PERFUMES.find(p => p.region === region.id && p.format === 'spray');
-                  const oil = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
+                  const oil   = PERFUMES.find(p => p.region === region.id && p.format === 'oil');
+                  const sprayOwned = spray && owned.monAccord.includes(spray.id);
+                  const oilOwned   = oil   && owned.monAccord.includes(oil.id);
                   return `
-                    <div class="vault-region-card" style="--region-color:${region.color};">
-                      <p class="vault-region-card__title">${region.name}</p>
-                      <div class="vault-region-card__actions">
-                        ${spray ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${spray.id}" ${owned.monAccord.includes(spray.id) ? 'disabled' : ''}>Spray ${owned.monAccord.includes(spray.id) ? '✓' : ''}</button>` : ''}
-                        ${oil ? `<button class="btn btn--secondary btn--sm vault-owned-add-btn" data-type="monAccord" data-id="${oil.id}" ${owned.monAccord.includes(oil.id) ? 'disabled' : ''}>Oil ${owned.monAccord.includes(oil.id) ? '✓' : ''}</button>` : ''}
+                    <div class="vault-modal-region" style="--region-color:${region.color};">
+                      <p class="vault-modal-region-label">${region.name}</p>
+                      <div class="vault-modal-bottle-row">
+                        ${spray ? `
+                          <button class="vault-modal-bottle-btn vault-owned-add-btn ${sprayOwned ? 'vault-modal-bottle-btn--owned' : ''}"
+                            data-type="monAccord" data-id="${spray.id}"
+                            ${sprayOwned ? 'disabled' : ''}>
+                            <img src="${PERFUME_IMGS[region.id]}" alt="Spray" class="vault-modal-bottle-img" />
+                            <span class="vault-modal-bottle-type">SPRAY</span>
+                            ${sprayOwned ? '<div class="vault-modal-bottle-check">✓</div>' : ''}
+                          </button>` : ''}
+                        ${oil ? `
+                          <button class="vault-modal-bottle-btn vault-owned-add-btn ${oilOwned ? 'vault-modal-bottle-btn--owned' : ''}"
+                            data-type="monAccord" data-id="${oil.id}"
+                            ${oilOwned ? 'disabled' : ''}>
+                            <img src="${OIL_IMGS[region.id]}" alt="Oil" class="vault-modal-bottle-img" />
+                            <span class="vault-modal-bottle-type">OIL</span>
+                            ${oilOwned ? '<div class="vault-modal-bottle-check">✓</div>' : ''}
+                          </button>` : ''}
                       </div>
                     </div>
                   `;
@@ -616,56 +642,148 @@ function addVaultStyles() {
       padding: var(--space-3xl) var(--space-xl);
     }
 
-    .vault-myperfumes-input {
-      display: flex;
-      gap: var(--space-xs);
-      align-items: center;
-      margin-top: var(--space-sm);
-      flex-wrap: wrap;
-    }
-
-    .vault-myperfumes-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+    .vault-bottle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
       margin-bottom: var(--space-sm);
     }
 
-    .vault-myperfume-chip {
+    .vault-bottle-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 4px 6px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      text-align: center;
+    }
+
+    .vault-bottle-img {
+      width: 100%;
+      height: 80px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .vault-bottle-placeholder {
+      width: 100%;
+      height: 80px;
       display: flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      background: var(--accent-bg);
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-full);
-      font-size: var(--text-xs);
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      background: var(--surface);
+      border-radius: var(--radius-sm);
     }
 
-    .vault-myperfume-remove {
+    .vault-bottle-name {
       font-size: 9px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .vault-bottle-brand {
+      font-size: 8px;
+      color: var(--text-tertiary);
+    }
+
+    .vault-bottle-remove {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 16px;
+      height: 16px;
+      font-size: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: none;
+      border: none;
       color: var(--text-tertiary);
       cursor: pointer;
-      padding: 0 1px;
-      line-height: 1;
+      opacity: 0;
+      transition: all var(--transition-fast);
     }
 
-    .vault-myperfume-remove:hover { color: #e74c3c; }
+    .vault-bottle-card:hover .vault-bottle-remove { opacity: 1; }
+    .vault-bottle-remove:hover { color: #e74c3c; background: rgba(231,76,60,0.1); }
 
-    .vault-myperfumes-rec {
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-      padding: var(--space-sm) var(--space-md);
-      margin-top: var(--space-sm);
+    .vault-modal-bottle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
     }
 
-    .vault-myperfumes-rec-label {
+    .vault-modal-region { display: flex; flex-direction: column; gap: 6px; }
+
+    .vault-modal-region-label {
       font-size: var(--text-xs);
       font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 4px;
-      text-transform: uppercase;
+      color: var(--region-color);
+      text-align: center;
+    }
+
+    .vault-modal-bottle-row { display: flex; gap: 6px; }
+
+    .vault-modal-bottle-btn {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 4px 6px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .vault-modal-bottle-btn:hover:not(:disabled) {
+      border-color: var(--region-color);
+      background: var(--surface);
+    }
+
+    .vault-modal-bottle-btn--owned {
+      border-color: var(--region-color);
+      background: color-mix(in srgb, var(--region-color) 8%, transparent);
+    }
+
+    .vault-modal-bottle-btn:disabled { cursor: default; }
+
+    .vault-modal-bottle-img {
+      width: 100%;
+      height: 90px;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .vault-modal-bottle-type {
+      font-size: 8px;
+      font-weight: 800;
       letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+
+    .vault-modal-bottle-btn--owned .vault-modal-bottle-type { color: var(--region-color); }
+
+    .vault-modal-bottle-check {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--region-color);
     }
 
     .vault-owned-modal {
