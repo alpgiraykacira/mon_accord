@@ -4,6 +4,24 @@
 
 import { PERFUMES, REGIONS, getPerfumeById } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
+
+const PERFUME_IMGS = {
+  scandinavian: new URL('../assets/perfumes/scandinavian.png',    import.meta.url).href,
+  eastasia:     new URL('../assets/perfumes/east_asia.png',       import.meta.url).href,
+  southafrica:  new URL('../assets/perfumes/south_africa.png',    import.meta.url).href,
+  mediterranean:new URL('../assets/perfumes/mediterranean.png',   import.meta.url).href,
+  southamerica: new URL('../assets/perfumes/south_america.png',   import.meta.url).href,
+  middleeast:   new URL('../assets/perfumes/middle_east.png',     import.meta.url).href,
+};
+
+const OIL_IMGS = {
+  scandinavian: new URL('../assets/oils/scandinavian.png',    import.meta.url).href,
+  eastasia:     new URL('../assets/oils/east_asia.png',       import.meta.url).href,
+  southafrica:  new URL('../assets/oils/south_africa.png',    import.meta.url).href,
+  mediterranean:new URL('../assets/oils/mediterranean.png',   import.meta.url).href,
+  southamerica: new URL('../assets/oils/south_america.png',   import.meta.url).href,
+  middleeast:   new URL('../assets/oils/middle_east.png',     import.meta.url).href,
+};
 import sephoraLogo   from '../assets/Sephora-Logo.png';
 import boynerLogo    from '../assets/Boyner_Logo.jpg';
 import trendyolLogo  from '../assets/Trendyol_logo.png';
@@ -35,31 +53,36 @@ export function renderShop(container, navigate) {
         <div class="shop-layout">
           <div class="shop-products">
             ${REGIONS.map(r => {
-              const sprays = PERFUMES.filter(p => p.region === r.id && p.format === 'spray');
-              const oils = PERFUMES.filter(p => p.region === r.id && p.format === 'oil');
+              const spray = PERFUMES.find(p => p.region === r.id && p.format === 'spray');
+              const oil   = PERFUMES.find(p => p.region === r.id && p.format === 'oil');
               return `
                 <div class="shop-region-card" style="--region-color: ${r.color}; --region-light: ${r.colorLight};">
                   <div class="shop-region-card__header">
-                    <span class="shop-region-card__icon">${r.icon}</span>
                     <h3 class="shop-region-card__name">${r.name}</h3>
-                    <p class="shop-region-card__tagline">${r.tagline}</p>
                   </div>
                   <div class="shop-region-card__products">
-                    ${[...sprays, ...oils].map(p => {
-                      const inCart = cart.find(c => c.id === p.id);
-                      const isOwned = ownedIds.includes(p.id);
+                    ${spray ? (() => {
+                      const inCart = cart.find(c => c.id === spray.id);
+                      const isOwned = ownedIds.includes(spray.id);
                       return `
-                        <div class="shop-product ${inCart ? 'shop-product--in-cart' : ''} ${isOwned ? 'shop-product--owned' : ''}" data-id="${p.id}">
-                          <div class="shop-product__info">
-                            <span class="shop-product__format">${p.format === 'spray' ? 'Spray' : 'Oil'}</span>
-                            <span class="shop-product__name">${p.name}${isOwned ? ' <span class="shop-owned-badge">Owned</span>' : ''}</span>
-                          </div>
-                          <button class="shop-product__btn ${inCart ? 'shop-product__btn--added' : ''}" data-id="${p.id}">
-                            ${inCart ? '✓ Added' : '+ Add'}
-                          </button>
-                        </div>
-                      `;
-                    }).join('')}
+                        <button class="shop-bottle-btn ${inCart ? 'shop-bottle-btn--in-cart' : ''} ${isOwned ? 'shop-bottle-btn--owned' : ''}" data-id="${spray.id}" style="--region-color:${r.color};">
+                          ${inCart ? '<div class="shop-bottle-check">✓</div>' : ''}
+                          ${isOwned ? '<div class="shop-bottle-owned">Owned</div>' : ''}
+                          <img src="${PERFUME_IMGS[r.id]}" class="shop-bottle-img" alt="Spray" />
+                          <span class="shop-bottle-type">SPRAY</span>
+                        </button>`;
+                    })() : ''}
+                    ${oil ? (() => {
+                      const inCart = cart.find(c => c.id === oil.id);
+                      const isOwned = ownedIds.includes(oil.id);
+                      return `
+                        <button class="shop-bottle-btn ${inCart ? 'shop-bottle-btn--in-cart' : ''} ${isOwned ? 'shop-bottle-btn--owned' : ''}" data-id="${oil.id}" style="--region-color:${r.color};">
+                          ${inCart ? '<div class="shop-bottle-check">✓</div>' : ''}
+                          ${isOwned ? '<div class="shop-bottle-owned">Owned</div>' : ''}
+                          <img src="${OIL_IMGS[r.id]}" class="shop-bottle-img" alt="Oil" />
+                          <span class="shop-bottle-type">OIL</span>
+                        </button>`;
+                    })() : ''}
                   </div>
                 </div>
               `;
@@ -97,12 +120,6 @@ export function renderShop(container, navigate) {
               </div>
             `}
 
-            ${recommendation ? `
-              <div class="shop-cart__rec">
-                <p class="shop-cart__rec-label">Pairs with your collection</p>
-                <p style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.6;">${recommendation}</p>
-              </div>
-            ` : ''}
           </div>
         </div>
       </div>
@@ -111,7 +128,7 @@ export function renderShop(container, navigate) {
     addShopStyles();
 
     // Add to cart buttons
-    container.querySelectorAll('.shop-product__btn').forEach(btn => {
+    container.querySelectorAll('.shop-bottle-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
@@ -327,80 +344,77 @@ function addShopStyles() {
       background: linear-gradient(135deg, rgba(var(--region-color), 0.03), transparent);
     }
 
-    .shop-region-card__icon { font-size: 1.3rem; display: block; margin-bottom: 2px; }
-    .shop-region-card__name { font-size: var(--text-base); margin-bottom: 1px; }
-    .shop-region-card__tagline { font-size: var(--text-xs); color: var(--region-color); font-weight: 500; }
+    .shop-region-card__name { font-size: var(--text-sm); font-weight: 700; color: var(--region-color); font-family: var(--font-body); }
 
     .shop-region-card__products {
       padding: var(--space-sm);
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      gap: var(--space-sm);
       flex: 1;
-      justify-content: flex-start;
     }
 
-    .shop-product {
+    .shop-bottle-btn {
+      flex: 1;
+      position: relative;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      padding: var(--space-xs) var(--space-sm);
+      gap: 4px;
+      padding: 8px 4px 6px;
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-md);
-      transition: all var(--transition-fast);
-    }
-
-    .shop-product:hover { background: var(--bg-secondary); }
-    .shop-product--in-cart { background: var(--accent-bg); }
-
-    .shop-product__info { display: flex; flex-direction: column; }
-    .shop-product__format { font-size: var(--text-xs); color: var(--text-tertiary); }
-    .shop-product__name { font-size: var(--text-sm); font-weight: 500; }
-
-    .shop-product__btn {
-      padding: 4px 12px;
-      font-size: var(--text-xs);
-      font-weight: 600;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      color: var(--text-secondary);
+      background: var(--bg-primary);
       cursor: pointer;
-      transition: all var(--transition-fast);
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .shop-product__btn:hover { border-color: var(--accent); color: var(--accent-dark); }
-    .shop-product__btn--added { border-color: var(--accent); background: var(--accent-bg); color: var(--accent-dark); }
+    .shop-bottle-btn:hover { border-color: var(--region-color); background: var(--surface); }
 
-    .shop-product--owned { background: var(--accent-bg); }
-    .shop-owned-badge {
-      display: inline-block;
+    .shop-bottle-btn--in-cart {
+      border-color: var(--region-color);
+      background: color-mix(in srgb, var(--region-color) 8%, transparent);
+    }
+
+    .shop-bottle-btn--owned { border-color: var(--accent); }
+
+    .shop-bottle-img {
+      width: 100%;
+      height: 100px;
+      object-fit: contain;
+      pointer-events: none;
+      display: block;
+    }
+
+    .shop-bottle-type {
       font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--accent-dark);
-      background: var(--accent-bg-hover);
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-full);
-      padding: 1px 6px;
-      margin-left: 4px;
-      vertical-align: middle;
-    }
-
-    .shop-cart__rec {
-      margin-top: var(--space-md);
-      padding: var(--space-sm) var(--space-md);
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-    }
-
-    .shop-cart__rec-label {
-      font-size: var(--text-xs);
-      font-weight: 700;
-      color: var(--accent);
-      text-transform: uppercase;
+      font-weight: 800;
       letter-spacing: 0.08em;
-      margin-bottom: 4px;
+      color: var(--text-tertiary);
+    }
+
+    .shop-bottle-btn--in-cart .shop-bottle-type { color: var(--region-color); }
+
+    .shop-bottle-check {
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--region-color);
+    }
+
+    .shop-bottle-owned {
+      position: absolute;
+      top: 4px;
+      left: 5px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--accent-dark);
+      background: color-mix(in srgb, var(--accent) 15%, white);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-full);
+      padding: 2px 6px;
     }
 
     .shop-cart {

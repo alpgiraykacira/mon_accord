@@ -24,11 +24,15 @@ const OIL_IMGS = {
   middleeast:   new URL('../assets/oils/middle_east.png',    import.meta.url).href,
 };
 
-// Populate as images are added to src/assets/loreal/{id}.png
-const LOREAL_IMGS = {};
+const LOREAL_IMGS = {
+  'mugler-angel':           new URL('../assets/loreal_luxe_perfumes/angel.png',            import.meta.url).href,
+  'ysl-black-opium':        new URL('../assets/loreal_luxe_perfumes/black_opium.png',      import.meta.url).href,
+  'lancome-la-vie-est-belle': new URL('../assets/loreal_luxe_perfumes/la_vie_est_belle.png', import.meta.url).href,
+};
+
+const DEFAULT_LOREAL_IDS = ['mugler-angel', 'ysl-black-opium', 'lancome-la-vie-est-belle'];
 
 const PRESET_FOLDERS = [
-  { id: 'default',  name: 'All Formulas' },
   { id: 'evening',  name: 'Evening Wear' },
   { id: 'daytime',  name: 'Daytime' },
   { id: 'office',   name: 'Office' },
@@ -37,6 +41,14 @@ const PRESET_FOLDERS = [
 ];
 
 export function renderVault(container, navigate) {
+  // Seed default L'Oréal Luxe perfumes
+  const owned = storage.getOwnedPerfumes();
+  const missingLoreal = DEFAULT_LOREAL_IDS.filter(id => !owned.loreal.includes(id));
+  if (missingLoreal.length) {
+    owned.loreal = [...owned.loreal, ...missingLoreal];
+    storage.setOwnedPerfumes(owned);
+  }
+
   // Seed / merge preset folders for new and existing users
   const rawFolders = storage.get('vault_folders', null);
   let folders;
@@ -44,14 +56,11 @@ export function renderVault(container, navigate) {
     folders = PRESET_FOLDERS.map(f => ({ ...f }));
     storage.set('vault_folders', folders);
   } else {
-    const existingIds = new Set(rawFolders.map(f => f.id));
+    const filtered = rawFolders.filter(f => f.id !== 'default');
+    const existingIds = new Set(filtered.map(f => f.id));
     const missing = PRESET_FOLDERS.filter(p => !existingIds.has(p.id));
-    if (missing.length) {
-      folders = [...rawFolders, ...missing].map(f => ({ id: f.id, name: f.name }));
-      storage.set('vault_folders', folders);
-    } else {
-      folders = rawFolders.map(f => ({ id: f.id, name: f.name }));
-    }
+    folders = [...filtered, ...missing].map(f => ({ id: f.id, name: f.name }));
+    storage.set('vault_folders', folders);
   }
   let activeFolder = null;
   let showCreateFolder = false;
@@ -63,9 +72,7 @@ export function renderVault(container, navigate) {
   }
 
   function getFormulasForFolder(folderId) {
-    const vault = storage.getVault();
-    if (folderId === 'default') return vault;
-    return vault.filter(f => f.folderId === folderId);
+    return storage.getVault().filter(f => f.folderId === folderId);
   }
 
   function render() {
@@ -538,17 +545,16 @@ function addVaultStyles() {
     }
 
     .vault-folders-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
       gap: var(--space-md);
     }
 
     .vault-folder-card {
       text-align: center;
-      padding: var(--space-xl) var(--space-md);
+      padding: var(--space-xl) var(--space-sm);
       position: relative;
-      width: 160px;
-      height: 160px;
+      height: 140px;
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
