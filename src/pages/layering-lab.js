@@ -84,7 +84,7 @@ export function renderLayeringLab(container, navigate) {
         <div class="lab-page-header">
           <p class="lab-page-header__label">The Lab</p>
           <h1 class="lab-page-header__title">Compose Your Signature</h1>
-          <p class="lab-page-header__desc">Layer fragrances from six world regions — combine sprays for projection with oils for depth and longevity.</p>
+          <p class="lab-page-header__desc">Layer fragrances from six world regions — combine sprays with oils for depth and longevity.</p>
         </div>
 
         <div class="lab-layout">
@@ -515,9 +515,12 @@ function addLabStyles() {
       top: calc(var(--nav-height) + var(--space-lg));
       max-height: calc(100vh - var(--nav-height) - var(--space-lg) * 2);
       overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       display: flex;
       flex-direction: column;
     }
+    .lab-canvas::-webkit-scrollbar { display: none; }
 
     /* ── Section label ── */
     .lab-section-label {
@@ -531,7 +534,7 @@ function addLabStyles() {
 
     /* ── Add Section ── */
     .lab-add-section {
-      margin-bottom: var(--space-xl);
+      margin-bottom: var(--space-md);
     }
 
     .lab-perfume-selector {
@@ -547,7 +550,7 @@ function addLabStyles() {
     }
 
     .lab-region-label {
-      font-size: var(--text-xs);
+      font-size: var(--text-sm);
       font-weight: 700;
       color: var(--region-color);
       text-align: center;
@@ -593,8 +596,8 @@ function addLabStyles() {
     }
 
     .lab-bottle-type {
-      font-size: 8px;
-      font-weight: 800;
+      font-size: 10px;
+      font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--text-tertiary);
     }
@@ -665,8 +668,8 @@ function addLabStyles() {
       position: relative;
       overflow: hidden;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      border-radius: var(--radius-lg);
       transition: box-shadow var(--transition-fast);
     }
     .lab-layer:hover { box-shadow: var(--shadow-sm); }
@@ -674,6 +677,7 @@ function addLabStyles() {
     .lab-layer__bg {
       position: absolute;
       inset: 0;
+      border-radius: inherit;
       background-size: auto 100%;
       background-position: right center;
       background-repeat: no-repeat;
@@ -712,7 +716,7 @@ function addLabStyles() {
 
     .lab-layer__name {
       font-weight: 600;
-      font-size: var(--text-base);
+      font-size: var(--text-sm);
       color: var(--text-primary);
       white-space: nowrap;
       overflow: hidden;
