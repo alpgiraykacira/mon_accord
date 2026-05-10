@@ -5,13 +5,22 @@
 import { REGIONS, PERFUMES } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
 
-const REGION_IMAGES = {
-  scandinavian: new URL('../assets/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/middle_east.png',    import.meta.url).href,
+const PERFUME_IMAGES = {
+  scandinavian: new URL('../assets/perfumes/scandinavian.png',   import.meta.url).href,
+  eastasia:     new URL('../assets/perfumes/east_asia.png',      import.meta.url).href,
+  southafrica:  new URL('../assets/perfumes/south_africa.png',   import.meta.url).href,
+  mediterranean:new URL('../assets/perfumes/mediterranean.png',  import.meta.url).href,
+  southamerica: new URL('../assets/perfumes/south_america.png',  import.meta.url).href,
+  middleeast:   new URL('../assets/perfumes/middle_east.png',    import.meta.url).href,
+};
+
+const OIL_IMAGES = {
+  scandinavian: new URL('../assets/oils/scandinavian.png',   import.meta.url).href,
+  eastasia:     new URL('../assets/oils/east_asia.png',      import.meta.url).href,
+  southafrica:  new URL('../assets/oils/south_africa.png',   import.meta.url).href,
+  mediterranean:new URL('../assets/oils/mediterranean.png',  import.meta.url).href,
+  southamerica: new URL('../assets/oils/south_america.png',  import.meta.url).href,
+  middleeast:   new URL('../assets/oils/middle_east.png',    import.meta.url).href,
 };
 
 export function renderLanding(container, navigate) {
@@ -51,7 +60,8 @@ export function renderLanding(container, navigate) {
           <div class="cf-stage" id="cf-stage">
             ${REGIONS.map((r, i) => `
               <div class="cf-card" data-index="${i}" data-region="${r.id}">
-                <img src="${REGION_IMAGES[r.id]}" alt="${r.name}" class="cf-card__img" draggable="false" />
+                <img src="${PERFUME_IMAGES[r.id]}" alt="${r.name} Spray" class="cf-card__img" draggable="false" />
+                <img src="${OIL_IMAGES[r.id]}" alt="${r.name} Oil" class="cf-card__img" draggable="false" />
               </div>
             `).join('')}
           </div>
@@ -150,7 +160,7 @@ export function renderLanding(container, navigate) {
 
   function applyPos(card, pos, instant = false) {
     const absP  = Math.abs(pos);
-    const tx    = pos * 230;
+    const tx    = pos * 320;
     const scale = absP === 0 ? 1 : absP === 1 ? 0.68 : 0.50;
     const op    = absP === 0 ? 1 : absP === 1 ? 0.55 : 0;
     const z     = absP === 0 ? 5 : absP === 1 ? 3 : 1;
@@ -414,7 +424,7 @@ function addLandingStyles() {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 200px;
+      width: 340px;
       height: 420px;
       cursor: pointer;
       transition: transform 0.55s cubic-bezier(0.16,1,0.3,1),
@@ -422,12 +432,14 @@ function addLandingStyles() {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
     }
 
     .cf-card__img {
-      width: 100%;
-      height: 100%;
+      width: 50%;
+      height: 360px;
       object-fit: contain;
+      object-position: bottom;
       pointer-events: none;
       user-select: none;
       display: block;
