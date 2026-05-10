@@ -192,6 +192,7 @@ export function renderCommunity(container, navigate) {
   const trending = getTrendingCombinations();
   const profile = storage.getProfile();
   let sortBy = 'likes';
+  let sortPosts = 'newest';
   let selectedPostId = null;
   let showNewPostForm = false;
   let newPostTopicType = null; // 'combination' | 'trending' | 'free'
@@ -228,6 +229,14 @@ export function renderCommunity(container, navigate) {
     return sorted;
   }
 
+  function getSortedPosts(posts) {
+    const sorted = [...posts];
+    if (sortPosts === 'newest') sorted.sort((a, b) => b.date - a.date);
+    else if (sortPosts === 'likes') sorted.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    else if (sortPosts === 'comments') sorted.sort((a, b) => countAllComments(b) - countAllComments(a));
+    return sorted;
+  }
+
   function render() {
     const sorted = getSortedFormulas();
     const posts = getSeedPosts();
@@ -247,7 +256,7 @@ export function renderCommunity(container, navigate) {
               </div>
             </div>
             <div class="community-trending-list">
-              ${sorted.map((formula, i) => {
+              ${sorted.slice(0, 5).map((formula, i) => {
                 const isLiked = storage.isLiked(formula.id);
                 const displayLikes = (formula.likes || 0) + (isLiked ? 1 : 0);
                 return `
@@ -270,50 +279,52 @@ export function renderCommunity(container, navigate) {
                     <button class="community-like-btn ${isLiked ? 'community-like-btn--active' : ''}" data-like-formula="${formula.id}">
                       ${isLiked ? '♥' : '♡'} ${displayLikes}
                     </button>
-                    <button class="btn btn--ghost btn--sm community-vault-btn" data-vault-formula="${formula.id}">+ Vault</button>
+                    <button class="btn btn--ghost btn--sm community-vault-btn" data-vault-formula="${formula.id}">Add to Vault</button>
                   </div>
                 </div>
               `;}).join('')}
             </div>
           </div>
 
-          <!-- Right Column: Today's Selection + Duygu's Choice -->
-          <div class="community-right-col">
-            <div class="community-panel community-panel--selection">
-              <div class="community-panel-header">
-                <h3 class="community-panel-title">Today's Selection</h3>
-              </div>
-              <div id="suggestion-container">
-                ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
-              </div>
+          <div class="community-panel community-panel--selection">
+            <div class="community-panel-header">
+              <h3 class="community-panel-title">Today's Selection</h3>
             </div>
+            <div id="suggestion-container">
+              ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
+            </div>
+          </div>
+        </div>
 
-            <!-- Duygu's Choice -->
-            <div class="community-panel community-duygu-choice">
-              <div class="community-panel-header">
-                <h3 class="community-panel-title">Duygu's Choice</h3>
+        <!-- ═══ CHOICE ROW ═══ -->
+        <div class="community-choice-row">
+          <div class="community-choice-card">
+            <div class="community-choice-card__photo-wrap">
+              <img src="${duyguPhoto}" alt="Duygu Özaslan" class="community-choice-card__photo" />
+            </div>
+            <p class="community-choice-card__name">Duygu Özaslan</p>
+            <p class="community-choice-card__role">Influencer</p>
+            <p class="community-choice-card__quote">"Cherry blossom and fig together feel like a spring garden by the sea — feminine, luminous, and unforgettable."</p>
+            <div class="community-choice-card__combo">
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='eastasia')?.color};">East Asia — Spray</span>
+                <span class="community-choice-card__amount">2 sprays</span>
               </div>
-              <div class="duygu-card">
-                <div class="duygu-card__photo-wrap">
-                  <img src="${duyguPhoto}" alt="Duygu Özaslan" class="duygu-card__photo" />
-                </div>
-                <p class="duygu-card__name">Duygu Özaslan</p>
-                <p class="duygu-card__role">Influencer</p>
-                <p class="duygu-card__quote">"Cherry blossom and fig together feel like a spring garden by the sea — feminine, luminous, and unforgettable."</p>
-                <div class="duygu-card__combo">
-                  <div class="duygu-card__layer">
-                    <span style="color: ${REGIONS.find(r => r.id === 'eastasia')?.color || '#888'};">${REGIONS.find(r => r.id === 'eastasia')?.icon || ''}</span>
-                    <span>East Asia — Spray</span>
-                    <span class="duygu-card__amount">2 sprays</span>
-                  </div>
-                  <div class="duygu-card__layer">
-                    <span style="color: ${REGIONS.find(r => r.id === 'mediterranean')?.color || '#888'};">${REGIONS.find(r => r.id === 'mediterranean')?.icon || ''}</span>
-                    <span>Mediterranean — Oil</span>
-                    <span class="duygu-card__amount">3 drops</span>
-                  </div>
-                </div>
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='mediterranean')?.color};">Mediterranean — Oil</span>
+                <span class="community-choice-card__amount">3 drops</span>
               </div>
             </div>
+          </div>
+          <div class="community-choice-card community-choice-card--placeholder">
+            <div class="community-choice-card__avatar-ph"></div>
+            <p class="community-choice-card__name community-choice-card__name--ph">Coming Soon</p>
+            <p class="community-choice-card__role">—</p>
+          </div>
+          <div class="community-choice-card community-choice-card--placeholder">
+            <div class="community-choice-card__avatar-ph"></div>
+            <p class="community-choice-card__name community-choice-card__name--ph">Coming Soon</p>
+            <p class="community-choice-card__role">—</p>
           </div>
         </div>
 
@@ -321,7 +332,14 @@ export function renderCommunity(container, navigate) {
         <div class="community-discussion-section">
           <div class="community-discussion-header">
             <h3 class="community-panel-title">Discussion</h3>
-            <button class="btn btn--primary btn--sm" id="btn-new-post">+ New Post</button>
+            <div style="display:flex;align-items:center;gap:var(--space-sm);">
+              <div class="community-sort">
+                <button class="community-sort-btn ${sortPosts === 'newest' ? 'community-sort-btn--active' : ''}" data-post-sort="newest">Newest</button>
+                <button class="community-sort-btn ${sortPosts === 'likes' ? 'community-sort-btn--active' : ''}" data-post-sort="likes">Most Liked</button>
+                <button class="community-sort-btn ${sortPosts === 'comments' ? 'community-sort-btn--active' : ''}" data-post-sort="comments">Most Discussed</button>
+              </div>
+              <button class="btn btn--primary btn--sm" id="btn-new-post">+ New Post</button>
+            </div>
           </div>
 
           ${showNewPostForm ? renderNewPostForm(sorted) : ''}
@@ -330,7 +348,7 @@ export function renderCommunity(container, navigate) {
             <!-- Post List (left) -->
             <div class="community-post-list">
               ${posts.length === 0 ? '<p style="color:var(--text-tertiary);font-size:var(--text-sm);padding:var(--space-lg);">No posts yet. Be the first to share!</p>' :
-                posts.map(post => `
+                getSortedPosts(posts).map(post => `
                   <div class="community-post-item ${selectedPostId === post.id ? 'community-post-item--active' : ''}" data-post-id="${post.id}">
                     <div class="community-post-item__top">
                       <span class="community-post-item__author">${post.author}</span>
@@ -544,9 +562,14 @@ export function renderCommunity(container, navigate) {
   }
 
   function bindEvents(sorted, posts) {
-    // Sort buttons
-    container.querySelectorAll('.community-sort-btn').forEach(btn => {
+    // Sort buttons (trending)
+    container.querySelectorAll('.community-sort-btn[data-sort]').forEach(btn => {
       btn.addEventListener('click', () => { sortBy = btn.dataset.sort; render(); });
+    });
+
+    // Sort buttons (posts)
+    container.querySelectorAll('.community-sort-btn[data-post-sort]').forEach(btn => {
+      btn.addEventListener('click', () => { sortPosts = btn.dataset.postSort; render(); });
     });
 
     // Formula like
@@ -924,7 +947,7 @@ function addCommunityStyles() {
     .community-post-item__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
     .community-post-item__author { font-size: var(--text-xs); font-weight: 600; color: var(--accent); }
     .community-post-item__date { font-size: 10px; color: var(--text-tertiary); }
-    .community-post-item__title { font-size: var(--text-sm); font-weight: 600; margin-bottom: 4px; }
+    .community-post-item__title { font-size: var(--text-base); font-weight: 600; margin-bottom: 4px; }
     .community-post-item__bottom { display: flex; justify-content: space-between; align-items: center; }
     .community-post-item__topic { font-size: 10px; color: var(--text-tertiary); }
     .community-post-item__stats { font-size: 10px; color: var(--text-tertiary); }
@@ -1014,46 +1037,70 @@ function addCommunityStyles() {
     }
     .community-combo-remove:hover { color: #e74c3c; }
 
-    /* ── Duygu's Choice ── */
-    .community-duygu-choice { overflow: hidden; }
-
-    .duygu-card { padding: var(--space-lg); text-align: center; }
-
-    .duygu-card__photo-wrap {
-      display: flex; justify-content: center; margin-bottom: var(--space-md);
+    /* ── Choice Row ── */
+    .community-choice-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
     }
 
-    .duygu-card__photo {
-      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+    .community-choice-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .community-choice-card--placeholder {
+      justify-content: center;
+      opacity: 0.45;
+    }
+
+    .community-choice-card__photo-wrap { margin-bottom: var(--space-md); }
+
+    .community-choice-card__photo {
+      width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
       border: 3px solid var(--accent-light);
     }
 
-    .duygu-card__name { font-size: var(--text-base); font-weight: 600; margin: 0 0 2px; }
-    .duygu-card__role { font-size: var(--text-xs); color: var(--text-tertiary); margin: 0 0 var(--space-md); }
+    .community-choice-card__avatar-ph {
+      width: 96px; height: 96px; border-radius: 50%;
+      background: var(--bg-secondary); border: 2px dashed var(--border);
+      margin-bottom: var(--space-md);
+    }
 
-    .duygu-card__quote {
+    .community-choice-card__name { font-size: var(--text-base); font-weight: 600; margin: 0 0 2px; }
+    .community-choice-card__name--ph { color: var(--text-tertiary); }
+    .community-choice-card__role { font-size: var(--text-xs); color: var(--text-tertiary); margin: 0 0 var(--space-md); }
+
+    .community-choice-card__quote {
       font-size: var(--text-sm); font-style: italic; color: var(--text-secondary);
       line-height: 1.6; margin-bottom: var(--space-md); text-align: left;
       padding-left: var(--space-md); border-left: 2px solid var(--accent-light);
     }
 
-    .duygu-card__combo {
-      display: flex; flex-direction: column; gap: var(--space-xs); text-align: left;
+    .community-choice-card__combo {
+      display: flex; flex-direction: column; gap: var(--space-xs); text-align: left; width: 100%;
     }
 
-    .duygu-card__layer {
+    .community-choice-card__layer {
       display: flex; align-items: center; gap: var(--space-sm);
       font-size: var(--text-sm); padding: var(--space-xs) var(--space-sm);
       background: var(--bg-primary); border-radius: var(--radius-md);
     }
 
-    .duygu-card__amount {
+    .community-choice-card__amount {
       margin-left: auto; font-size: var(--text-xs); color: var(--text-tertiary); font-weight: 500;
     }
 
     @media (max-width: 1024px) {
       .community-top-grid { grid-template-columns: 1fr; }
-      .community-right-col { position: static; }
+      .community-choice-row { grid-template-columns: 1fr; }
       .community-discussion-layout { grid-template-columns: 1fr; }
       .community-post-list { border-right: none; border-bottom: 1px solid var(--border); max-height: 300px; }
     }
