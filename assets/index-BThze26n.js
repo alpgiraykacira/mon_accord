@@ -20,10 +20,9 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     <!-- HERO -->
     <section class="hero" id="hero-section">
       <div class="hero__content">
-        <p class="hero__brand">mon accord</p>
         <h1 class="hero__title">
-          <span class="hero__title-line">Scent is personal.</span>
-          <span class="hero__title-line hero__title-accent">Make it yours.</span>
+          <span class="hero__title-line">Build Your</span>
+          <span class="hero__title-line hero__title-accent">Signature.</span>
         </h1>
         <p class="hero__subtitle">
           Layer fragrances from six world regions.<br>
@@ -50,8 +49,8 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
           <div class="cf-stage" id="cf-stage">
             ${f.map((e,t)=>`
               <div class="cf-card" data-index="${t}" data-region="${e.id}">
-                <img src="${y[e.id]}" alt="${e.name} Spray" class="cf-card__img" draggable="false" />
-                <img src="${b[e.id]}" alt="${e.name} Oil" class="cf-card__img" draggable="false" />
+                <img src="${y[e.id]}" alt="${e.name} Spray" class="cf-card__img" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
+                <img src="${b[e.id]}" alt="${e.name} Oil" class="cf-card__img" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
               </div>
             `).join(``)}
           </div>
@@ -549,7 +548,7 @@ Key knowledge:
 Your tone: Sophisticated, warm, poetic but precise. Like a knowledgeable friend at a luxury fragrance house.
 Always respond in English.
 When describing scents, be vivid and sensory — help the user "smell" through words.
-Keep responses concise but rich. Use fragrance terminology naturally.`;function Ed(){return u.getApiKey()}function Dd(){let e=Ed();if(!e)return!1;try{return wd=new Cd({apiKey:e}),!0}catch(e){return console.error(`Failed to initialize Gemini:`,e),!1}}async function Od(e,t=2){if(!wd&&!Dd())return{success:!1,error:`no-api-key`,text:`Please set your Gemini API key in Settings to enable AI features.`};try{let t=(await wd.models.generateContent({model:`gemini-2.5-flash`,contents:e,config:{systemInstruction:Td}})).text;return t?{success:!0,text:t}:(console.error(`Empty response from Gemini`),{success:!1,error:`empty-response`,text:`AI returned an empty response. Please try again.`})}catch(n){let r=n.message||String(n);if(console.error(`AI generation error:`,r),r.includes(`429`)||r.includes(`quota`)||r.includes(`rate`)||r.includes(`RESOURCE_EXHAUSTED`)){let n=r.match(/retry in (\d+)/i)||r.match(/retryDelay.*?(\d+)/),i=n?parseInt(n[1]):30;return t>0?(console.log(`Rate limited. Waiting ${i}s before retry... (${t} retries left)`),await new Promise(e=>setTimeout(e,(i+2)*1e3)),Od(e,t-1)):{success:!1,error:`rate-limit`,text:`Rate limit exceeded. The free tier has per-minute and daily limits. Please wait ${i} seconds and try again, or check your quota at ai.google.dev.`}}return r.includes(`API_KEY`)||r.includes(`API key`)||r.includes(`401`)||r.includes(`403`)?(wd=null,{success:!1,error:`invalid-key`,text:`Invalid API key. Please check your Gemini API key in Settings.`}):r.includes(`fetch`)||r.includes(`network`)||r.includes(`ECONNREFUSED`)?{success:!1,error:`network`,text:`Network error. Please check your internet connection and try again.`}:{success:!1,error:`generation-failed`,text:`AI generation failed: ${r.slice(0,200)}`}}}function kd(){return!!Ed()}async function Ad(e){let t=await Od(jd(e));if(t.success){let n=Md(t.text,e);return u.setProfile(n),u.addInteraction({type:`profile-created`,profile:n.archetype}),{success:!0,profile:n}}return{success:!1,error:t.text}}function jd(e){let t=e.scentFamilies?.join(`, `)||`not specified`,n=(e.knownPerfumes||[]).map(e=>{let t=h.find(t=>t.id===e);return t?`${t.brand} ${t.name} (${t.family})`:e}).join(`, `)||`none selected`,r=e.interestedRegions?.join(`, `)||`all regions`;return`Analyze this user's fragrance preferences and create their olfactory profile.
+Keep responses concise but rich. Use fragrance terminology naturally.`;function Ed(){return`AIzaSyBDM0uAE2O9Pm3HcbkCN5feQn5ctnBD9f0`}function Dd(){let e=Ed();if(!e)return!1;try{return wd=new Cd({apiKey:e}),!0}catch(e){return console.error(`Failed to initialize Gemini:`,e),!1}}async function Od(e,t=2){if(!wd&&!Dd())return{success:!1,error:`no-api-key`,text:`Please set your Gemini API key in Settings to enable AI features.`};try{let t=(await wd.models.generateContent({model:`gemini-2.5-flash`,contents:e,config:{systemInstruction:Td}})).text;return t?{success:!0,text:t}:(console.error(`Empty response from Gemini`),{success:!1,error:`empty-response`,text:`AI returned an empty response. Please try again.`})}catch(n){let r=n.message||String(n);if(console.error(`AI generation error:`,r),r.includes(`429`)||r.includes(`quota`)||r.includes(`rate`)||r.includes(`RESOURCE_EXHAUSTED`)){let n=r.match(/retry in (\d+)/i)||r.match(/retryDelay.*?(\d+)/),i=n?parseInt(n[1]):30;return t>0?(console.log(`Rate limited. Waiting ${i}s before retry... (${t} retries left)`),await new Promise(e=>setTimeout(e,(i+2)*1e3)),Od(e,t-1)):{success:!1,error:`rate-limit`,text:`Rate limit exceeded. The free tier has per-minute and daily limits. Please wait ${i} seconds and try again, or check your quota at ai.google.dev.`}}return r.includes(`API_KEY`)||r.includes(`API key`)||r.includes(`401`)||r.includes(`403`)?(wd=null,{success:!1,error:`invalid-key`,text:`Invalid API key. Please check your Gemini API key in Settings.`}):r.includes(`fetch`)||r.includes(`network`)||r.includes(`ECONNREFUSED`)?{success:!1,error:`network`,text:`Network error. Please check your internet connection and try again.`}:{success:!1,error:`generation-failed`,text:`AI generation failed: ${r.slice(0,200)}`}}}function kd(){return!!Ed()}async function Ad(e){let t=await Od(jd(e));if(t.success){let n=Md(t.text,e);return u.setProfile(n),u.addInteraction({type:`profile-created`,profile:n.archetype}),{success:!0,profile:n}}return{success:!1,error:t.text}}function jd(e){let t=e.scentFamilies?.join(`, `)||`not specified`,n=(e.knownPerfumes||[]).map(e=>{let t=h.find(t=>t.id===e);return t?`${t.brand} ${t.name} (${t.family})`:e}).join(`, `)||`none selected`,r=e.interestedRegions?.join(`, `)||`all regions`;return`Analyze this user's fragrance preferences and create their olfactory profile.
 
 USER QUIZ ANSWERS:
 - Preferred scent families: ${t}
@@ -625,7 +624,7 @@ Be poetic but precise. Help the reader "smell" this blend through words. Keep it
         <div class="quiz-grid quiz-grid--families">
           ${m.map(e=>`
             <div class="quiz-option quiz-option--img-card ${t.scentFamilies.includes(e.id)?`quiz-option--selected`:``}" data-value="${e.id}" id="family-${e.id}">
-              <img class="quiz-option__img" src="${Fd[e.id]}" alt="${e.name}" />
+              <img class="quiz-option__img" src="${Fd[e.id]}" alt="${e.name}" loading="lazy" decoding="async" />
             </div>
           `).join(``)}
         </div>
@@ -676,7 +675,7 @@ Be poetic but precise. Help the reader "smell" this blend through words. Keep it
         <div class="quiz-grid quiz-grid--context">
           ${[{id:`elegant`,name:`Elegant & Classic`,desc:`Timeless sophistication`},{id:`adventurous`,name:`Adventurous & Bold`,desc:`Love discovering the new`},{id:`romantic`,name:`Romantic & Dreamy`,desc:`Soft, poetic, emotional`},{id:`minimalist`,name:`Minimalist & Clean`,desc:`Less is more`},{id:`creative`,name:`Creative & Expressive`,desc:`Unique, unconventional`},{id:`confident`,name:`Confident & Powerful`,desc:`Commands attention`}].map(e=>`
             <div class="quiz-option quiz-option--img-card ${t.personality===e.id?`quiz-option--selected`:``}" data-value="${e.id}" id="ctx-${e.id}">
-              <img class="quiz-option__img" src="${Id[e.id]}" alt="${e.name}" />
+              <img class="quiz-option__img" src="${Id[e.id]}" alt="${e.name}" loading="lazy" decoding="async" />
             </div>
           `).join(``)}
         </div>
@@ -1352,13 +1351,13 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                       <div class="lab-bottle-row">
                         ${t?`
                           <button class="lab-bottle-btn ${i?`lab-bottle-btn--added`:``}" data-id="${t.id}" style="--region-color: ${e.color};" title="${e.name} Spray">
-                            <img src="${af[e.id]}" alt="${e.name} Spray" class="lab-bottle-img" />
+                            <img src="${af[e.id]}" alt="${e.name} Spray" class="lab-bottle-img" loading="lazy" decoding="async" />
                             <span class="lab-bottle-type">SPRAY</span>
                             ${i?`<div class="lab-bottle-check">✓</div>`:``}
                           </button>`:``}
                         ${n?`
                           <button class="lab-bottle-btn ${a?`lab-bottle-btn--added`:``}" data-id="${n.id}" style="--region-color: ${e.color};" title="${e.name} Oil">
-                            <img src="${of[e.id]}" alt="${e.name} Oil" class="lab-bottle-img" />
+                            <img src="${of[e.id]}" alt="${e.name} Oil" class="lab-bottle-img" loading="lazy" decoding="async" />
                             <span class="lab-bottle-type">OIL</span>
                             ${a?`<div class="lab-bottle-check">✓</div>`:``}
                           </button>`:``}
@@ -1908,7 +1907,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           <div class="vault-folders-grid">
             ${a.map(e=>{let t=m(e.id).length;return`
                 <div class="vault-folder-card card card--interactive" data-folder="${e.id}">
-                  <img src="${mf}" class="vault-folder-icon" alt="folder" />
+                  <img src="${mf}" class="vault-folder-icon" alt="folder" loading="lazy" decoding="async" />
                   <h4 class="vault-folder-name">${e.name}</h4>
                   <span class="vault-folder-count">${t} formula${t===1?``:`s`}</span>
                   ${e.id===`default`?``:`<button class="vault-folder-delete" data-delete="${e.id}" title="Delete folder">✕</button>`}
@@ -1931,14 +1930,14 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         ${e.map(e=>{let t=v(e),n=t?f.find(e=>e.id===t.region):null,r=t?.format===`spray`?hf[t.region]:gf[t.region],i=t?.name||e;return`
             <div class="vault-bottle-card" style="--region-color:${n?.color||`var(--accent)`};">
               <button class="vault-bottle-remove" data-remove="${e}" data-type="monAccord">✕</button>
-              <img src="${r}" alt="${i}" class="vault-bottle-img" />
+              <img src="${r}" alt="${i}" class="vault-bottle-img" loading="lazy" decoding="async" />
               <span class="vault-bottle-name">${i}</span>
             </div>`}).join(``)}
       </div>`:`<p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-sm);">None added yet.</p>`}function n(e){return e.length?`<div class="vault-bottle-grid">
         ${e.map(e=>{let t=h.find(t=>t.id===e),n=_f[e],r=t?t.name:e,i=t?.brand||``;return`
             <div class="vault-bottle-card vault-bottle-card--loreal">
               <button class="vault-bottle-remove" data-remove="${e}" data-type="loreal">✕</button>
-              ${n?`<img src="${n}" alt="${r}" class="vault-bottle-img" />`:`<div class="vault-bottle-placeholder">${i.charAt(0)}</div>`}
+              ${n?`<img src="${n}" alt="${r}" class="vault-bottle-img" loading="lazy" decoding="async" />`:`<div class="vault-bottle-placeholder">${i.charAt(0)}</div>`}
               <span class="vault-bottle-name">${r}</span>
               <span class="vault-bottle-brand">${i}</span>
             </div>`}).join(``)}
@@ -2012,7 +2011,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                           <button class="vault-modal-bottle-btn vault-owned-add-btn ${i?`vault-modal-bottle-btn--owned`:``}"
                             data-type="monAccord" data-id="${n.id}"
                             ${i?`disabled`:``}>
-                            <img src="${hf[t.id]}" alt="Spray" class="vault-modal-bottle-img" />
+                            <img src="${hf[t.id]}" alt="Spray" class="vault-modal-bottle-img" loading="lazy" decoding="async" />
                             <span class="vault-modal-bottle-type">SPRAY</span>
                             ${i?`<div class="vault-modal-bottle-check">✓</div>`:``}
                           </button>`:``}
@@ -2020,7 +2019,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                           <button class="vault-modal-bottle-btn vault-owned-add-btn ${a?`vault-modal-bottle-btn--owned`:``}"
                             data-type="monAccord" data-id="${r.id}"
                             ${a?`disabled`:``}>
-                            <img src="${gf[t.id]}" alt="Oil" class="vault-modal-bottle-img" />
+                            <img src="${gf[t.id]}" alt="Oil" class="vault-modal-bottle-img" loading="lazy" decoding="async" />
                             <span class="vault-modal-bottle-type">OIL</span>
                             ${a?`<div class="vault-modal-bottle-check">✓</div>`:``}
                           </button>`:``}
@@ -2498,6 +2497,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
             <div class="community-panel-header">
               <h3 class="community-panel-title">Trending Combinations</h3>
               <div class="community-sort">
+                <span class="community-sort-label">⇅ Sort by</span>
                 <button class="community-sort-btn ${i===`likes`?`community-sort-btn--active`:``}" data-sort="likes">Popular</button>
                 <button class="community-sort-btn ${i===`match`?`community-sort-btn--active`:``}" data-sort="match">For You</button>
                 <button class="community-sort-btn ${i===`newest`?`community-sort-btn--active`:``}" data-sort="newest">New</button>
@@ -2529,9 +2529,9 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
 
           <div class="community-panel community-panel--selection">
             <div class="community-panel-header">
-              <h3 class="community-panel-title">Today's Selection</h3>
+              <h3 class="community-panel-title">Today's Selection For You</h3>
             </div>
-            <div id="suggestion-container">
+            <div id="suggestion-container" style="display:flex;flex-direction:column;flex:1;min-height:0;">
               ${Af(_,y)}
             </div>
           </div>
@@ -2541,7 +2541,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <div class="community-choice-row">
           <div class="community-choice-card">
             <div class="community-choice-card__photo-wrap">
-              <img src="${Ef}" alt="Duygu Özaslan" class="community-choice-card__photo" />
+              <img src="${Ef}" alt="Duygu Özaslan" class="community-choice-card__photo" loading="lazy" decoding="async" />
             </div>
             <p class="community-choice-card__name">Duygu Özaslan</p>
             <p class="community-choice-card__role">Influencer</p>
@@ -2579,7 +2579,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                 <button class="community-sort-btn ${a===`likes`?`community-sort-btn--active`:``}" data-post-sort="likes">Most Liked</button>
                 <button class="community-sort-btn ${a===`comments`?`community-sort-btn--active`:``}" data-post-sort="comments">Most Discussed</button>
               </div>
-              <button class="btn btn--primary btn--sm" id="btn-new-post">+ New Post</button>
+              <button class="btn btn--primary" id="btn-new-post">+ New Post</button>
             </div>
           </div>
 
@@ -2591,7 +2591,6 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
               ${n.length===0?`<p style="color:var(--text-tertiary);font-size:var(--text-sm);padding:var(--space-lg);">No posts yet. Be the first to share!</p>`:C(n).map(e=>`
                   <div class="community-post-item ${o===e.id?`community-post-item--active`:``}" data-post-id="${e.id}">
                     <div class="community-post-item__top">
-                      <span class="community-post-item__author">${e.author}</span>
                       <span class="community-post-item__date">${ee(e.date)}</span>
                     </div>
                     <h4 class="community-post-item__title">${e.title}</h4>
@@ -2698,7 +2697,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         </div>
         <div class="divider--gold"></div>
         <div class="community-comments">
-          <h4 style="font-size:var(--text-sm);margin-bottom:var(--space-sm);">Comments</h4>
+          <h4 style="font-size:var(--text-xl);font-weight:700;margin-bottom:var(--space-sm);">Comments</h4>
           ${O(e.comments||[],e.id,0)}
           <div class="community-add-comment">
             <input type="text" class="input" id="new-comment-input" placeholder="Write a comment..." style="flex:1;" />
@@ -2721,15 +2720,15 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         ${O(e.replies||[],t,n+1)}
       </div>
     `).join(``)}function k(e){if(e.topicType===`trending`){let t=g.find(t=>t.id===e.topicRef);return t?t.name:`Trending`}return e.topicType===`combination`?`Custom Combo`:e.topicLabel||`General`}function A(e){if(e.topicType===`trending`){let t=g.find(t=>t.id===e.topicRef);return t?`<div class="community-post-topic-badge">Trending: ${t.name}</div>`:``}return e.topicType===`combination`&&e.topicCombination?.length?`<div class="community-post-topic-badge">${e.topicCombination.map(e=>`${v(e.perfumeId)?.name||e.perfumeId} (${e.amount} ${e.unit})`).join(` + `)}</div>`:e.topicType===`free`&&e.topicLabel?`<div class="community-post-topic-badge">${e.topicLabel}</div>`:``}function j(e){let t=0;function n(e){(e||[]).forEach(e=>{t++,n(e.replies)})}return n(e.comments),t}function ee(e){let t=Date.now()-e,n=Math.floor(t/6e4);if(n<60)return`${n}m ago`;let r=Math.floor(n/60);return r<24?`${r}h ago`:`${Math.floor(r/24)}d ago`}function te(e,t){for(let n of e||[]){if(n.id===t)return n;let e=te(n.replies,t);if(e)return e}return null}function ne(n,r){e.querySelectorAll(`.community-sort-btn[data-sort]`).forEach(e=>{e.addEventListener(`click`,()=>{i=e.dataset.sort,w()})}),e.querySelectorAll(`.community-sort-btn[data-post-sort]`).forEach(e=>{e.addEventListener(`click`,()=>{a=e.dataset.postSort,w()})}),e.querySelectorAll(`[data-like-formula]`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation(),u.toggleLike(e.dataset.likeFormula),w()})}),e.querySelectorAll(`[data-vault-formula]`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let r=n.find(t=>t.id===e.dataset.vaultFormula);if(!r)return;let i=(r.layers||[]).map(e=>{let t=v(e.perfumeId);return t&&f.find(e=>e.id===t.region),{...e,name:t?.name||e.perfumeId}});tf({...r,id:`saved-`+r.id,layers:i},{showNameInput:!1})})});let l=e.querySelector(`#btn-load-suggestion`);l&&l.addEventListener(`click`,()=>{_?.layers?.length&&(sessionStorage.setItem(`labPending`,JSON.stringify(_.layers.map(e=>e.perfumeId).filter(e=>v(e)))),t(`#lab`))}),e.querySelectorAll(`[data-post-id]`).forEach(e=>{e.classList.contains(`community-post-item`)&&e.addEventListener(`click`,()=>{o=e.dataset.postId,w()})});let d=e.querySelector(`#btn-new-post`);d&&d.addEventListener(`click`,()=>{s=!0,c=null,E=[],w()}),e.querySelectorAll(`.community-topic-btn`).forEach(e=>{e.addEventListener(`click`,()=>{c=e.dataset.topic,E=[],w()})});let p=e.querySelector(`#combo-add-layer`);p&&p.addEventListener(`click`,()=>{let t=e.querySelector(`#combo-perfume-select`),n=e.querySelector(`#combo-amount`),r=e.querySelector(`#combo-unit`);t.value&&(E.push({perfumeId:t.value,amount:parseInt(n.value)||2,unit:r.value}),m())});function m(){let t=e.querySelector(`#combo-layers`);t&&(t.innerHTML=E.map((e,t)=>{let n=v(e.perfumeId),r=h.find(t=>t.id===e.perfumeId);return`<div class="community-combo-layer"><span>${n?.name||(r?`${r.brand} — ${r.name}`:e.perfumeId)} (${e.amount} ${e.unit})</span><button class="community-combo-remove" data-idx="${t}">✕</button></div>`}).join(``),t.querySelectorAll(`.community-combo-remove`).forEach(e=>{e.addEventListener(`click`,()=>{E.splice(parseInt(e.dataset.idx),1),m()})}))}let g=e.querySelector(`#btn-cancel-post`);g&&g.addEventListener(`click`,()=>{s=!1,c=null,w()});let y=e.querySelector(`#btn-submit-post`);y&&y.addEventListener(`click`,()=>{let t=e.querySelector(`#new-post-title`)?.value.trim(),n=e.querySelector(`#new-post-content`)?.value.trim();if(!t||!n||!c){window.showToast(`Please fill in all fields.`,`error`);return}let r={id:`p-`+Date.now(),author:u.getUsername(),date:Date.now(),title:t,content:n,topicType:c,likes:0,comments:[]};c===`combination`&&(r.topicCombination=[...E]),c===`trending`&&(r.topicRef=e.querySelector(`#trending-select`)?.value||``),c===`free`&&(r.topicLabel=e.querySelector(`#free-topic-label`)?.value.trim()||`General`);let i=Of();i.unshift(r),u.setPosts(i),s=!1,c=null,o=r.id,w(),window.showToast(`Post published!`)}),e.querySelectorAll(`[data-like-post]`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.likePost,n=u.isPostLiked(t);u.togglePostLike(t);let r=Of(),i=r.find(e=>e.id===t);i&&(i.likes=(i.likes||0)+(n?-1:1),u.setPosts(r)),w()})});let b=e.querySelector(`#btn-add-comment`);b&&b.addEventListener(`click`,()=>{let t=e.querySelector(`#new-comment-input`)?.value.trim();if(!t)return;let n=Of(),r=n.find(e=>e.id===b.dataset.postId);r&&(r.comments||=[],r.comments.push({id:`c-`+Date.now(),author:u.getUsername(),date:Date.now(),text:t,replies:[]}),u.setPosts(n),w())}),e.querySelectorAll(`.community-reply-toggle`).forEach(t=>{t.addEventListener(`click`,()=>{let n=e.querySelector(`#reply-${t.dataset.commentId}`);n&&(n.style.display=n.style.display===`none`?`flex`:`none`)})}),e.querySelectorAll(`.community-reply-submit`).forEach(t=>{t.addEventListener(`click`,()=>{let n=(e.querySelector(`#reply-${t.dataset.commentId}`)?.querySelector(`input`))?.value.trim();if(!n)return;let r=Of(),i=r.find(e=>e.id===t.dataset.postId);if(i){let e=te(i.comments,t.dataset.commentId);e&&(e.replies||=[],e.replies.push({id:`r-`+Date.now(),author:u.getUsername(),date:Date.now(),text:n,replies:[]}),u.setPosts(r),w())}})})}w(),_||(async()=>{let e;if(kd()){let t=await wf();e=t.success&&t.remix?t.remix:re()}else e=re();_=e,y=!1,sessionStorage.setItem(l,JSON.stringify({date:d,remix:e})),w()})();function re(){let e=x.slice().sort((e,t)=>t.matchPercent-e.matchPercent)[0]||n[0];return{remixName:e?.name||`Daily Selection`,layers:e?.layers||[],inspiration:e?.description||`A community-loved formula selected for your profile.`,scentDescription:`Balanced for versatility across day and evening wear.`}}}function Af(e,t){return t?`<div style="padding:var(--space-xl);text-align:center;"><span class="loading-spinner"></span><p style="margin-top:var(--space-md);color:var(--text-tertiary);">Preparing today's suggestion...</p></div>`:e?`
-    <div style="padding:var(--space-lg);">
-      <div class="ai-response">
+    <div style="padding:var(--space-lg);display:flex;flex-direction:column;flex:1;min-height:0;">
+      <div class="ai-response" style="flex:1;">
         <div class="ai-response__label">${e.remixName||`AI Suggestion`}</div>
         <div class="ai-response__text">
-          ${e.layers?.length?`<div style="margin-bottom:var(--space-md);">${e.layers.map(e=>{let t=v(e.perfumeId);return`<p>${(t?f.find(e=>e.id===t.region):null)?.icon||`•`} ${e.amount} ${e.unit} of <strong>${t?.name||e.perfumeId}</strong></p>`}).join(``)}</div>`:``}
+          ${e.layers?.length?`<div style="margin-bottom:var(--space-md);">${e.layers.map(e=>{let t=v(e.perfumeId),n=t?f.find(e=>e.id===t.region):null;return`<p>${n?.icon||`•`} ${e.amount} ${e.unit} of <strong style="color:${n?.color||`var(--text-primary)`};">${t?.name||e.perfumeId}</strong></p>`}).join(``)}</div>`:``}
           ${e.inspiration?`<p>${e.inspiration}</p>`:``}
         </div>
       </div>
-      <button class="btn btn--primary btn--sm mt-md" id="btn-load-suggestion">Load to Lab</button>
+      <button class="btn btn--primary btn--sm" style="margin-top:var(--space-lg);" id="btn-load-suggestion">Load to Lab</button>
     </div>
   `:`<p style="font-size:var(--text-sm);color:var(--text-tertiary);padding:var(--space-lg);">No suggestion available.</p>`}function jf(){if(document.getElementById(`community-styles`))return;let e=document.createElement(`style`);e.id=`community-styles`,e.textContent=`
     /* ── Top Grid: Trending + Today's Selection ── */
@@ -2737,7 +2736,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) minmax(18rem, var(--sidebar-width));
       gap: var(--space-xl);
-      align-items: start;
+      align-items: stretch;
       margin-bottom: var(--space-2xl);
     }
 
@@ -2769,7 +2768,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
 
     .community-panel-title { font-size: var(--text-lg); font-weight: 600; }
 
-    .community-sort { display: flex; gap: 4px; }
+    .community-sort { display: flex; align-items: center; gap: 4px; }
+    .community-sort-label { font-size: var(--text-xs); font-weight: 500; color: var(--text-tertiary); margin-right: 4px; white-space: nowrap; }
 
     .community-sort-btn {
       padding: 4px 10px; font-size: var(--text-xs); font-weight: 500;
@@ -2781,7 +2781,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     .community-sort-btn--active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
 
     /* ── Trending Items ── */
-    .community-trending-list { display: flex; flex-direction: column; }
+    .community-trending-list { display: flex; flex-direction: column; flex: 1; }
 
     .community-trending-item {
       display: grid;
@@ -2792,6 +2792,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       transition: background var(--transition-fast);
+      flex: 1;
     }
     .community-trending-item:last-child { border-bottom: none; }
     .community-trending-item:hover { background: var(--bg-primary); }
@@ -2830,7 +2831,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     .community-like-btn:hover { border-color: #e74c3c; color: #e74c3c; }
     .community-like-btn--active { border-color: #e74c3c; background: rgba(231,76,60,0.08); color: #e74c3c; }
 
-    .community-vault-btn { font-size: var(--text-xs) !important; padding: 2px 8px !important; }
+    .community-vault-btn { font-size: var(--text-xs) !important; padding: 2px 8px !important; color: var(--accent-dark) !important; background: var(--accent-bg) !important; border-color: var(--border-accent) !important; }
 
     /* ── Discussion Section ── */
     .community-discussion-section {
@@ -2869,11 +2870,10 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     .community-post-item--active { background: var(--accent-bg); border-left: 3px solid var(--accent); }
 
     .community-post-item__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
-    .community-post-item__author { font-size: var(--text-xs); font-weight: 600; color: var(--accent); }
     .community-post-item__date { font-size: 10px; color: var(--text-tertiary); }
     .community-post-item__title { font-size: var(--text-base); font-weight: 600; margin-bottom: 4px; }
     .community-post-item__bottom { display: flex; justify-content: space-between; align-items: center; }
-    .community-post-item__topic { font-size: 10px; color: var(--text-tertiary); }
+    .community-post-item__topic { font-size: 10px; color: var(--text-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1px 6px; }
     .community-post-item__stats { font-size: 10px; color: var(--text-tertiary); }
 
     /* ── Post Detail ── */
@@ -3042,14 +3042,14 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                         <button class="shop-bottle-btn ${r?`shop-bottle-btn--in-cart`:``} ${i?`shop-bottle-btn--owned`:``}" data-id="${t.id}" style="--region-color:${e.color};">
                           ${r?`<div class="shop-bottle-check">✓</div>`:``}
                           ${i?`<div class="shop-bottle-owned">Owned</div>`:``}
-                          <img src="${If[e.id]}" class="shop-bottle-img" alt="Spray" />
+                          <img src="${If[e.id]}" class="shop-bottle-img" alt="Spray" loading="lazy" decoding="async" />
                           <span class="shop-bottle-type">SPRAY</span>
                         </button>`})():``}
                     ${r?(()=>{let t=a.find(e=>e.id===r.id),i=n.includes(r.id);return`
                         <button class="shop-bottle-btn ${t?`shop-bottle-btn--in-cart`:``} ${i?`shop-bottle-btn--owned`:``}" data-id="${r.id}" style="--region-color:${e.color};">
                           ${t?`<div class="shop-bottle-check">✓</div>`:``}
                           ${i?`<div class="shop-bottle-owned">Owned</div>`:``}
-                          <img src="${Lf[e.id]}" class="shop-bottle-img" alt="Oil" />
+                          <img src="${Lf[e.id]}" class="shop-bottle-img" alt="Oil" loading="lazy" decoding="async" />
                           <span class="shop-bottle-type">OIL</span>
                         </button>`})():``}
                   </div>
@@ -3097,16 +3097,16 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <div class="order-retailers">
           <div class="order-retailers__grid">
             <div class="order-retailer-card" aria-label="Sephora">
-              <img src="${Mf}" alt="Sephora" class="order-retailer-card__logo" />
+              <img src="${Mf}" alt="Sephora" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
             <div class="order-retailer-card" aria-label="Boyner">
-              <img src="${Nf}" alt="Boyner" class="order-retailer-card__logo" />
+              <img src="${Nf}" alt="Boyner" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
             <div class="order-retailer-card" aria-label="Trendyol">
-              <img src="${Pf}" alt="Trendyol" class="order-retailer-card__logo" />
+              <img src="${Pf}" alt="Trendyol" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
             <div class="order-retailer-card" aria-label="Hepsiburada">
-              <img src="${Ff}" alt="Hepsiburada" class="order-retailer-card__logo" />
+              <img src="${Ff}" alt="Hepsiburada" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
