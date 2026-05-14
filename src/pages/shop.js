@@ -68,7 +68,7 @@ export function renderShop(container, navigate) {
                         <button class="shop-bottle-btn ${inCart ? 'shop-bottle-btn--in-cart' : ''} ${isOwned ? 'shop-bottle-btn--owned' : ''}" data-id="${spray.id}" style="--region-color:${r.color};">
                           ${inCart ? '<div class="shop-bottle-check">✓</div>' : ''}
                           ${isOwned ? '<div class="shop-bottle-owned">Owned</div>' : ''}
-                          <img src="${PERFUME_IMGS[r.id]}" class="shop-bottle-img" alt="Spray" />
+                          <img src="${PERFUME_IMGS[r.id]}" class="shop-bottle-img" alt="Spray" loading="lazy" decoding="async" />
                           <span class="shop-bottle-type">SPRAY</span>
                         </button>`;
                     })() : ''}
@@ -79,7 +79,7 @@ export function renderShop(container, navigate) {
                         <button class="shop-bottle-btn ${inCart ? 'shop-bottle-btn--in-cart' : ''} ${isOwned ? 'shop-bottle-btn--owned' : ''}" data-id="${oil.id}" style="--region-color:${r.color};">
                           ${inCart ? '<div class="shop-bottle-check">✓</div>' : ''}
                           ${isOwned ? '<div class="shop-bottle-owned">Owned</div>' : ''}
-                          <img src="${OIL_IMGS[r.id]}" class="shop-bottle-img" alt="Oil" />
+                          <img src="${OIL_IMGS[r.id]}" class="shop-bottle-img" alt="Oil" loading="lazy" decoding="async" />
                           <span class="shop-bottle-type">OIL</span>
                         </button>`;
                     })() : ''}
@@ -192,16 +192,16 @@ function showOrderConfirmation(cart, container, navigate) {
         <div class="order-retailers">
           <div class="order-retailers__grid">
             <div class="order-retailer-card" aria-label="Sephora">
-              <img src="${sephoraLogo}" alt="Sephora" class="order-retailer-card__logo" />
+              <img src="${sephoraLogo}" alt="Sephora" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
             <div class="order-retailer-card" aria-label="Boyner">
-              <img src="${boynerLogo}" alt="Boyner" class="order-retailer-card__logo" />
+              <img src="${boynerLogo}" alt="Boyner" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
             <div class="order-retailer-card" aria-label="Trendyol">
-              <img src="${trendyolLogo}" alt="Trendyol" class="order-retailer-card__logo" />
+              <img src="${trendyolLogo}" alt="Trendyol" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
             <div class="order-retailer-card" aria-label="Hepsiburada">
-              <img src="${hepsiburadaLogo}" alt="Hepsiburada" class="order-retailer-card__logo" />
+              <img src="${hepsiburadaLogo}" alt="Hepsiburada" class="order-retailer-card__logo" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>

@@ -162,7 +162,7 @@ function getStepContent(step, answers) {
         <div class="quiz-grid quiz-grid--families">
           ${SCENT_FAMILIES.map(f => `
             <div class="quiz-option quiz-option--img-card ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}">
-              <img class="quiz-option__img" src="${SCENT_FAMILY_IMGS[f.id]}" alt="${f.name}" />
+              <img class="quiz-option__img" src="${SCENT_FAMILY_IMGS[f.id]}" alt="${f.name}" loading="lazy" decoding="async" />
             </div>
           `).join('')}
         </div>
@@ -229,7 +229,7 @@ function getStepContent(step, answers) {
             { id: 'confident',   name: 'Confident & Powerful',   desc: 'Commands attention' },
           ].map(ctx => `
             <div class="quiz-option quiz-option--img-card ${answers.personality === ctx.id ? 'quiz-option--selected' : ''}" data-value="${ctx.id}" id="ctx-${ctx.id}">
-              <img class="quiz-option__img" src="${TRAIT_IMGS[ctx.id]}" alt="${ctx.name}" />
+              <img class="quiz-option__img" src="${TRAIT_IMGS[ctx.id]}" alt="${ctx.name}" loading="lazy" decoding="async" />
             </div>
           `).join('')}
         </div>

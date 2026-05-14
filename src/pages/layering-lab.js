@@ -106,13 +106,13 @@ export function renderLayeringLab(container, navigate) {
                       <div class="lab-bottle-row">
                         ${spray ? `
                           <button class="lab-bottle-btn ${sprayAdded ? 'lab-bottle-btn--added' : ''}" data-id="${spray.id}" style="--region-color: ${r.color};" title="${r.name} Spray">
-                            <img src="${PERFUME_IMGS[r.id]}" alt="${r.name} Spray" class="lab-bottle-img" />
+                            <img src="${PERFUME_IMGS[r.id]}" alt="${r.name} Spray" class="lab-bottle-img" loading="lazy" decoding="async" />
                             <span class="lab-bottle-type">SPRAY</span>
                             ${sprayAdded ? '<div class="lab-bottle-check">✓</div>' : ''}
                           </button>` : ''}
                         ${oil ? `
                           <button class="lab-bottle-btn ${oilAdded ? 'lab-bottle-btn--added' : ''}" data-id="${oil.id}" style="--region-color: ${r.color};" title="${r.name} Oil">
-                            <img src="${OIL_IMGS[r.id]}" alt="${r.name} Oil" class="lab-bottle-img" />
+                            <img src="${OIL_IMGS[r.id]}" alt="${r.name} Oil" class="lab-bottle-img" loading="lazy" decoding="async" />
                             <span class="lab-bottle-type">OIL</span>
                             ${oilAdded ? '<div class="lab-bottle-check">✓</div>' : ''}
                           </button>` : ''}

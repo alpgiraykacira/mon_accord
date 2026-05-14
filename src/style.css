@@ -694,19 +694,13 @@ input[type="range"]::-webkit-slider-thumb:hover {
   background: linear-gradient(135deg, var(--accent-bg), rgba(200, 169, 126, 0.03));
   border: 1px solid var(--border-accent);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: var(--space-xl);
   position: relative;
   overflow: hidden;
 }
 
 .ai-response::before {
-  content: '✦';
-  position: absolute;
-  top: var(--space-md);
-  right: var(--space-md);
-  font-size: var(--text-lg);
-  color: var(--accent-light);
-  opacity: 0.5;
+  content: none;
 }
 
 .ai-response__label {

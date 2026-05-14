@@ -111,7 +111,7 @@ export function renderVault(container, navigate) {
               const count = getFormulasForFolder(f.id).length;
               return `
                 <div class="vault-folder-card card card--interactive" data-folder="${f.id}">
-                  <img src="${folderIconUrl}" class="vault-folder-icon" alt="folder" />
+                  <img src="${folderIconUrl}" class="vault-folder-icon" alt="folder" loading="lazy" decoding="async" />
                   <h4 class="vault-folder-name">${f.name}</h4>
                   <span class="vault-folder-count">${count} formula${count !== 1 ? 's' : ''}</span>
                   ${f.id !== 'default' ? `<button class="vault-folder-delete" data-delete="${f.id}" title="Delete folder">✕</button>` : ''}
@@ -148,7 +148,7 @@ export function renderVault(container, navigate) {
           return `
             <div class="vault-bottle-card" style="--region-color:${r?.color || 'var(--accent)'};">
               <button class="vault-bottle-remove" data-remove="${id}" data-type="monAccord">✕</button>
-              <img src="${img}" alt="${label}" class="vault-bottle-img" />
+              <img src="${img}" alt="${label}" class="vault-bottle-img" loading="lazy" decoding="async" />
               <span class="vault-bottle-name">${label}</span>
             </div>`;
         }).join('')}
@@ -167,7 +167,7 @@ export function renderVault(container, navigate) {
             <div class="vault-bottle-card vault-bottle-card--loreal">
               <button class="vault-bottle-remove" data-remove="${id}" data-type="loreal">✕</button>
               ${img
-                ? `<img src="${img}" alt="${label}" class="vault-bottle-img" />`
+                ? `<img src="${img}" alt="${label}" class="vault-bottle-img" loading="lazy" decoding="async" />`
                 : `<div class="vault-bottle-placeholder">${brand.charAt(0)}</div>`}
               <span class="vault-bottle-name">${label}</span>
               <span class="vault-bottle-brand">${brand}</span>
@@ -272,7 +272,7 @@ export function renderVault(container, navigate) {
                           <button class="vault-modal-bottle-btn vault-owned-add-btn ${sprayOwned ? 'vault-modal-bottle-btn--owned' : ''}"
                             data-type="monAccord" data-id="${spray.id}"
                             ${sprayOwned ? 'disabled' : ''}>
-                            <img src="${PERFUME_IMGS[region.id]}" alt="Spray" class="vault-modal-bottle-img" />
+                            <img src="${PERFUME_IMGS[region.id]}" alt="Spray" class="vault-modal-bottle-img" loading="lazy" decoding="async" />
                             <span class="vault-modal-bottle-type">SPRAY</span>
                             ${sprayOwned ? '<div class="vault-modal-bottle-check">✓</div>' : ''}
                           </button>` : ''}
@@ -280,7 +280,7 @@ export function renderVault(container, navigate) {
                           <button class="vault-modal-bottle-btn vault-owned-add-btn ${oilOwned ? 'vault-modal-bottle-btn--owned' : ''}"
                             data-type="monAccord" data-id="${oil.id}"
                             ${oilOwned ? 'disabled' : ''}>
-                            <img src="${OIL_IMGS[region.id]}" alt="Oil" class="vault-modal-bottle-img" />
+                            <img src="${OIL_IMGS[region.id]}" alt="Oil" class="vault-modal-bottle-img" loading="lazy" decoding="async" />
                             <span class="vault-modal-bottle-type">OIL</span>
                             ${oilOwned ? '<div class="vault-modal-bottle-check">✓</div>' : ''}
                           </button>` : ''}

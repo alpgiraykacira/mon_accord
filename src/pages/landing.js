@@ -30,10 +30,9 @@ export function renderLanding(container, navigate) {
     <!-- HERO -->
     <section class="hero" id="hero-section">
       <div class="hero__content">
-        <p class="hero__brand">mon accord</p>
         <h1 class="hero__title">
-          <span class="hero__title-line">Scent is personal.</span>
-          <span class="hero__title-line hero__title-accent">Make it yours.</span>
+          <span class="hero__title-line">Build Your</span>
+          <span class="hero__title-line hero__title-accent">Signature.</span>
         </h1>
         <p class="hero__subtitle">
           Layer fragrances from six world regions.<br>
@@ -60,8 +59,8 @@ export function renderLanding(container, navigate) {
           <div class="cf-stage" id="cf-stage">
             ${REGIONS.map((r, i) => `
               <div class="cf-card" data-index="${i}" data-region="${r.id}">
-                <img src="${PERFUME_IMAGES[r.id]}" alt="${r.name} Spray" class="cf-card__img" draggable="false" />
-                <img src="${OIL_IMAGES[r.id]}" alt="${r.name} Oil" class="cf-card__img" draggable="false" />
+                <img src="${PERFUME_IMAGES[r.id]}" alt="${r.name} Spray" class="cf-card__img" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
+                <img src="${OIL_IMAGES[r.id]}" alt="${r.name} Oil" class="cf-card__img" draggable="false" loading="eager" fetchpriority="high" decoding="async" />
               </div>
             `).join('')}
           </div>

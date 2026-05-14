@@ -9,7 +9,8 @@
       "Bash(Select-String -Pattern \"scripts|vite|webpack\" -Context 2)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git commit -m 'fix: add contents:write permission and upgrade to Node.js 22 for gh-pages deploy *)"
+      "Bash(git commit -m 'fix: add contents:write permission and upgrade to Node.js 22 for gh-pages deploy *)",
+      "Bash(findstr /i \"\\\\.env\")"
     ]
   }
 }

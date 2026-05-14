@@ -250,6 +250,7 @@ export function renderCommunity(container, navigate) {
             <div class="community-panel-header">
               <h3 class="community-panel-title">Trending Combinations</h3>
               <div class="community-sort">
+                <span class="community-sort-label">⇅ Sort by</span>
                 <button class="community-sort-btn ${sortBy === 'likes' ? 'community-sort-btn--active' : ''}" data-sort="likes">Popular</button>
                 <button class="community-sort-btn ${sortBy === 'match' ? 'community-sort-btn--active' : ''}" data-sort="match">For You</button>
                 <button class="community-sort-btn ${sortBy === 'newest' ? 'community-sort-btn--active' : ''}" data-sort="newest">New</button>
@@ -288,9 +289,9 @@ export function renderCommunity(container, navigate) {
 
           <div class="community-panel community-panel--selection">
             <div class="community-panel-header">
-              <h3 class="community-panel-title">Today's Selection</h3>
+              <h3 class="community-panel-title">Today's Selection For You</h3>
             </div>
-            <div id="suggestion-container">
+            <div id="suggestion-container" style="display:flex;flex-direction:column;flex:1;min-height:0;">
               ${renderSuggestionContent(currentSuggestion, suggestionLoading)}
             </div>
           </div>
@@ -300,7 +301,7 @@ export function renderCommunity(container, navigate) {
         <div class="community-choice-row">
           <div class="community-choice-card">
             <div class="community-choice-card__photo-wrap">
-              <img src="${duyguPhoto}" alt="Duygu Özaslan" class="community-choice-card__photo" />
+              <img src="${duyguPhoto}" alt="Duygu Özaslan" class="community-choice-card__photo" loading="lazy" decoding="async" />
             </div>
             <p class="community-choice-card__name">Duygu Özaslan</p>
             <p class="community-choice-card__role">Influencer</p>
@@ -338,7 +339,7 @@ export function renderCommunity(container, navigate) {
                 <button class="community-sort-btn ${sortPosts === 'likes' ? 'community-sort-btn--active' : ''}" data-post-sort="likes">Most Liked</button>
                 <button class="community-sort-btn ${sortPosts === 'comments' ? 'community-sort-btn--active' : ''}" data-post-sort="comments">Most Discussed</button>
               </div>
-              <button class="btn btn--primary btn--sm" id="btn-new-post">+ New Post</button>
+              <button class="btn btn--primary" id="btn-new-post">+ New Post</button>
             </div>
           </div>
 
@@ -351,7 +352,6 @@ export function renderCommunity(container, navigate) {
                 getSortedPosts(posts).map(post => `
                   <div class="community-post-item ${selectedPostId === post.id ? 'community-post-item--active' : ''}" data-post-id="${post.id}">
                     <div class="community-post-item__top">
-                      <span class="community-post-item__author">${post.author}</span>
                       <span class="community-post-item__date">${timeAgo(post.date)}</span>
                     </div>
                     <h4 class="community-post-item__title">${post.title}</h4>
@@ -478,7 +478,7 @@ export function renderCommunity(container, navigate) {
         </div>
         <div class="divider--gold"></div>
         <div class="community-comments">
-          <h4 style="font-size:var(--text-sm);margin-bottom:var(--space-sm);">Comments</h4>
+          <h4 style="font-size:var(--text-xl);font-weight:700;margin-bottom:var(--space-sm);">Comments</h4>
           ${renderComments(post.comments || [], post.id, 0)}
           <div class="community-add-comment">
             <input type="text" class="input" id="new-comment-input" placeholder="Write a comment..." style="flex:1;" />
@@ -786,19 +786,19 @@ function renderSuggestionContent(remix, isLoading) {
   if (!remix) return `<p style="font-size:var(--text-sm);color:var(--text-tertiary);padding:var(--space-lg);">No suggestion available.</p>`;
 
   return `
-    <div style="padding:var(--space-lg);">
-      <div class="ai-response">
+    <div style="padding:var(--space-lg);display:flex;flex-direction:column;flex:1;min-height:0;">
+      <div class="ai-response" style="flex:1;">
         <div class="ai-response__label">${remix.remixName || 'AI Suggestion'}</div>
         <div class="ai-response__text">
           ${remix.layers?.length ? `<div style="margin-bottom:var(--space-md);">${remix.layers.map(l => {
             const p = getPerfumeById(l.perfumeId);
             const r = p ? REGIONS.find(rg => rg.id === p.region) : null;
-            return `<p>${r?.icon || '•'} ${l.amount} ${l.unit} of <strong>${p?.name || l.perfumeId}</strong></p>`;
+            return `<p>${r?.icon || '•'} ${l.amount} ${l.unit} of <strong style="color:${r?.color || 'var(--text-primary)'};">${p?.name || l.perfumeId}</strong></p>`;
           }).join('')}</div>` : ''}
           ${remix.inspiration ? `<p>${remix.inspiration}</p>` : ''}
         </div>
       </div>
-      <button class="btn btn--primary btn--sm mt-md" id="btn-load-suggestion">Load to Lab</button>
+      <button class="btn btn--primary btn--sm" style="margin-top:var(--space-lg);" id="btn-load-suggestion">Load to Lab</button>
     </div>
   `;
 }
@@ -813,7 +813,7 @@ function addCommunityStyles() {
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) minmax(18rem, var(--sidebar-width));
       gap: var(--space-xl);
-      align-items: start;
+      align-items: stretch;
       margin-bottom: var(--space-2xl);
     }
 
@@ -845,7 +845,8 @@ function addCommunityStyles() {
 
     .community-panel-title { font-size: var(--text-lg); font-weight: 600; }
 
-    .community-sort { display: flex; gap: 4px; }
+    .community-sort { display: flex; align-items: center; gap: 4px; }
+    .community-sort-label { font-size: var(--text-xs); font-weight: 500; color: var(--text-tertiary); margin-right: 4px; white-space: nowrap; }
 
     .community-sort-btn {
       padding: 4px 10px; font-size: var(--text-xs); font-weight: 500;
@@ -857,7 +858,7 @@ function addCommunityStyles() {
     .community-sort-btn--active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
 
     /* ── Trending Items ── */
-    .community-trending-list { display: flex; flex-direction: column; }
+    .community-trending-list { display: flex; flex-direction: column; flex: 1; }
 
     .community-trending-item {
       display: grid;
@@ -868,6 +869,7 @@ function addCommunityStyles() {
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       transition: background var(--transition-fast);
+      flex: 1;
     }
     .community-trending-item:last-child { border-bottom: none; }
     .community-trending-item:hover { background: var(--bg-primary); }
@@ -906,7 +908,7 @@ function addCommunityStyles() {
     .community-like-btn:hover { border-color: #e74c3c; color: #e74c3c; }
     .community-like-btn--active { border-color: #e74c3c; background: rgba(231,76,60,0.08); color: #e74c3c; }
 
-    .community-vault-btn { font-size: var(--text-xs) !important; padding: 2px 8px !important; }
+    .community-vault-btn { font-size: var(--text-xs) !important; padding: 2px 8px !important; color: var(--accent-dark) !important; background: var(--accent-bg) !important; border-color: var(--border-accent) !important; }
 
     /* ── Discussion Section ── */
     .community-discussion-section {
@@ -945,11 +947,10 @@ function addCommunityStyles() {
     .community-post-item--active { background: var(--accent-bg); border-left: 3px solid var(--accent); }
 
     .community-post-item__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
-    .community-post-item__author { font-size: var(--text-xs); font-weight: 600; color: var(--accent); }
     .community-post-item__date { font-size: 10px; color: var(--text-tertiary); }
     .community-post-item__title { font-size: var(--text-base); font-weight: 600; margin-bottom: 4px; }
     .community-post-item__bottom { display: flex; justify-content: space-between; align-items: center; }
-    .community-post-item__topic { font-size: 10px; color: var(--text-tertiary); }
+    .community-post-item__topic { font-size: 10px; color: var(--text-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1px 6px; }
     .community-post-item__stats { font-size: 10px; color: var(--text-tertiary); }
 
     /* ── Post Detail ── */
