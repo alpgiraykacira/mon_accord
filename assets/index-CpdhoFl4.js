@@ -327,7 +327,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.85);
+      background: rgba(20, 20, 20, 0.85);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       display: flex;
@@ -363,7 +363,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(26,26,46,0.2);
+      background: rgba(255, 255, 255, 0.18);
       cursor: pointer;
       transition: all var(--transition-base);
       padding: 0;
@@ -504,7 +504,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     .landing-cta { padding: var(--space-2xl) 0 var(--space-4xl); }
 
     .cta-card {
-      background: linear-gradient(135deg, var(--accent-bg), rgba(200,169,126,0.03));
+      background: linear-gradient(135deg, var(--accent-bg), rgba(201,169,110,0.05));
       border: 1px solid var(--border-accent);
       border-radius: var(--radius-xl);
       padding: var(--space-4xl) var(--space-2xl);
@@ -3570,26 +3570,81 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       background: rgba(200, 169, 126, 0.4);
       width: 0%;
     }
-  `,document.head.appendChild(e)}var wp=document.getElementById(`app`),Tp={"":x,"#landing":x,"#profile":Rd,"#lab":uf,"#vault":bf,"#shop":Rf,"#community":kf};function Ep(){return window.location.hash||``}function Dp(e){window.location.hash=e}function Op(){let e=Ep(),t=Tp[e]||x;wp.innerHTML=``,wp.appendChild(d(Dp,e));let n=document.createElement(`div`);if(n.className=`page page-enter`,n.id=`page-content`,t(n,Dp),wp.appendChild(n),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let t=document.createElement(`div`);t.className=`modal-overlay`,t.id=`settings-modal`,t.innerHTML=`
+  `,document.head.appendChild(e)}var wp=document.getElementById(`app`);function Tp(e){document.documentElement.setAttribute(`data-theme`,e),u.set(`theme`,e)}function Ep(){let e=u.get(`theme`,`dark`);document.documentElement.setAttribute(`data-theme`,e)}var Dp={"":x,"#landing":x,"#profile":Rd,"#lab":uf,"#vault":bf,"#shop":Rf,"#community":kf};function Op(){return window.location.hash||``}function kp(e){window.location.hash=e}function Ap(){let e=Op(),t=Dp[e]||x;wp.innerHTML=``,wp.appendChild(d(kp,e));let n=document.createElement(`div`);if(n.className=`page page-enter`,n.id=`page-content`,t(n,kp),wp.appendChild(n),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let t=u.get(`theme`,`dark`),n=document.createElement(`div`);n.className=`modal-overlay`,n.id=`settings-modal`,n.innerHTML=`
     <div class="modal">
       <div class="modal__header">
         <h3 class="modal__title">Settings</h3>
         <button class="modal__close" id="close-settings">✕</button>
       </div>
       <div class="modal__body">
+
+        <!-- Appearance -->
         <div class="input-group">
-          <label class="input-label">Profile</label>
-          ${u.getProfile()?`<p style="font-size: var(--text-sm); color: var(--text-secondary);">Archetype: <strong>${u.getProfile().archetypeName||`Set`}</strong></p>
-               <button class="btn btn--ghost btn--sm mt-sm" id="reset-profile-btn" style="color: #e74c3c;">Reset All Data</button>`:`<p style="font-size: var(--text-sm); color: var(--text-tertiary);">No profile created yet.</p>`}
+          <label class="input-label">Appearance</label>
+          <div style="display:flex; gap:var(--space-md); margin-top:var(--space-sm);">
+
+            <button id="theme-opt-dark" data-theme-opt="dark" style="
+              flex:1; padding:var(--space-md); border-radius:var(--radius-lg);
+              border: 2px solid ${t===`dark`?`var(--accent)`:`var(--border)`};
+              background: ${t===`dark`?`var(--accent-bg)`:`var(--surface)`};
+              cursor:pointer; transition: all var(--transition-fast);
+              display:flex; flex-direction:column; align-items:center; gap:var(--space-sm);
+            ">
+              <div style="
+                width:100%; height:52px; border-radius:var(--radius-md); overflow:hidden;
+                background:#0A0A0A; border:1px solid rgba(255,255,255,0.08);
+                display:flex; flex-direction:column; gap:3px; padding:6px;
+              ">
+                <div style="height:7px; border-radius:3px; background:rgba(255,255,255,0.12); width:60%;"></div>
+                <div style="display:flex; gap:3px; margin-top:2px;">
+                  <div style="flex:1; height:20px; border-radius:3px; background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.2);"></div>
+                  <div style="flex:1; height:20px; border-radius:3px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);"></div>
+                </div>
+              </div>
+              <span style="font-size:var(--text-xs); font-weight:600; color:${t===`dark`?`var(--accent)`:`var(--text-secondary)`}; letter-spacing:0.05em;">DARK</span>
+            </button>
+
+            <button id="theme-opt-light" data-theme-opt="light" style="
+              flex:1; padding:var(--space-md); border-radius:var(--radius-lg);
+              border: 2px solid ${t===`light`?`var(--accent)`:`var(--border)`};
+              background: ${t===`light`?`var(--accent-bg)`:`var(--surface)`};
+              cursor:pointer; transition: all var(--transition-fast);
+              display:flex; flex-direction:column; align-items:center; gap:var(--space-sm);
+            ">
+              <div style="
+                width:100%; height:52px; border-radius:var(--radius-md); overflow:hidden;
+                background:#FAFAF8; border:1px solid rgba(26,26,46,0.08);
+                display:flex; flex-direction:column; gap:3px; padding:6px;
+              ">
+                <div style="height:7px; border-radius:3px; background:rgba(26,26,46,0.12); width:60%;"></div>
+                <div style="display:flex; gap:3px; margin-top:2px;">
+                  <div style="flex:1; height:20px; border-radius:3px; background:rgba(200,169,126,0.12); border:1px solid rgba(200,169,126,0.25);"></div>
+                  <div style="flex:1; height:20px; border-radius:3px; background:#FFFFFF; border:1px solid rgba(26,26,46,0.08);"></div>
+                </div>
+              </div>
+              <span style="font-size:var(--text-xs); font-weight:600; color:${t===`light`?`var(--accent)`:`var(--text-secondary)`}; letter-spacing:0.05em;">LIGHT</span>
+            </button>
+
+          </div>
         </div>
-        <div class="input-group" style="margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--border);">
+
+        <!-- Profile -->
+        <div class="input-group" style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border);">
+          <label class="input-label">Profile</label>
+          ${u.getProfile()?`<p style="font-size:var(--text-sm); color:var(--text-secondary);">Archetype: <strong>${u.getProfile().archetypeName||`Set`}</strong></p>
+               <button class="btn btn--ghost btn--sm mt-sm" id="reset-profile-btn" style="color:#e74c3c;">Reset All Data</button>`:`<p style="font-size:var(--text-sm); color:var(--text-tertiary);">No profile created yet.</p>`}
+        </div>
+
+        <!-- Demo -->
+        <div class="input-group" style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border);">
           <label class="input-label">Demo</label>
           <button class="btn btn--secondary btn--sm" id="settings-demo-btn">▶ Watch Demo</button>
         </div>
+
       </div>
       <div class="modal__footer">
         <button class="btn btn--secondary" id="cancel-settings">Cancel</button>
         <button class="btn btn--primary" id="save-settings">Save</button>
       </div>
     </div>
-  `,document.body.appendChild(t),t.querySelector(`#close-settings`).onclick=()=>t.remove(),t.querySelector(`#cancel-settings`).onclick=()=>t.remove(),t.onclick=e=>{e.target===t&&t.remove()},t.querySelector(`#save-settings`).onclick=()=>{window.showToast(`Settings saved!`),t.remove()};let n=t.querySelector(`#reset-profile-btn`);n&&(n.onclick=()=>{[`profile`,`quiz_state`,`vault`,`interactions`,`likes`,`my_perfumes`,`pending_shop_cart`,`shop_cart`,`community_posts`,`post_likes`,`vault_folders`].forEach(e=>u.remove(e)),sessionStorage.clear(),window.showToast(`All data cleared. Starting fresh!`),t.remove(),Op()});let r=t.querySelector(`#settings-demo-btn`);r&&(r.onclick=()=>{t.remove(),typeof window.startDemoTour==`function`&&window.startDemoTour()})},window.startDemoTour=xp,window.endDemoTour=Sp,window.addEventListener(`hashchange`,Op),Op();
+  `,document.body.appendChild(n);let r=t;function i(e){r=e,Tp(e),[`dark`,`light`].forEach(t=>{let r=n.querySelector(`#theme-opt-${t}`);if(!r)return;let i=t===e;r.style.borderColor=i?`var(--accent)`:`var(--border)`,r.style.background=i?`var(--accent-bg)`:`var(--surface)`,r.querySelector(`span`).style.color=i?`var(--accent)`:`var(--text-secondary)`})}n.querySelector(`#theme-opt-dark`).onclick=()=>i(`dark`),n.querySelector(`#theme-opt-light`).onclick=()=>i(`light`),n.querySelector(`#close-settings`).onclick=()=>{Tp(t),n.remove()},n.querySelector(`#cancel-settings`).onclick=()=>{Tp(t),n.remove()},n.onclick=e=>{e.target===n&&(Tp(t),n.remove())},n.querySelector(`#save-settings`).onclick=()=>{Tp(r),window.showToast(`Settings saved!`),n.remove()};let a=n.querySelector(`#reset-profile-btn`);a&&(a.onclick=()=>{[`profile`,`quiz_state`,`vault`,`interactions`,`likes`,`my_perfumes`,`pending_shop_cart`,`shop_cart`,`community_posts`,`post_likes`,`vault_folders`].forEach(e=>u.remove(e)),sessionStorage.clear(),window.showToast(`All data cleared. Starting fresh!`),n.remove(),Ap()});let o=n.querySelector(`#settings-demo-btn`);o&&(o.onclick=()=>{n.remove(),typeof window.startDemoTour==`function`&&window.startDemoTour()})},window.startDemoTour=xp,window.endDemoTour=Sp,Ep(),window.addEventListener(`hashchange`,Ap),Ap();
