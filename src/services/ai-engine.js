@@ -1,12 +1,19 @@
 // ═══════════════════════════════════════════════════════════════
-// MON ACCORD — AI Engine (Gemini API Integration)
-// Uses @google/genai SDK
+// MON ACCORD — AI Engine
+//
+// Production: Calls the Cloudflare Worker proxy (VITE_PROXY_URL).
+//   → API key lives only in Cloudflare — never in the bundle.
+//
+// Local dev fallback: If VITE_PROXY_URL is not set, falls back to
+//   a direct Gemini call using the key stored in localStorage
+//   (set via Settings modal).
 // ═══════════════════════════════════════════════════════════════
 
-import { GoogleGenAI } from '@google/genai';
 import { storage } from '../utils/storage.js';
 
-let ai = null;
+const PROXY_URL   = import.meta.env.VITE_PROXY_URL;   // Cloudflare Worker URL
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
+const MODEL       = 'gemini-2.5-flash';
 
 const SYSTEM_INSTRUCTION = `You are Mon Accord's AI Perfume Advisor — a world-class fragrance expert specializing in scent layering and olfactory profiling.
 
@@ -29,88 +36,121 @@ Always respond in English.
 When describing scents, be vivid and sensory — help the user "smell" through words.
 Keep responses concise but rich. Use fragrance terminology naturally.`;
 
-function getApiKey() {
-  return import.meta.env.VITE_GEMINI_API_KEY || storage.getApiKey();
+const REQUEST_BODY = (prompt) => ({
+  contents: [{ parts: [{ text: prompt }] }],
+  systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+});
+
+// ── Error classifier ──────────────────────────────────────────
+function classifyError(msg, status) {
+  if (status === 429 || msg.includes('429') || msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) {
+    return 'rate-limit';
+  }
+  if (status === 401 || status === 403 || msg.includes('API_KEY') || msg.includes('API key')) {
+    return 'invalid-key';
+  }
+  if (msg.includes('fetch') || msg.includes('network') || msg.includes('Failed to fetch')) {
+    return 'network';
+  }
+  return 'unknown';
 }
 
-function initializeAI() {
-  const apiKey = getApiKey();
-  if (!apiKey) return false;
-  try {
-    ai = new GoogleGenAI({ apiKey });
-    return true;
-  } catch (e) {
-    console.error('Failed to initialize Gemini:', e);
-    return false;
+function errorText(type, waitSec) {
+  switch (type) {
+    case 'rate-limit':
+      return `Rate limit reached. Please wait ${waitSec || 30} seconds and try again.`;
+    case 'invalid-key':
+      return 'AI service key is invalid. Please contact the site owner.';
+    case 'network':
+      return 'Network error. Please check your connection and try again.';
+    default:
+      return 'AI request failed. Please try again.';
   }
 }
 
-/**
- * Generate an AI response with automatic retry on rate limit.
- * @param {string} prompt
- * @param {number} retries - number of remaining retries
- */
-export async function generateAIResponse(prompt, retries = 2) {
-  if (!ai && !initializeAI()) {
-    return { success: false, error: 'no-api-key', text: 'Please set your Gemini API key in Settings to enable AI features.' };
-  }
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-      },
+// ── Core request ─────────────────────────────────────────────
+async function callGemini(prompt) {
+  const body = REQUEST_BODY(prompt);
+
+  // ── Path A: Cloudflare Worker proxy (production) ──
+  if (PROXY_URL) {
+    const res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
     });
-    const text = response.text;
+    const data = await res.json();
+    if (!res.ok) {
+      const msg = data?.error?.message || `HTTP ${res.status}`;
+      throw Object.assign(new Error(msg), { status: res.status });
+    }
+    return data;
+  }
+
+  // ── Path B: Direct Gemini call (local dev fallback) ──
+  const apiKey = storage.getApiKey();
+  if (!apiKey) throw Object.assign(new Error('no-api-key'), { status: 0 });
+
+  const res = await fetch(
+    `${GEMINI_BASE}/${MODEL}:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }
+  );
+  const data = await res.json();
+  if (!res.ok) {
+    const msg = data?.error?.message || `HTTP ${res.status}`;
+    throw Object.assign(new Error(msg), { status: res.status });
+  }
+  return data;
+}
+
+// ── Public API ────────────────────────────────────────────────
+export async function generateAIResponse(prompt, retries = 2) {
+  try {
+    const data = await callGemini(prompt);
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!text) {
-      console.error('Empty response from Gemini');
+      console.error('Empty Gemini response', data);
       return { success: false, error: 'empty-response', text: 'AI returned an empty response. Please try again.' };
     }
     return { success: true, text };
+
   } catch (e) {
-    const msg = e.message || String(e);
-    console.error('AI generation error:', msg);
+    const msg  = e.message || String(e);
+    const status = e.status ?? 0;
+    console.error('AI error:', msg);
 
-    // Rate limit — extract wait time and auto-retry
-    if (msg.includes('429') || msg.includes('quota') || msg.includes('rate') || msg.includes('RESOURCE_EXHAUSTED')) {
-      const waitMatch = msg.match(/retry in (\d+)/i) || msg.match(/retryDelay.*?(\d+)/);
-      const waitSec = waitMatch ? parseInt(waitMatch[1]) : 30;
-
-      if (retries > 0) {
-        console.log(`Rate limited. Waiting ${waitSec}s before retry... (${retries} retries left)`);
-        await new Promise(resolve => setTimeout(resolve, (waitSec + 2) * 1000));
-        return generateAIResponse(prompt, retries - 1);
-      }
-
-      return {
-        success: false,
-        error: 'rate-limit',
-        text: `Rate limit exceeded. The free tier has per-minute and daily limits. Please wait ${waitSec} seconds and try again, or check your quota at ai.google.dev.`
-      };
+    if (msg === 'no-api-key') {
+      return { success: false, error: 'no-api-key', text: 'AI features are not available. Please contact the site owner.' };
     }
 
-    // Invalid API key
-    if (msg.includes('API_KEY') || msg.includes('API key') || msg.includes('401') || msg.includes('403')) {
-      ai = null; // Reset so it re-initializes with new key
-      return { success: false, error: 'invalid-key', text: 'Invalid API key. Please check your Gemini API key in Settings.' };
+    const type = classifyError(msg, status);
+
+    // Auto-retry on rate limit
+    if (type === 'rate-limit' && retries > 0) {
+      const waitMatch = msg.match(/retry[^0-9]*(\d+)/i);
+      const waitSec   = waitMatch ? parseInt(waitMatch[1]) : 30;
+      console.log(`Rate limited. Waiting ${waitSec}s… (${retries} retries left)`);
+      await new Promise(r => setTimeout(r, (waitSec + 2) * 1000));
+      return generateAIResponse(prompt, retries - 1);
     }
 
-    // Network error
-    if (msg.includes('fetch') || msg.includes('network') || msg.includes('ECONNREFUSED')) {
-      return { success: false, error: 'network', text: 'Network error. Please check your internet connection and try again.' };
-    }
-
-    return { success: false, error: 'generation-failed', text: `AI generation failed: ${msg.slice(0, 200)}` };
+    const waitMatch = msg.match(/retry[^0-9]*(\d+)/i);
+    return {
+      success: false,
+      error: type,
+      text: errorText(type, waitMatch ? parseInt(waitMatch[1]) : undefined),
+    };
   }
 }
 
 export function isAIAvailable() {
-  return !!getApiKey();
+  return !!(PROXY_URL || storage.getApiKey());
 }
 
 export function resetAI() {
-  ai = null;
+  // No longer needed (stateless fetch), kept for API compatibility.
 }
-
-export { initializeAI };

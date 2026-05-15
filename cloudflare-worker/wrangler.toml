@@ -1,0 +1,9 @@
+name = "mon-accord-ai"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# After deploying, set the API key as a secret (never in this file!):
+#   wrangler secret put GEMINI_API_KEY
+#
+# Then copy the worker URL (e.g. https://mon-accord-ai.YOUR-SUBDOMAIN.workers.dev)
+# into your GitHub repo secret as VITE_PROXY_URL.

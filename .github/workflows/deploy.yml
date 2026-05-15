@@ -20,7 +20,10 @@ jobs:
 
       - run: npm run build
         env:
-          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+          VITE_PROXY_URL: ${{ secrets.VITE_PROXY_URL }}
+          # VITE_PROXY_URL = your Cloudflare Worker URL
+          # e.g. https://mon-accord-ai.YOUR-SUBDOMAIN.workers.dev
+          # Set this in: GitHub repo → Settings → Secrets → Actions
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
