@@ -8,7 +8,7 @@ import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES, COMMUNITY_FORM
 import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 import { showSaveToVaultModal } from '../utils/save-modal.js';
-import duyguPhoto from '../assets/duyguozaslan.png';
+import duyguPhoto from '../assets/duyguozaslan.webp';
 
 // ── Seed Posts ──
 const SEED_POSTS = [

@@ -6,21 +6,21 @@ import { REGIONS, PERFUMES } from '../data/perfumes.js';
 import { storage } from '../utils/storage.js';
 
 const PERFUME_IMAGES = {
-  scandinavian: new URL('../assets/perfumes/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/perfumes/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/perfumes/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/perfumes/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/perfumes/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/perfumes/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/perfumes/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/perfumes/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/perfumes/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/perfumes/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/perfumes/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/perfumes/middle_east.webp',    import.meta.url).href,
 };
 
 const OIL_IMAGES = {
-  scandinavian: new URL('../assets/oils/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/oils/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/oils/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/oils/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/oils/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/oils/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/oils/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/oils/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/oils/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/oils/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/oils/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/oils/middle_east.webp',    import.meta.url).href,
 };
 
 export function renderLanding(container, navigate) {

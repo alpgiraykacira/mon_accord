@@ -4,30 +4,30 @@
 
 import { storage } from '../utils/storage.js';
 import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES } from '../data/perfumes.js';
-import folderIconUrl from '../assets/folder.png';
+import folderIconUrl from '../assets/folder.webp';
 
 const PERFUME_IMGS = {
-  scandinavian: new URL('../assets/perfumes/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/perfumes/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/perfumes/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/perfumes/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/perfumes/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/perfumes/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/perfumes/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/perfumes/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/perfumes/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/perfumes/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/perfumes/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/perfumes/middle_east.webp',    import.meta.url).href,
 };
 
 const OIL_IMGS = {
-  scandinavian: new URL('../assets/oils/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/oils/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/oils/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/oils/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/oils/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/oils/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/oils/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/oils/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/oils/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/oils/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/oils/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/oils/middle_east.webp',    import.meta.url).href,
 };
 
 const LOREAL_IMGS = {
-  'mugler-angel':           new URL('../assets/loreal_luxe_perfumes/angel.png',            import.meta.url).href,
-  'ysl-black-opium':        new URL('../assets/loreal_luxe_perfumes/black_opium.png',      import.meta.url).href,
-  'lancome-la-vie-est-belle': new URL('../assets/loreal_luxe_perfumes/la_vie_est_belle.png', import.meta.url).href,
+  'mugler-angel':           new URL('../assets/loreal_luxe_perfumes/angel.webp',            import.meta.url).href,
+  'ysl-black-opium':        new URL('../assets/loreal_luxe_perfumes/black_opium.webp',      import.meta.url).href,
+  'lancome-la-vie-est-belle': new URL('../assets/loreal_luxe_perfumes/la_vie_est_belle.webp', import.meta.url).href,
 };
 
 const DEFAULT_LOREAL_IDS = ['mugler-angel', 'ysl-black-opium', 'lancome-la-vie-est-belle'];

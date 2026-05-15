@@ -10,30 +10,30 @@ import { storage } from '../utils/storage.js';
 import { showSaveToVaultModal } from '../utils/save-modal.js';
 
 const BADGE_IMGS = {
-  scandinavian: new URL('../assets/layering_lab_badges/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/layering_lab_badges/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/layering_lab_badges/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/layering_lab_badges/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/layering_lab_badges/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/layering_lab_badges/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/layering_lab_badges/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/layering_lab_badges/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/layering_lab_badges/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/layering_lab_badges/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/layering_lab_badges/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/layering_lab_badges/middle_east.webp',    import.meta.url).href,
 };
 
 const PERFUME_IMGS = {
-  scandinavian: new URL('../assets/perfumes/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/perfumes/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/perfumes/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/perfumes/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/perfumes/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/perfumes/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/perfumes/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/perfumes/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/perfumes/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/perfumes/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/perfumes/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/perfumes/middle_east.webp',    import.meta.url).href,
 };
 
 const OIL_IMGS = {
-  scandinavian: new URL('../assets/oils/scandinavian.png',   import.meta.url).href,
-  eastasia:     new URL('../assets/oils/east_asia.png',      import.meta.url).href,
-  southafrica:  new URL('../assets/oils/south_africa.png',   import.meta.url).href,
-  mediterranean:new URL('../assets/oils/mediterranean.png',  import.meta.url).href,
-  southamerica: new URL('../assets/oils/south_america.png',  import.meta.url).href,
-  middleeast:   new URL('../assets/oils/middle_east.png',    import.meta.url).href,
+  scandinavian: new URL('../assets/oils/scandinavian.webp',   import.meta.url).href,
+  eastasia:     new URL('../assets/oils/east_asia.webp',      import.meta.url).href,
+  southafrica:  new URL('../assets/oils/south_africa.webp',   import.meta.url).href,
+  mediterranean:new URL('../assets/oils/mediterranean.webp',  import.meta.url).href,
+  southamerica: new URL('../assets/oils/south_america.webp',  import.meta.url).href,
+  middleeast:   new URL('../assets/oils/middle_east.webp',    import.meta.url).href,
 };
 
 const LAB_STATE_KEY = 'lab_session_state';

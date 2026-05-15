@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "optimize": "node scripts/optimize-images.js",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
+    "sharp": "^0.34.5",
     "typescript": "~5.9.3",
     "vite": "^8.0.1"
   },

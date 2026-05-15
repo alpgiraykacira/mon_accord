@@ -13,12 +13,12 @@ const SCENT_FAMILY_IMGS = Object.fromEntries(
 );
 
 const TRAIT_IMGS = {
-  elegant:     new URL('../assets/quiz_traits/elegant_classic.png',     import.meta.url).href,
-  adventurous: new URL('../assets/quiz_traits/adventurous_bold.png',    import.meta.url).href,
-  romantic:    new URL('../assets/quiz_traits/romantic_dreamy.png',     import.meta.url).href,
-  minimalist:  new URL('../assets/quiz_traits/minimalist_clean.png',    import.meta.url).href,
-  creative:    new URL('../assets/quiz_traits/creative_expressive.png', import.meta.url).href,
-  confident:   new URL('../assets/quiz_traits/confident_powerful.png',  import.meta.url).href,
+  elegant:     new URL('../assets/quiz_traits/elegant_classic.webp',     import.meta.url).href,
+  adventurous: new URL('../assets/quiz_traits/adventurous_bold.webp',    import.meta.url).href,
+  romantic:    new URL('../assets/quiz_traits/romantic_dreamy.webp',     import.meta.url).href,
+  minimalist:  new URL('../assets/quiz_traits/minimalist_clean.webp',    import.meta.url).href,
+  creative:    new URL('../assets/quiz_traits/creative_expressive.webp', import.meta.url).href,
+  confident:   new URL('../assets/quiz_traits/confident_powerful.webp',  import.meta.url).href,
 };
 
 const TOTAL_STEPS = 5;
