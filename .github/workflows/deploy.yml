@@ -21,9 +21,7 @@ jobs:
       - run: npm run build
         env:
           VITE_PROXY_URL: ${{ secrets.VITE_PROXY_URL }}
-          # VITE_PROXY_URL = your Cloudflare Worker URL
-          # e.g. https://mon-accord-ai.YOUR-SUBDOMAIN.workers.dev
-          # Set this in: GitHub repo → Settings → Secrets → Actions
+          VITE_WORKER_TOKEN: ${{ secrets.VITE_WORKER_TOKEN }}
 
       - uses: peaceiris/actions-gh-pages@v4
         with:

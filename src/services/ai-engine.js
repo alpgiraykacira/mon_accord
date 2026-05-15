@@ -11,8 +11,9 @@
 
 import { storage } from '../utils/storage.js';
 
-const PROXY_URL   = import.meta.env.VITE_PROXY_URL;   // Cloudflare Worker URL
-const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
+const PROXY_URL    = import.meta.env.VITE_PROXY_URL;    // Cloudflare Worker URL
+const WORKER_TOKEN = import.meta.env.VITE_WORKER_TOKEN; // Shared token for worker auth
+const GEMINI_BASE  = 'https://generativelanguage.googleapis.com/v1beta/models';
 const MODEL       = 'gemini-2.5-flash';
 
 const SYSTEM_INSTRUCTION = `You are Mon Accord's AI Perfume Advisor — a world-class fragrance expert specializing in scent layering and olfactory profiling.
@@ -74,9 +75,12 @@ async function callGemini(prompt) {
 
   // ── Path A: Cloudflare Worker proxy (production) ──
   if (PROXY_URL) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (WORKER_TOKEN) headers['X-Worker-Token'] = WORKER_TOKEN;
+
     const res = await fetch(PROXY_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(body),
     });
     const data = await res.json();
