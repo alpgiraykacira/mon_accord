@@ -15,6 +15,17 @@ import { startTour, endTour } from './demo-tour.js';
 
 const app = document.getElementById('app');
 
+// ── Theme System ──
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  storage.set('theme', theme);
+}
+
+function initTheme() {
+  const saved = storage.get('theme', 'dark');
+  document.documentElement.setAttribute('data-theme', saved);
+}
+
 // ── Simple Hash Router ──
 const routes = {
   '': renderLanding,
@@ -77,6 +88,8 @@ window.showSettings = function() {
   const existing = document.querySelector('.modal-overlay');
   if (existing) existing.remove();
 
+  const currentTheme = storage.get('theme', 'dark');
+
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
   overlay.id = 'settings-modal';
@@ -87,18 +100,73 @@ window.showSettings = function() {
         <button class="modal__close" id="close-settings">✕</button>
       </div>
       <div class="modal__body">
+
+        <!-- Appearance -->
         <div class="input-group">
+          <label class="input-label">Appearance</label>
+          <div style="display:flex; gap:var(--space-md); margin-top:var(--space-sm);">
+
+            <button id="theme-opt-dark" data-theme-opt="dark" style="
+              flex:1; padding:var(--space-md); border-radius:var(--radius-lg);
+              border: 2px solid ${currentTheme === 'dark' ? 'var(--accent)' : 'var(--border)'};
+              background: ${currentTheme === 'dark' ? 'var(--accent-bg)' : 'var(--surface)'};
+              cursor:pointer; transition: all var(--transition-fast);
+              display:flex; flex-direction:column; align-items:center; gap:var(--space-sm);
+            ">
+              <div style="
+                width:100%; height:52px; border-radius:var(--radius-md); overflow:hidden;
+                background:#0A0A0A; border:1px solid rgba(255,255,255,0.08);
+                display:flex; flex-direction:column; gap:3px; padding:6px;
+              ">
+                <div style="height:7px; border-radius:3px; background:rgba(255,255,255,0.12); width:60%;"></div>
+                <div style="display:flex; gap:3px; margin-top:2px;">
+                  <div style="flex:1; height:20px; border-radius:3px; background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.2);"></div>
+                  <div style="flex:1; height:20px; border-radius:3px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);"></div>
+                </div>
+              </div>
+              <span style="font-size:var(--text-xs); font-weight:600; color:${currentTheme === 'dark' ? 'var(--accent)' : 'var(--text-secondary)'}; letter-spacing:0.05em;">DARK</span>
+            </button>
+
+            <button id="theme-opt-light" data-theme-opt="light" style="
+              flex:1; padding:var(--space-md); border-radius:var(--radius-lg);
+              border: 2px solid ${currentTheme === 'light' ? 'var(--accent)' : 'var(--border)'};
+              background: ${currentTheme === 'light' ? 'var(--accent-bg)' : 'var(--surface)'};
+              cursor:pointer; transition: all var(--transition-fast);
+              display:flex; flex-direction:column; align-items:center; gap:var(--space-sm);
+            ">
+              <div style="
+                width:100%; height:52px; border-radius:var(--radius-md); overflow:hidden;
+                background:#FAFAF8; border:1px solid rgba(26,26,46,0.08);
+                display:flex; flex-direction:column; gap:3px; padding:6px;
+              ">
+                <div style="height:7px; border-radius:3px; background:rgba(26,26,46,0.12); width:60%;"></div>
+                <div style="display:flex; gap:3px; margin-top:2px;">
+                  <div style="flex:1; height:20px; border-radius:3px; background:rgba(200,169,126,0.12); border:1px solid rgba(200,169,126,0.25);"></div>
+                  <div style="flex:1; height:20px; border-radius:3px; background:#FFFFFF; border:1px solid rgba(26,26,46,0.08);"></div>
+                </div>
+              </div>
+              <span style="font-size:var(--text-xs); font-weight:600; color:${currentTheme === 'light' ? 'var(--accent)' : 'var(--text-secondary)'}; letter-spacing:0.05em;">LIGHT</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <div class="input-group" style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border);">
           <label class="input-label">Profile</label>
           ${storage.getProfile()
-            ? `<p style="font-size: var(--text-sm); color: var(--text-secondary);">Archetype: <strong>${storage.getProfile().archetypeName || 'Set'}</strong></p>
-               <button class="btn btn--ghost btn--sm mt-sm" id="reset-profile-btn" style="color: #e74c3c;">Reset All Data</button>`
-            : '<p style="font-size: var(--text-sm); color: var(--text-tertiary);">No profile created yet.</p>'
+            ? `<p style="font-size:var(--text-sm); color:var(--text-secondary);">Archetype: <strong>${storage.getProfile().archetypeName || 'Set'}</strong></p>
+               <button class="btn btn--ghost btn--sm mt-sm" id="reset-profile-btn" style="color:#e74c3c;">Reset All Data</button>`
+            : '<p style="font-size:var(--text-sm); color:var(--text-tertiary);">No profile created yet.</p>'
           }
         </div>
-        <div class="input-group" style="margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--border);">
+
+        <!-- Demo -->
+        <div class="input-group" style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border);">
           <label class="input-label">Demo</label>
           <button class="btn btn--secondary btn--sm" id="settings-demo-btn">▶ Watch Demo</button>
         </div>
+
       </div>
       <div class="modal__footer">
         <button class="btn btn--secondary" id="cancel-settings">Cancel</button>
@@ -108,11 +176,31 @@ window.showSettings = function() {
   `;
   document.body.appendChild(overlay);
 
-  overlay.querySelector('#close-settings').onclick = () => overlay.remove();
-  overlay.querySelector('#cancel-settings').onclick = () => overlay.remove();
-  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+  // Track selected theme (live preview on click)
+  let selectedTheme = currentTheme;
+
+  function selectThemeOpt(theme) {
+    selectedTheme = theme;
+    applyTheme(theme); // live preview
+    ['dark','light'].forEach(t => {
+      const btn = overlay.querySelector(`#theme-opt-${t}`);
+      if (!btn) return;
+      const isActive = t === theme;
+      btn.style.borderColor = isActive ? 'var(--accent)' : 'var(--border)';
+      btn.style.background   = isActive ? 'var(--accent-bg)' : 'var(--surface)';
+      btn.querySelector('span').style.color = isActive ? 'var(--accent)' : 'var(--text-secondary)';
+    });
+  }
+
+  overlay.querySelector('#theme-opt-dark').onclick  = () => selectThemeOpt('dark');
+  overlay.querySelector('#theme-opt-light').onclick = () => selectThemeOpt('light');
+
+  overlay.querySelector('#close-settings').onclick  = () => { applyTheme(currentTheme); overlay.remove(); };
+  overlay.querySelector('#cancel-settings').onclick = () => { applyTheme(currentTheme); overlay.remove(); };
+  overlay.onclick = (e) => { if (e.target === overlay) { applyTheme(currentTheme); overlay.remove(); } };
 
   overlay.querySelector('#save-settings').onclick = () => {
+    applyTheme(selectedTheme);
     window.showToast('Settings saved!');
     overlay.remove();
   };
@@ -120,11 +208,9 @@ window.showSettings = function() {
   const resetBtn = overlay.querySelector('#reset-profile-btn');
   if (resetBtn) {
     resetBtn.onclick = () => {
-      // Clear all localStorage data
       ['profile', 'quiz_state', 'vault', 'interactions', 'likes',
        'my_perfumes', 'pending_shop_cart', 'shop_cart',
        'community_posts', 'post_likes', 'vault_folders'].forEach(k => storage.remove(k));
-      // Clear all sessionStorage
       sessionStorage.clear();
       window.showToast('All data cleared. Starting fresh!');
       overlay.remove();
@@ -146,5 +232,6 @@ window.startDemoTour = startTour;
 window.endDemoTour   = endTour;
 
 // ── Init ──
+initTheme();
 window.addEventListener('hashchange', render);
 render();

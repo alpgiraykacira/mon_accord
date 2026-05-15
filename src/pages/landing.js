@@ -453,7 +453,7 @@ function addLandingStyles() {
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.85);
+      background: rgba(20, 20, 20, 0.85);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       display: flex;
@@ -489,7 +489,7 @@ function addLandingStyles() {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(26,26,46,0.2);
+      background: rgba(255, 255, 255, 0.18);
       cursor: pointer;
       transition: all var(--transition-base);
       padding: 0;
@@ -630,7 +630,7 @@ function addLandingStyles() {
     .landing-cta { padding: var(--space-2xl) 0 var(--space-4xl); }
 
     .cta-card {
-      background: linear-gradient(135deg, var(--accent-bg), rgba(200,169,126,0.03));
+      background: linear-gradient(135deg, var(--accent-bg), rgba(201,169,110,0.05));
       border: 1px solid var(--border-accent);
       border-radius: var(--radius-xl);
       padding: var(--space-4xl) var(--space-2xl);

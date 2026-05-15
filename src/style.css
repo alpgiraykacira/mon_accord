@@ -1,43 +1,43 @@
 /* ═══════════════════════════════════════════════════════════════
    MON ACCORD — Global Design System
-   Light Luxury Theme
+   Dark Luxury Theme
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── CSS Custom Properties ── */
 :root {
-  /* Colors — Light Luxury */
-  --bg-primary: #FAFAF8;
-  --bg-secondary: #F4F3EF;
-  --bg-tertiary: #EDEce8;
-  --surface: #FFFFFF;
-  --surface-hover: #FDFCFA;
-  --surface-active: #F8F7F4;
+  /* Colors — Dark Luxury */
+  --bg-primary: #080808;
+  --bg-secondary: #0F0F0F;
+  --bg-tertiary: #171717;
+  --surface: #111111;
+  --surface-hover: #181818;
+  --surface-active: #1F1F1F;
 
-  --accent: #C8A97E;
-  --accent-light: #D4BC96;
-  --accent-dark: #A8884F;
-  --accent-bg: rgba(200, 169, 126, 0.08);
-  --accent-bg-hover: rgba(200, 169, 126, 0.14);
+  --accent: #C9A96E;
+  --accent-light: #DFBF8A;
+  --accent-dark: #A88340;
+  --accent-bg: rgba(201, 169, 110, 0.10);
+  --accent-bg-hover: rgba(201, 169, 110, 0.18);
 
   --secondary: #8B7355;
   --secondary-light: #A89070;
 
-  --text-primary: #1A1A2E;
-  --text-secondary: #4A4A5A;
-  --text-tertiary: #8A8A9A;
-  --text-on-accent: #FFFFFF;
+  --text-primary: #F5F5F0;
+  --text-secondary: rgba(245, 245, 240, 0.65);
+  --text-tertiary: rgba(245, 245, 240, 0.38);
+  --text-on-accent: #080808;
 
-  --border: rgba(26, 26, 46, 0.08);
-  --border-hover: rgba(26, 26, 46, 0.15);
-  --border-accent: rgba(200, 169, 126, 0.3);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.13);
+  --border-accent: rgba(201, 169, 110, 0.35);
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
-  --shadow-xl: 0 24px 60px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.05);
-  --shadow-gold: 0 4px 20px rgba(200, 169, 126, 0.15);
-  --shadow-gold-lg: 0 8px 40px rgba(200, 169, 126, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.28);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.65), 0 8px 20px rgba(0,0,0,0.4);
+  --shadow-gold: 0 4px 20px rgba(201, 169, 110, 0.22);
+  --shadow-gold-lg: 0 8px 40px rgba(201, 169, 110, 0.32);
 
   /* Typography */
   --font-display: 'Playfair Display', Georgia, serif;
@@ -103,6 +103,75 @@
   --card-min-feature: clamp(22rem, 34vw, 26rem);
 }
 
+/* ── Light Theme Override ── */
+[data-theme="light"] {
+  --bg-primary: #FAFAF8;
+  --bg-secondary: #F4F3EF;
+  --bg-tertiary: #EDEce8;
+  --surface: #FFFFFF;
+  --surface-hover: #FDFCFA;
+  --surface-active: #F8F7F4;
+
+  --accent: #C8A97E;
+  --accent-light: #D4BC96;
+  --accent-dark: #A8884F;
+  --accent-bg: rgba(200, 169, 126, 0.08);
+  --accent-bg-hover: rgba(200, 169, 126, 0.14);
+
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A4A5A;
+  --text-tertiary: #8A8A9A;
+  --text-on-accent: #FFFFFF;
+
+  --border: rgba(26, 26, 46, 0.08);
+  --border-hover: rgba(26, 26, 46, 0.15);
+  --border-accent: rgba(200, 169, 126, 0.3);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.05);
+  --shadow-gold: 0 4px 20px rgba(200, 169, 126, 0.15);
+  --shadow-gold-lg: 0 8px 40px rgba(200, 169, 126, 0.2);
+}
+
+[data-theme="light"] body::before {
+  background-image:
+    radial-gradient(circle 380px at 4% 12%,  rgba(168,208,224,0.18) 0%, transparent 70%),
+    radial-gradient(circle 280px at 94% 18%, rgba(234,207,207,0.15) 0%, transparent 70%),
+    radial-gradient(circle 460px at 12% 88%, rgba(168,212,184,0.12) 0%, transparent 70%),
+    radial-gradient(circle 220px at 82% 58%, rgba(212,173,192,0.14) 0%, transparent 70%),
+    radial-gradient(circle 320px at 96% 82%, rgba(176,196,144,0.12) 0%, transparent 70%),
+    radial-gradient(circle 250px at 44% 5%,  rgba(221,184,146,0.10) 0%, transparent 70%);
+}
+
+[data-theme="light"] .navbar {
+  background: rgba(250, 250, 248, 0.85);
+}
+
+[data-theme="light"] .modal-overlay {
+  background: rgba(26, 26, 46, 0.3);
+}
+
+[data-theme="light"] .select {
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238A8A9A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* Landing carousel overrides for light theme */
+[data-theme="light"] .cf-nav {
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+[data-theme="light"] .cf-dot {
+  background: rgba(26, 26, 46, 0.2) !important;
+}
+
+/* ── Theme Transition ── */
+body, .navbar, .card, .modal, .input, .select, .tag, .btn--secondary {
+  transition-property: background-color, background, border-color, color, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-out);
+}
+
 /* ── Reset & Base ── */
 *, *::before, *::after {
   margin: 0;
@@ -132,12 +201,12 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle 380px at 4% 12%,  rgba(168,208,224,0.18) 0%, transparent 70%),
-    radial-gradient(circle 280px at 94% 18%, rgba(234,207,207,0.15) 0%, transparent 70%),
-    radial-gradient(circle 460px at 12% 88%, rgba(168,212,184,0.12) 0%, transparent 70%),
-    radial-gradient(circle 220px at 82% 58%, rgba(212,173,192,0.14) 0%, transparent 70%),
-    radial-gradient(circle 320px at 96% 82%, rgba(176,196,144,0.12) 0%, transparent 70%),
-    radial-gradient(circle 250px at 44% 5%,  rgba(221,184,146,0.10) 0%, transparent 70%);
+    radial-gradient(circle 600px at 8% 15%,   rgba(201, 169, 110, 0.07) 0%, transparent 70%),
+    radial-gradient(circle 400px at 92% 10%,  rgba(201, 169, 110, 0.05) 0%, transparent 70%),
+    radial-gradient(circle 700px at 5% 90%,   rgba(168, 131, 64,  0.06) 0%, transparent 70%),
+    radial-gradient(circle 350px at 85% 55%,  rgba(201, 169, 110, 0.05) 0%, transparent 70%),
+    radial-gradient(circle 500px at 95% 85%,  rgba(168, 131, 64,  0.05) 0%, transparent 70%),
+    radial-gradient(circle 300px at 48% 3%,   rgba(223, 191, 138, 0.04) 0%, transparent 70%);
 }
 
 .navbar,
@@ -206,7 +275,7 @@ input, textarea, select {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-xl);
-  background: rgba(250, 250, 248, 0.85);
+  background: rgba(8, 8, 8, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -582,7 +651,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   background: var(--surface);
   color: var(--text-primary);
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%238A8A9A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23C9A96E' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   cursor: pointer;
@@ -600,7 +669,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(26, 26, 46, 0.3);
+  background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
