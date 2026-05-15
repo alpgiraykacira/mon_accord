@@ -9,7 +9,7 @@ import { storage } from '../utils/storage.js';
 
 const SCENT_FAMILY_IMGS = Object.fromEntries(
   ['fresh', 'floral', 'woody', 'oriental', 'citrus', 'gourmand', 'green', 'aromatic', 'spicy', 'musky']
-    .map(id => [id, new URL(`../assets/quiz_scent_families/${id}.png`, import.meta.url).href])
+    .map(id => [id, new URL(`../assets/quiz_scent_families/${id}.webp`, import.meta.url).href])
 );
 
 const TRAIT_IMGS = {
@@ -349,6 +349,8 @@ function collectStepAnswers(step, answers, container) {
 
 // ── Post-Quiz: Recommendations ──
 function renderRecommendations(container, profile, navigate) {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
   // Generate spray-heavy combinations from 6 regions
   const regionCombos = generateRegionCombinations(profile);
   const mixedCombos = generateMixedCombinations(profile);

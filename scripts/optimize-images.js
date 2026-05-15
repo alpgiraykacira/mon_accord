@@ -77,8 +77,10 @@ async function updateImports(conversions) {
 
       // Replace filename references (handles both relative and absolute-ish paths)
       const patterns = [
-        // import x from '...filename.ext'
+        // import x from '...filename.ext'  OR  `...${id}.ext`  OR  "...filename.ext"
         new RegExp(`(['"\`])([^'"\`]*?)${escapeRegex(oldName)}(['"\`])`, 'g'),
+        // Dynamic template literals: ${id}.ext  →  ${id}.webp
+        new RegExp(escapeRegex(oldExt.replace('.', '.')) + '(?=[\'"\`\\s,;)])', 'g'),
       ];
 
       for (const pattern of patterns) {
