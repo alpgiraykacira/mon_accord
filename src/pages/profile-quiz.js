@@ -9,7 +9,7 @@ import { storage } from '../utils/storage.js';
 
 const SCENT_FAMILY_IMGS = Object.fromEntries(
   ['fresh', 'floral', 'woody', 'oriental', 'citrus', 'gourmand', 'green', 'aromatic', 'spicy', 'musky']
-    .map(id => [id, new URL(`../assets/quiz_scent_families/${id}.webp`, import.meta.url).href])
+    .map(id => [id, new URL(`../assets/quiz_scent_families_v2/${id}.jpeg`, import.meta.url).href])
 );
 
 const TRAIT_IMGS = {
@@ -161,8 +161,11 @@ function getStepContent(step, answers) {
         <p class="quiz-subtitle">Select all that resonate with you.</p>
         <div class="quiz-grid quiz-grid--families">
           ${SCENT_FAMILIES.map(f => `
-            <div class="quiz-option quiz-option--img-card ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}">
-              <img class="quiz-option__img" src="${SCENT_FAMILY_IMGS[f.id]}" alt="${f.name}" loading="lazy" decoding="async" />
+            <div class="quiz-option quiz-option--img-card quiz-option--family-card ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}" style="--bg-img: url('${SCENT_FAMILY_IMGS[f.id]}')">
+              <div class="quiz-family-overlay">
+                <span class="quiz-family-name">${f.name}</span>
+                <span class="quiz-family-desc">${f.description}</span>
+              </div>
             </div>
           `).join('')}
         </div>
@@ -770,6 +773,61 @@ function addQuizStyles() {
       line-height: 26px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* ── Scent family background-image cards ── */
+    .quiz-option--family-card {
+      background: #000;
+      height: 220px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quiz-option--family-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--bg-img);
+      background-size: cover;
+      background-position: center;
+      opacity: 0.6;
+      z-index: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .quiz-option--family-card:hover::before {
+      opacity: 0.75;
+    }
+
+    .quiz-option--family-card.quiz-option--selected::before {
+      opacity: 0.85;
+    }
+
+    .quiz-family-overlay {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .quiz-family-name {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    }
+
+    .quiz-family-desc {
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.85);
+      line-height: 1.3;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     /* ── Actions ── */
