@@ -21,7 +21,10 @@
       "Bash(Select-Object -First 5)",
       "WebFetch(domain:ai.google.dev)",
       "Bash(curl -s -X POST https://mon-accord-ai.alpgiraykacira.workers.dev -H 'Content-Type: application/json' -H 'X-Worker-Token: b779d4d71581850227941ec6f62abdb1b9060ca364e361c49355d25395ba9437' -d '{ *)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(where pngquant *)",
+      "Bash(npx --yes pngquant --version)",
+      "Bash(node -e \"require\\('sharp'\\)\")"
     ]
   }
 }

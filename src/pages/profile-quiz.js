@@ -9,7 +9,7 @@ import { storage } from '../utils/storage.js';
 
 const SCENT_FAMILY_IMGS = Object.fromEntries(
   ['fresh', 'floral', 'woody', 'oriental', 'citrus', 'gourmand', 'green', 'aromatic', 'spicy', 'musky']
-    .map(id => [id, new URL(`../assets/quiz_scent_families_v2/${id}.jpeg`, import.meta.url).href])
+    .map(id => [id, new URL(`../assets/quiz_scent_families_v2/${id}.png`, import.meta.url).href])
 );
 
 const TRAIT_IMGS = {
@@ -161,10 +161,10 @@ function getStepContent(step, answers) {
         <p class="quiz-subtitle">Select all that resonate with you.</p>
         <div class="quiz-grid quiz-grid--families">
           ${SCENT_FAMILIES.map(f => `
-            <div class="quiz-option quiz-option--img-card quiz-option--family-card ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}" style="--bg-img: url('${SCENT_FAMILY_IMGS[f.id]}')">
+            <div class="quiz-option quiz-option--img-card quiz-option--family-card ${answers.scentFamilies.includes(f.id) ? 'quiz-option--selected' : ''}" data-value="${f.id}" id="family-${f.id}">
+              <img class="quiz-family-img" src="${SCENT_FAMILY_IMGS[f.id]}" alt="${f.name}" loading="lazy" decoding="async" />
               <div class="quiz-family-overlay">
                 <span class="quiz-family-name">${f.name}</span>
-                <span class="quiz-family-desc">${f.description}</span>
               </div>
             </div>
           `).join('')}
@@ -569,6 +569,15 @@ function renderProfileResult(container, profile, navigate) {
 
 function addQuizStyles() {
   if (document.getElementById('quiz-styles')) return;
+
+  if (!document.getElementById('quiz-fonts')) {
+    const link = document.createElement('link');
+    link.id = 'quiz-fonts';
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Cormorant+Garamond:ital,wght@1,700&family=Merriweather:wght@700&family=Cinzel:wght@700&family=Pacifico&family=Nunito:wght@800&family=Josefin+Sans:wght@700&family=EB+Garamond:wght@700&family=Bebas+Neue&family=Playfair+Display:wght@700&display=swap';
+    document.head.appendChild(link);
+  }
+
   const style = document.createElement('style');
   style.id = 'quiz-styles';
   style.textContent = `
@@ -775,32 +784,28 @@ function addQuizStyles() {
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
-    /* ── Scent family background-image cards ── */
+    /* ── Scent family PNG cards ── */
     .quiz-option--family-card {
-      background: #000;
+      background: transparent;
       height: 220px;
       align-items: center;
       justify-content: center;
     }
 
-    .quiz-option--family-card::before {
-      content: '';
+    .quiz-option--family-card.quiz-option--selected {
+      border: none;
+      box-shadow: none;
+      background: transparent;
+      transform: none;
+    }
+
+    .quiz-family-img {
       position: absolute;
       inset: 0;
-      background-image: var(--bg-img);
-      background-size: cover;
-      background-position: center;
-      opacity: 0.6;
-      z-index: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    .quiz-option--family-card:hover::before {
-      opacity: 0.75;
-    }
-
-    .quiz-option--family-card.quiz-option--selected::before {
-      opacity: 0.85;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .quiz-family-overlay {
@@ -810,24 +815,19 @@ function addQuizStyles() {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
       text-align: center;
     }
 
     .quiz-family-name {
-      font-size: var(--text-lg);
+      font-size: var(--text-2xl);
+      font-family: 'Playfair Display', serif;
       font-weight: 700;
+      font-style: italic;
       color: #fff;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
       line-height: 1.2;
+      text-transform: uppercase;
       text-shadow: 0 1px 6px rgba(0,0,0,0.6);
-    }
-
-    .quiz-family-desc {
-      font-size: var(--text-xs);
-      color: rgba(255,255,255,0.85);
-      line-height: 1.3;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     /* ── Actions ── */
