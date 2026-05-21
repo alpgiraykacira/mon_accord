@@ -85,7 +85,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
   "tips": "One practical application tip"
 }`;
 
-  const response = await generateAIResponse(prompt);
+  const response = await generateAIResponse(prompt, 2, 400); // actual ~189 tokens
 
   if (response.success) {
     try {
@@ -98,7 +98,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       return { success: true, recommendation };
     } catch (e) {
       console.error('Failed to parse recommendation:', e);
-      return { success: true, recommendation: { formulaName: 'AI Recommendation', layers: [], reasoning: response.text, scentPreview: '', tips: '' } };
+      return { success: true, recommendation: { formulaName: 'Your Recommendation', layers: [], reasoning: response.text, scentPreview: '', tips: '' } };
     }
   }
   return { success: false, error: response.text };

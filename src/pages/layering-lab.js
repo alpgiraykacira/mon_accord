@@ -169,6 +169,7 @@ export function renderLayeringLab(container, navigate) {
                 <button class="btn btn--primary w-full" id="btn-get-advice" ${isAdvising ? 'disabled' : ''}>
                   ${isAdvising ? '<span class="loading-spinner"></span> Crafting...' : '✦ Get Recommendation'}
                 </button>
+                <button class="btn btn--ghost w-full" id="btn-clear-recommendation">Clear</button>
               </div>
 
               ${contextResult ? `
@@ -318,10 +319,15 @@ export function renderLayeringLab(container, navigate) {
         if (result.success) {
           scentSimulation = result.text;
           persistState();
+          render();
+          setTimeout(() => {
+            const canvas = document.querySelector('.lab-canvas');
+            if (canvas) canvas.scrollTo({ top: canvas.scrollHeight, behavior: 'smooth' });
+          }, 500);
         } else {
           window.showToast(result.text || 'Simulation failed.', 'error');
+          render();
         }
-        render();
       });
     }
 
@@ -397,10 +403,15 @@ export function renderLayeringLab(container, navigate) {
         if (result.success) {
           contextResult = result.recommendation;
           persistState();
+          render();
+          setTimeout(() => {
+            const canvas = document.querySelector('.lab-canvas');
+            if (canvas) canvas.scrollTo({ top: canvas.scrollHeight, behavior: 'smooth' });
+          }, 500);
         } else {
           window.showToast(result.error || 'Advice failed.', 'error');
+          render();
         }
-        render();
       });
     }
 
@@ -419,6 +430,20 @@ export function renderLayeringLab(container, navigate) {
           render();
           window.showToast('Formula applied! Try simulating the scent.');
         }
+      });
+    }
+
+    // Clear recommendation
+    const clearRecBtn = container.querySelector('#btn-clear-recommendation');
+    if (clearRecBtn) {
+      clearRecBtn.addEventListener('click', () => {
+        contextResult = null;
+        selectedMood = null;
+        selectedOccasion = null;
+        selectedSeason = null;
+        selectedTime = null;
+        persistState();
+        render();
       });
     }
   }
@@ -453,10 +478,13 @@ function formatSimulationText(text) {
   return text
     .split('\n')
     .filter(line => line.trim())
+    .filter(line => !line.match(/^(OVERALL|SILLAGE)/i))
     .map(line => {
-      if (line.match(/^(OPENING|HEART|DRY DOWN|OVERALL|SILLAGE)/i)) {
-        const [label, ...rest] = line.split(':');
-        return `<p><strong style="color: var(--accent);">${label.trim()}:</strong> ${rest.join(':').trim()}</p>`;
+      if (line.match(/^(OPENING|HEART|DRY DOWN)/i)) {
+        const colonIdx = line.indexOf(':');
+        const label = line.substring(0, colonIdx).trim();
+        const body = line.substring(colonIdx + 1).trim();
+        return `<p class="sim-section"><span class="sim-label">${label}</span><span class="sim-body">${body}</span></p>`;
       }
       return `<p>${line}</p>`;
     })
@@ -515,12 +543,16 @@ function addLabStyles() {
       top: calc(var(--nav-height) + var(--space-lg));
       max-height: calc(100vh - var(--nav-height) - var(--space-lg) * 2);
       overflow-y: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      min-height: 0;
       display: flex;
       flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
     }
-    .lab-canvas::-webkit-scrollbar { display: none; }
+    .lab-canvas::-webkit-scrollbar { width: 4px; }
+    .lab-canvas::-webkit-scrollbar-track { background: transparent; }
+    .lab-canvas::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .lab-canvas > * { flex-shrink: 0; }
 
     /* ── Section label ── */
     .lab-section-label {
@@ -827,6 +859,11 @@ function addLabStyles() {
       gap: var(--space-md);
     }
 
+    .lab-advisor__result-actions {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
     .lab-advisor__chips {
       display: flex;
       flex-wrap: wrap;
@@ -850,6 +887,27 @@ function addLabStyles() {
       background: var(--accent-bg);
       color: var(--accent-dark);
       font-weight: 600;
+    }
+
+    /* ── Simulation result sections ── */
+    .sim-section {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: var(--space-md);
+    }
+    .sim-section:last-child { margin-bottom: 0; }
+    .sim-label {
+      font-size: var(--text-base);
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .sim-body {
+      font-size: var(--text-sm);
+      line-height: 1.65;
+      color: var(--text-secondary);
     }
 
     @media (max-width: 1024px) {

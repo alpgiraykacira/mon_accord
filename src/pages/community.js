@@ -788,7 +788,7 @@ function renderSuggestionContent(remix, isLoading) {
   return `
     <div style="padding:var(--space-lg);display:flex;flex-direction:column;flex:1;min-height:0;">
       <div class="ai-response" style="flex:1;">
-        <div class="ai-response__label">${remix.remixName || 'AI Suggestion'}</div>
+        <div class="ai-response__label">${remix.remixName || 'Curated Suggestion'}</div>
         <div class="ai-response__text">
           ${remix.layers?.length ? `<div style="margin-bottom:var(--space-md);">${remix.layers.map(l => {
             const p = getPerfumeById(l.perfumeId);

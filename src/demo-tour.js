@@ -451,7 +451,7 @@ const STEPS = [
 
   // â”€â”€ 18 AI Advisor â€” inject fake output â”€â”€
   {
-    title: 'AI Contextual Advisor',
+    title: 'Contextual Advisor',
     run: async () => {
       const el = document.querySelector('.lab-advisor');
       await smoothScrollToEl(el);

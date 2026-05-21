@@ -8,7 +8,7 @@ import { PERFUMES, SCENT_FAMILIES, ARCHETYPES, LOREAL_LUXE_PERFUMES } from '../d
 
 export async function generateProfile(quizAnswers) {
   const prompt = buildProfilePrompt(quizAnswers);
-  const response = await generateAIResponse(prompt);
+  const response = await generateAIResponse(prompt, 2, 700); // actual ~343 tokens
 
   if (response.success) {
     const profile = parseProfileResponse(response.text, quizAnswers);
@@ -120,16 +120,14 @@ export async function generateScentSimulation(layers) {
 FORMULA:
 ${layerDescriptions}
 
-Respond with a vivid, sensory text description in this format:
+Respond using exactly this format — three sections, nothing more:
 
-OPENING (first 15 minutes): [describe the initial burst]
-HEART (30 min - 2 hours): [describe the middle development]
-DRY DOWN (2+ hours): [describe the lasting base]
-OVERALL CHARACTER: [one-sentence summary of the blend's personality]
-SILLAGE & LONGEVITY: [brief assessment]
+OPENING (first 15 min): [1-2 sentences on the initial burst]
+HEART (30 min – 2 hrs): [1-2 sentences on the mid-stage development]
+DRY DOWN (2+ hrs): [1-2 sentences on the lasting base]
 
-Be poetic but precise. Help the reader "smell" this blend through words. Keep it under 200 words total.`;
+Be poetic but concise. One vivid idea per section. No extra headings or commentary.`;
 
-  const response = await generateAIResponse(prompt);
+  const response = await generateAIResponse(prompt, 2, 300); // actual ~152 tokens
   return response;
 }

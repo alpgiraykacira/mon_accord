@@ -100,7 +100,7 @@ export function renderLanding(container, navigate) {
             <div class="how-step__number">01</div>
             <div class="how-step__content">
               <h3 class="how-step__title">Build Your Profile</h3>
-              <p class="how-step__text">Answer a short quiz and our AI creates your unique olfactory archetype — your taste, your language, your starting point.</p>
+              <p class="how-step__text">Answer a short quiz and we create your unique olfactory archetype — your taste, your language, your starting point.</p>
             </div>
           </div>
           <div class="how-step" id="how-step-2">
@@ -127,7 +127,7 @@ export function renderLanding(container, navigate) {
         <div class="cta-card">
           <p class="section-label">Ready?</p>
           <h2 class="section-title">Find Your Accord</h2>
-          <p class="section-subtitle mb-lg">Start with a quick profile quiz — your AI-powered scent journey begins here.</p>
+          <p class="section-subtitle mb-lg">Start with a quick profile quiz — your personalised scent journey begins here.</p>
           <button class="btn btn--primary btn--lg" id="bottom-cta">
             ${hasProfile ? 'Go to Lab' : 'Take the Quiz'}
           </button>

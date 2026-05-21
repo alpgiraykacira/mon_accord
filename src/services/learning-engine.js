@@ -127,7 +127,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
   "scentDescription": "Vivid 2-sentence sensory preview"
 }`;
 
-  const response = await generateAIResponse(prompt);
+  const response = await generateAIResponse(prompt, 2, 400); // similar to recommendation ~200 tokens
 
   if (response.success) {
     try {
@@ -139,7 +139,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       storage.addInteraction({ type: 'remix-generated', name: remix.remixName });
       return { success: true, remix };
     } catch {
-      return { success: true, remix: { remixName: 'AI Remix', layers: [], inspiration: response.text, newElement: '', scentDescription: '' } };
+      return { success: true, remix: { remixName: 'Curated Remix', layers: [], inspiration: response.text, newElement: '', scentDescription: '' } };
     }
   }
   return { success: false, error: response.text };

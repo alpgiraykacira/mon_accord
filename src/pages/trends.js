@@ -19,7 +19,7 @@ export function renderTrends(container, navigate) {
       <div class="section-header">
         <p class="section-label">Continuous Learning</p>
         <h2 class="section-title">Your Scent Evolution</h2>
-        <p class="section-subtitle">Track your journey, discover trends, and let AI surprise you with fresh remixes.</p>
+        <p class="section-subtitle">Track your journey, discover trends, and discover fresh remixes curated for you.</p>
       </div>
 
       <!-- Profile Summary -->
@@ -84,7 +84,7 @@ export function renderTrends(container, navigate) {
 
       <!-- AI Remix -->
       <div class="mt-2xl">
-        <h3 class="trends-section-title">AI Remix Suggestion</h3>
+        <h3 class="trends-section-title">Remix Suggestion</h3>
         <p style="font-size: var(--text-sm); color: var(--text-tertiary); margin-bottom: var(--space-lg);">
           Based on your journey and current trends, here's something new to try.
         </p>
@@ -172,7 +172,7 @@ export function renderTrends(container, navigate) {
         const remix = result.remix;
         remixContainer.innerHTML = `
           <div class="ai-response">
-            <div class="ai-response__label">${remix.remixName || 'AI Remix'}</div>
+            <div class="ai-response__label">${remix.remixName || 'Curated Remix'}</div>
             <div class="ai-response__text">
               ${remix.layers?.length > 0 ? `
                 <div style="margin-bottom: var(--space-md);">

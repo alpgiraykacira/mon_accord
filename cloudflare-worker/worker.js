@@ -19,9 +19,9 @@ const ALLOWED_ORIGINS = [
 ];
 
 const GEMINI_BASE    = 'https://generativelanguage.googleapis.com/v1beta/models';
-const MODEL          = 'gemini-2.5-flash';
-const MAX_BODY_BYTES = 32_000;   // ~32 KB — prevents giant prompt abuse
-const RATE_LIMIT     = 15;       // requests per window per IP
+const MODEL          = 'gemini-3.1-flash-lite';
+const MAX_BODY_BYTES = 16_000;   // ~16 KB — tighter cap; prompts are now controlled client-side
+const RATE_LIMIT     = 10;       // requests per window per IP
 const RATE_WINDOW_MS = 60_000;   // 1 minute
 
 // ── In-memory rate limiter (per isolate, best-effort) ────────

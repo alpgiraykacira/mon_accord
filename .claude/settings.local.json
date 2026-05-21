@@ -10,7 +10,18 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git commit -m 'fix: add contents:write permission and upgrade to Node.js 22 for gh-pages deploy *)",
-      "Bash(findstr /i \"\\\\.env\")"
+      "Bash(findstr /i \"\\\\.env\")",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" \"https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyBDM0uAE2O9Pm3HcbkCN5feQn5ctnBD9f0\")",
+      "Bash(curl -s \"https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyBDM0uAE2O9Pm3HcbkCN5feQn5ctnBD9f0\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('error',{}\\).get\\('message',''\\)\\)\")",
+      "Bash(wrangler --version)",
+      "Bash(node -e ' *)",
+      "Bash(grep -v \"Use \\\\`node\")",
+      "Bash(Select-String -Pattern \"quiz-grid|quiz-option\" -Path \"D:\\\\Projects\\\\mon_accord\\\\src\\\\style.css\")",
+      "Bash(Select-Object -First 5)",
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(curl -s -X POST https://mon-accord-ai.alpgiraykacira.workers.dev -H 'Content-Type: application/json' -H 'X-Worker-Token: b779d4d71581850227941ec6f62abdb1b9060ca364e361c49355d25395ba9437' -d '{ *)",
+      "Bash(python -c ' *)"
     ]
   }
 }

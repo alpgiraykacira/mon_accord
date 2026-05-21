@@ -119,7 +119,7 @@ export function renderProfileQuiz(container, navigate) {
           statusEl.style.cssText = 'font-size: var(--text-xs); color: var(--text-tertiary); text-align: center; margin-top: var(--space-sm);';
           finishBtn.parentElement.appendChild(statusEl);
         }
-        statusEl.textContent = 'Analyzing your preferences with AI...';
+        statusEl.textContent = 'Analysing your preferences...';
 
         const result = await generateProfile(answers);
 

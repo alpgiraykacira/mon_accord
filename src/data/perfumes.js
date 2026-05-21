@@ -262,16 +262,16 @@ export const PERFUMES = [
 
 // ── Scent Families ──
 export const SCENT_FAMILIES = [
-  { id: 'fresh', name: 'Fresh', description: 'Clean, aquatic, and invigorating', icon: '💧' },
-  { id: 'floral', name: 'Floral', description: 'Romantic blooms and petal softness', icon: '🌹' },
-  { id: 'woody', name: 'Woody', description: 'Warm woods and natural depth', icon: '🌲' },
-  { id: 'oriental', name: 'Oriental', description: 'Rich, warm, and spice-laden', icon: '✨' },
-  { id: 'citrus', name: 'Citrus', description: 'Bright, zesty, and energizing', icon: '🍋' },
-  { id: 'gourmand', name: 'Gourmand', description: 'Sweet, edible, and comforting', icon: '🍫' },
-  { id: 'green', name: 'Green', description: 'Leafy, herbal, and natural', icon: '🍃' },
-  { id: 'aromatic', name: 'Aromatic', description: 'Herbal, lavender, and sage', icon: '🌿' },
-  { id: 'spicy', name: 'Spicy', description: 'Warm spices and fiery accents', icon: '🌶' },
-  { id: 'musky', name: 'Musky', description: 'Skin-like warmth and intimacy', icon: '🤍' },
+  { id: 'fresh', name: 'Fresh', description: 'Clean, aquatic, and invigorating', icon: '💧', gradient: 'linear-gradient(145deg, #ffffff 0%, #f0f6fc 40%, #ddeef8 70%, #C9A96E22 100%)' },
+  { id: 'floral', name: 'Floral', description: 'Romantic blooms and petal softness', icon: '🌹', gradient: 'linear-gradient(145deg, #ffffff 0%, #fdf4f7 40%, #f8e0ea 70%, #C9A96E22 100%)' },
+  { id: 'woody', name: 'Woody', description: 'Warm woods and natural depth', icon: '🌲', gradient: 'linear-gradient(145deg, #ffffff 0%, #faf6f0 40%, #f0e4d0 70%, #C9A96E22 100%)' },
+  { id: 'oriental', name: 'Oriental', description: 'Rich, warm, and spice-laden', icon: '✨', gradient: 'linear-gradient(145deg, #ffffff 0%, #fdf8ef 40%, #f5e8c8 70%, #C9A96E22 100%)' },
+  { id: 'citrus', name: 'Citrus', description: 'Bright, zesty, and energizing', icon: '🍋', gradient: 'linear-gradient(145deg, #ffffff 0%, #fdfcec 40%, #f8f2c0 70%, #C9A96E22 100%)' },
+  { id: 'gourmand', name: 'Gourmand', description: 'Sweet, edible, and comforting', icon: '🍫', gradient: 'linear-gradient(145deg, #ffffff 0%, #fdf6f0 40%, #f5dfc8 70%, #C9A96E22 100%)' },
+  { id: 'green', name: 'Green', description: 'Leafy, herbal, and natural', icon: '🍃', gradient: 'linear-gradient(145deg, #ffffff 0%, #f3faf3 40%, #d8f0d8 70%, #C9A96E22 100%)' },
+  { id: 'aromatic', name: 'Aromatic', description: 'Herbal, lavender, and sage', icon: '🌿', gradient: 'linear-gradient(145deg, #ffffff 0%, #f7f4fd 40%, #e8dffa 70%, #C9A96E22 100%)' },
+  { id: 'spicy', name: 'Spicy', description: 'Warm spices and fiery accents', icon: '🌶', gradient: 'linear-gradient(145deg, #ffffff 0%, #fdf4f0 40%, #f8d8c8 70%, #C9A96E22 100%)' },
+  { id: 'musky', name: 'Musky', description: 'Skin-like warmth and intimacy', icon: '🤍', gradient: 'linear-gradient(145deg, #ffffff 0%, #faf8f6 40%, #ede5da 70%, #C9A96E22 100%)' },
 ];
 
 // ── L'Oréal Luxe Segment Perfume Database (Full) ──

@@ -14,7 +14,8 @@ import { storage } from '../utils/storage.js';
 const PROXY_URL    = import.meta.env.VITE_PROXY_URL;    // Cloudflare Worker URL
 const WORKER_TOKEN = import.meta.env.VITE_WORKER_TOKEN; // Shared token for worker auth
 const GEMINI_BASE  = 'https://generativelanguage.googleapis.com/v1beta/models';
-const MODEL       = 'gemini-2.5-flash';
+const MODEL        = 'gemini-3.1-flash-lite';
+const MAX_PROMPT_CHARS = 6_000; // ~1 500 tokens — hard cap on input length
 
 const SYSTEM_INSTRUCTION = `You are Mon Accord's AI Perfume Advisor — a world-class fragrance expert specializing in scent layering and olfactory profiling.
 
@@ -37,9 +38,15 @@ Always respond in English.
 When describing scents, be vivid and sensory — help the user "smell" through words.
 Keep responses concise but rich. Use fragrance terminology naturally.`;
 
-const REQUEST_BODY = (prompt) => ({
-  contents: [{ parts: [{ text: prompt }] }],
+const REQUEST_BODY = (prompt, maxOutputTokens = 400) => ({
+  contents: [{ parts: [{ text: prompt.slice(0, MAX_PROMPT_CHARS) }] }],
   systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+  generationConfig: {
+    maxOutputTokens,
+    temperature: 0.7,
+    candidateCount: 1,
+    thinkingConfig: { thinkingBudget: 0 }, // disable thinking — saves tokens, not needed for these tasks
+  },
 });
 
 // ── Error classifier ──────────────────────────────────────────
@@ -61,17 +68,17 @@ function errorText(type, waitSec) {
     case 'rate-limit':
       return `Rate limit reached. Please wait ${waitSec || 30} seconds and try again.`;
     case 'invalid-key':
-      return 'AI service key is invalid. Please contact the site owner.';
+      return 'Service key is invalid. Please contact the site owner.';
     case 'network':
       return 'Network error. Please check your connection and try again.';
     default:
-      return 'AI request failed. Please try again.';
+      return 'Request failed. Please try again.';
   }
 }
 
 // ── Core request ─────────────────────────────────────────────
-async function callGemini(prompt) {
-  const body = REQUEST_BODY(prompt);
+async function callGemini(prompt, maxOutputTokens) {
+  const body = REQUEST_BODY(prompt, maxOutputTokens);
 
   // ── Path A: Cloudflare Worker proxy (production) ──
   if (PROXY_URL) {
@@ -112,13 +119,13 @@ async function callGemini(prompt) {
 }
 
 // ── Public API ────────────────────────────────────────────────
-export async function generateAIResponse(prompt, retries = 2) {
+export async function generateAIResponse(prompt, retries = 2, maxOutputTokens) {
   try {
-    const data = await callGemini(prompt);
+    const data = await callGemini(prompt, maxOutputTokens);
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!text) {
       console.error('Empty Gemini response', data);
-      return { success: false, error: 'empty-response', text: 'AI returned an empty response. Please try again.' };
+      return { success: false, error: 'empty-response', text: 'No response received. Please try again.' };
     }
     return { success: true, text };
 
@@ -128,7 +135,7 @@ export async function generateAIResponse(prompt, retries = 2) {
     console.error('AI error:', msg);
 
     if (msg === 'no-api-key') {
-      return { success: false, error: 'no-api-key', text: 'AI features are not available. Please contact the site owner.' };
+      return { success: false, error: 'no-api-key', text: 'This feature is not available. Please contact the site owner.' };
     }
 
     const type = classifyError(msg, status);
@@ -139,7 +146,7 @@ export async function generateAIResponse(prompt, retries = 2) {
       const waitSec   = waitMatch ? parseInt(waitMatch[1]) : 30;
       console.log(`Rate limited. Waiting ${waitSec}s… (${retries} retries left)`);
       await new Promise(r => setTimeout(r, (waitSec + 2) * 1000));
-      return generateAIResponse(prompt, retries - 1);
+      return generateAIResponse(prompt, retries - 1, maxOutputTokens);
     }
 
     const waitMatch = msg.match(/retry[^0-9]*(\d+)/i);

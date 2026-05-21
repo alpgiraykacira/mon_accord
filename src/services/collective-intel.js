@@ -84,7 +84,7 @@ Community rating: ${formula.likes || 0} likes
 
 Explain in 2-3 sentences why this formula would (or wouldn't) work for them. Be specific about scent chemistry. Keep it warm and encouraging.`;
 
-  return generateAIResponse(prompt);
+  return generateAIResponse(prompt, 2, 150);
 }
 
 export function getTrendingCombinations() {

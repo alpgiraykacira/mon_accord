@@ -179,7 +179,7 @@ export function renderVault(container, navigate) {
     return `
       <div class="vault-myperfumes-col">
         <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-xs);">My Perfumes</h3>
-        <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-lg);">Your collection guides all AI recommendations across the app.</p>
+        <p style="font-size:var(--text-xs);color:var(--text-tertiary);margin-bottom:var(--space-lg);">Your collection guides all recommendations across the app.</p>
 
         <div class="vault-myperfumes-section">
           <p class="vault-myperfumes-section-label">Mon Accord</p>
