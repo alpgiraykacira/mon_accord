@@ -24,7 +24,9 @@
       "Bash(python -c ' *)",
       "Bash(where pngquant *)",
       "Bash(npx --yes pngquant --version)",
-      "Bash(node -e \"require\\('sharp'\\)\")"
+      "Bash(node -e \"require\\('sharp'\\)\")",
+      "Bash(where magick *)",
+      "Bash(where ffmpeg *)"
     ]
   }
 }

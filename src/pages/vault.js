@@ -40,7 +40,44 @@ const PRESET_FOLDERS = [
   { id: 'seasonal', name: 'Seasonal' },
 ];
 
+const DEFAULT_FORMULAS = [
+  // Evening Wear
+  { id: 'default-ev-1', name: 'Velvet Dusk',    folderId: 'evening',  layers: [{ perfumeId: 'middleeast-spray',    amount: 3, unit: 'sprays' }, { perfumeId: 'southafrica-oil',   amount: 2, unit: 'drops'  }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
+  { id: 'default-ev-2', name: 'Golden Night',   folderId: 'evening',  layers: [{ perfumeId: 'southamerica-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'middleeast-oil',    amount: 2, unit: 'drops'  }] },
+  { id: 'default-ev-3', name: 'Night Bloom',    folderId: 'evening',  layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 2, unit: 'drops'  }, { perfumeId: 'middleeast-oil',    amount: 1, unit: 'drops'  }] },
+  // Daytime
+  { id: 'default-da-1', name: 'Fresh Morning',  folderId: 'daytime',  layers: [{ perfumeId: 'scandinavian-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'mediterranean-oil', amount: 1, unit: 'drops'  }] },
+  { id: 'default-da-2', name: 'Sun Garden',     folderId: 'daytime',  layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-spray',    amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
+  { id: 'default-da-3', name: 'Coastal Breeze', folderId: 'daytime',  layers: [{ perfumeId: 'scandinavian-spray',  amount: 2, unit: 'sprays' }, { perfumeId: 'southamerica-spray', amount: 2, unit: 'sprays' }] },
+  // Office
+  { id: 'default-of-1', name: 'Clean Presence', folderId: 'office',   layers: [{ perfumeId: 'scandinavian-spray',  amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 1, unit: 'drops'  }] },
+  { id: 'default-of-2', name: 'Polished Air',   folderId: 'office',   layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
+  { id: 'default-of-3', name: 'Subtle Focus',   folderId: 'office',   layers: [{ perfumeId: 'eastasia-spray',      amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
+  // Weekend
+  { id: 'default-we-1', name: 'Lazy Sunday',    folderId: 'weekend',  layers: [{ perfumeId: 'southamerica-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 2, unit: 'drops'  }] },
+  { id: 'default-we-2', name: 'Adventure Trail',folderId: 'weekend',  layers: [{ perfumeId: 'southafrica-spray',   amount: 3, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
+  { id: 'default-we-3', name: 'Free Spirit',    folderId: 'weekend',  layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'southamerica-oil',  amount: 2, unit: 'drops'  }, { perfumeId: 'scandinavian-spray', amount: 1, unit: 'sprays' }] },
+  // Seasonal
+  { id: 'default-se-1', name: 'Winter Warmth',  folderId: 'seasonal', layers: [{ perfumeId: 'middleeast-spray',    amount: 3, unit: 'sprays' }, { perfumeId: 'southafrica-oil',   amount: 2, unit: 'drops'  }] },
+  { id: 'default-se-2', name: 'Spring Bloom',   folderId: 'seasonal', layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 1, unit: 'drops'  }] },
+  { id: 'default-se-3', name: 'Autumn Spice',   folderId: 'seasonal', layers: [{ perfumeId: 'southafrica-spray',   amount: 2, unit: 'sprays' }, { perfumeId: 'middleeast-oil',    amount: 2, unit: 'drops'  }] },
+];
+
 export function renderVault(container, navigate) {
+  // Seed default formulas into folders (once)
+  if (!storage.get('vault_defaults_seeded', false)) {
+    const vault = storage.getVault();
+    const existingIds = new Set(vault.map(f => f.id));
+    const now = Date.now();
+    DEFAULT_FORMULAS.forEach((f, i) => {
+      if (!existingIds.has(f.id)) {
+        vault.push({ ...f, savedAt: now + i });
+      }
+    });
+    storage.set('vault', vault);
+    storage.set('vault_defaults_seeded', true);
+  }
+
   // Seed default L'Oréal Luxe perfumes
   const owned = storage.getOwnedPerfumes();
   const missingLoreal = DEFAULT_LOREAL_IDS.filter(id => !owned.loreal.includes(id));
@@ -662,9 +699,8 @@ function addVaultStyles() {
       align-items: center;
       gap: 4px;
       padding: 8px 4px 6px;
-      border: 1.5px solid var(--border);
       border-radius: var(--radius-md);
-      background: var(--bg-primary);
+      background: transparent;
       text-align: center;
     }
 

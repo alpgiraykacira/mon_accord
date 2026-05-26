@@ -13,12 +13,12 @@ const SCENT_FAMILY_IMGS = Object.fromEntries(
 );
 
 const TRAIT_IMGS = {
-  elegant:     new URL('../assets/quiz_traits/elegant_classic.webp',     import.meta.url).href,
-  adventurous: new URL('../assets/quiz_traits/adventurous_bold.webp',    import.meta.url).href,
-  romantic:    new URL('../assets/quiz_traits/romantic_dreamy.webp',     import.meta.url).href,
-  minimalist:  new URL('../assets/quiz_traits/minimalist_clean.webp',    import.meta.url).href,
-  creative:    new URL('../assets/quiz_traits/creative_expressive.webp', import.meta.url).href,
-  confident:   new URL('../assets/quiz_traits/confident_powerful.webp',  import.meta.url).href,
+  elegant:     new URL('../assets/quiz_traits_v2/elegant_classic.png',     import.meta.url).href,
+  adventurous: new URL('../assets/quiz_traits_v2/adventurous_bold.png',    import.meta.url).href,
+  romantic:    new URL('../assets/quiz_traits_v2/romantic_dreamy.png',     import.meta.url).href,
+  minimalist:  new URL('../assets/quiz_traits_v2/minimalist_clean.png',    import.meta.url).href,
+  creative:    new URL('../assets/quiz_traits_v2/creative_expressive.png', import.meta.url).href,
+  confident:   new URL('../assets/quiz_traits_v2/confident_powerful.png',  import.meta.url).href,
 };
 
 const TOTAL_STEPS = 5;
@@ -231,8 +231,11 @@ function getStepContent(step, answers) {
             { id: 'creative',    name: 'Creative & Expressive',  desc: 'Unique, unconventional' },
             { id: 'confident',   name: 'Confident & Powerful',   desc: 'Commands attention' },
           ].map(ctx => `
-            <div class="quiz-option quiz-option--img-card ${answers.personality === ctx.id ? 'quiz-option--selected' : ''}" data-value="${ctx.id}" id="ctx-${ctx.id}">
-              <img class="quiz-option__img" src="${TRAIT_IMGS[ctx.id]}" alt="${ctx.name}" loading="lazy" decoding="async" />
+            <div class="quiz-option quiz-option--img-card quiz-option--family-card quiz-option--trait-card ${answers.personality === ctx.id ? 'quiz-option--selected' : ''}" data-value="${ctx.id}" id="ctx-${ctx.id}">
+              <img class="quiz-family-img" src="${TRAIT_IMGS[ctx.id]}" alt="${ctx.name}" loading="lazy" decoding="async" />
+              <div class="quiz-family-overlay">
+                <span class="quiz-family-name">${ctx.name}</span>
+              </div>
             </div>
           `).join('')}
         </div>
@@ -331,9 +334,14 @@ function bindStepEvents(step, answers, container) {
   if (step === 5) {
     container.querySelectorAll('.quiz-grid--context .quiz-option').forEach(opt => {
       opt.addEventListener('click', () => {
+        const isSelected = opt.classList.contains('quiz-option--selected');
         container.querySelectorAll('.quiz-grid--context .quiz-option').forEach(o => o.classList.remove('quiz-option--selected'));
-        opt.classList.add('quiz-option--selected');
-        answers.personality = opt.dataset.value;
+        if (!isSelected) {
+          opt.classList.add('quiz-option--selected');
+          answers.personality = opt.dataset.value;
+        } else {
+          answers.personality = '';
+        }
       });
     });
   }
@@ -827,8 +835,13 @@ function addQuizStyles() {
       letter-spacing: 0.08em;
       line-height: 1.2;
       text-transform: uppercase;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 2px 12px rgba(0,0,0,0.7);
     }
+
+    .quiz-option--trait-card { height: 220px; overflow: hidden; }
+    .quiz-option--trait-card .quiz-family-img { inset: 10px; width: 85%; height: 100%; border-radius: var(--radius-sm); }
+    .quiz-option--trait-card .quiz-family-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .quiz-option--trait-card .quiz-family-name { font-size: var(--text-xl); text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 2px 12px rgba(0,0,0,0.7); }
 
     /* ── Actions ── */
     .quiz-actions {
