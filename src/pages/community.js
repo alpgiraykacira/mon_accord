@@ -8,7 +8,9 @@ import { getPerfumeById, REGIONS, PERFUMES, LOREAL_LUXE_PERFUMES, COMMUNITY_FORM
 import { isAIAvailable } from '../services/ai-engine.js';
 import { storage } from '../utils/storage.js';
 import { showSaveToVaultModal } from '../utils/save-modal.js';
-import duyguPhoto from '../assets/duyguozaslan.webp';
+import duyguPhoto from '../assets/community/Duygu.png';
+import jackPhoto  from '../assets/community/Jack.jpeg';
+import naomiPhoto from '../assets/community/Naomi.jpeg';
 
 // ── Seed Posts ──
 const SEED_POSTS = [
@@ -301,9 +303,9 @@ export function renderCommunity(container, navigate) {
         <div class="community-choice-row">
           <div class="community-choice-card">
             <div class="community-choice-card__photo-wrap">
-              <img src="${duyguPhoto}" alt="Duygu Özaslan" class="community-choice-card__photo" loading="lazy" decoding="async" />
+              <img src="${duyguPhoto}" alt="Duygu" class="community-choice-card__photo" loading="lazy" decoding="async" />
             </div>
-            <p class="community-choice-card__name">Duygu Özaslan</p>
+            <p class="community-choice-card__name">Duygu</p>
             <p class="community-choice-card__role">Influencer</p>
             <p class="community-choice-card__quote">"Cherry blossom and fig together feel like a spring garden by the sea — feminine, luminous, and unforgettable."</p>
             <div class="community-choice-card__combo">
@@ -317,15 +319,45 @@ export function renderCommunity(container, navigate) {
               </div>
             </div>
           </div>
-          <div class="community-choice-card community-choice-card--placeholder">
-            <div class="community-choice-card__avatar-ph"></div>
-            <p class="community-choice-card__name community-choice-card__name--ph">Coming Soon</p>
-            <p class="community-choice-card__role">—</p>
+          <div class="community-choice-card">
+            <div class="community-choice-card__photo-wrap">
+              <img src="${jackPhoto}" alt="Jack" class="community-choice-card__photo" loading="lazy" decoding="async" />
+            </div>
+            <p class="community-choice-card__name">Jack</p>
+            <p class="community-choice-card__role">Fragrance Explorer</p>
+            <p class="community-choice-card__quote">"Bold, raw, alive — the South African fynbos opens up something primal. One drop of Scandinavian oil and it becomes untamed elegance."</p>
+            <div class="community-choice-card__combo">
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='southafrica')?.color};">South Africa — Spray</span>
+                <span class="community-choice-card__amount">3 sprays</span>
+              </div>
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='scandinavian')?.color};">Scandinavian — Oil</span>
+                <span class="community-choice-card__amount">2 drops</span>
+              </div>
+            </div>
           </div>
-          <div class="community-choice-card community-choice-card--placeholder">
-            <div class="community-choice-card__avatar-ph"></div>
-            <p class="community-choice-card__name community-choice-card__name--ph">Coming Soon</p>
-            <p class="community-choice-card__role">—</p>
+          <div class="community-choice-card">
+            <div class="community-choice-card__photo-wrap">
+              <img src="${naomiPhoto}" alt="Naomi" class="community-choice-card__photo" loading="lazy" decoding="async" />
+            </div>
+            <p class="community-choice-card__name">Naomi</p>
+            <p class="community-choice-card__role">Scent Curator</p>
+            <p class="community-choice-card__quote">"Saffron and oud with a whisper of tonka — it's the kind of scent people ask about all night. Opulent, confident, unforgettable."</p>
+            <div class="community-choice-card__combo">
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='middleeast')?.color};">Middle East — Spray</span>
+                <span class="community-choice-card__amount">2 sprays</span>
+              </div>
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='southamerica')?.color};">South America — Oil</span>
+                <span class="community-choice-card__amount">2 drops</span>
+              </div>
+              <div class="community-choice-card__layer">
+                <span style="color:${REGIONS.find(r=>r.id==='mediterranean')?.color};">Mediterranean — Oil</span>
+                <span class="community-choice-card__amount">1 drop</span>
+              </div>
+            </div>
           </div>
         </div>
 
