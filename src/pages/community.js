@@ -1097,19 +1097,19 @@ function addCommunityStyles() {
     .community-choice-card__photo-wrap { margin-bottom: var(--space-md); }
 
     .community-choice-card__photo {
-      width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
+      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
       border: 3px solid var(--accent-light);
     }
 
     .community-choice-card__avatar-ph {
-      width: 96px; height: 96px; border-radius: 50%;
+      width: 120px; height: 120px; border-radius: 50%;
       background: var(--bg-secondary); border: 2px dashed var(--border);
       margin-bottom: var(--space-md);
     }
 
-    .community-choice-card__name { font-size: var(--text-base); font-weight: 600; margin: 0 0 2px; }
+    .community-choice-card__name { font-size: var(--text-lg); font-weight: 600; margin: 0 0 2px; }
     .community-choice-card__name--ph { color: var(--text-tertiary); }
-    .community-choice-card__role { font-size: var(--text-xs); color: var(--text-tertiary); margin: 0 0 var(--space-md); }
+    .community-choice-card__role { font-size: var(--text-sm); color: var(--text-tertiary); margin: 0 0 var(--space-md); }
 
     .community-choice-card__quote {
       font-size: var(--text-sm); font-style: italic; color: var(--text-secondary);

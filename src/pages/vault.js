@@ -41,23 +41,21 @@ const PRESET_FOLDERS = [
 ];
 
 const DEFAULT_FORMULAS = [
-  // Evening Wear
+  // Evening Wear — 3 formulas
   { id: 'default-ev-1', name: 'Velvet Dusk',    folderId: 'evening',  layers: [{ perfumeId: 'middleeast-spray',    amount: 3, unit: 'sprays' }, { perfumeId: 'southafrica-oil',   amount: 2, unit: 'drops'  }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
   { id: 'default-ev-2', name: 'Golden Night',   folderId: 'evening',  layers: [{ perfumeId: 'southamerica-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'middleeast-oil',    amount: 2, unit: 'drops'  }] },
   { id: 'default-ev-3', name: 'Night Bloom',    folderId: 'evening',  layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 2, unit: 'drops'  }, { perfumeId: 'middleeast-oil',    amount: 1, unit: 'drops'  }] },
-  // Daytime
+  // Daytime — 4 formulas
   { id: 'default-da-1', name: 'Fresh Morning',  folderId: 'daytime',  layers: [{ perfumeId: 'scandinavian-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'mediterranean-oil', amount: 1, unit: 'drops'  }] },
   { id: 'default-da-2', name: 'Sun Garden',     folderId: 'daytime',  layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-spray',    amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
   { id: 'default-da-3', name: 'Coastal Breeze', folderId: 'daytime',  layers: [{ perfumeId: 'scandinavian-spray',  amount: 2, unit: 'sprays' }, { perfumeId: 'southamerica-spray', amount: 2, unit: 'sprays' }] },
-  // Office
+  { id: 'default-da-4', name: 'Island Citrus',  folderId: 'daytime',  layers: [{ perfumeId: 'southamerica-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'mediterranean-oil', amount: 1, unit: 'drops'  }] },
+  // Office — 2 formulas
   { id: 'default-of-1', name: 'Clean Presence', folderId: 'office',   layers: [{ perfumeId: 'scandinavian-spray',  amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 1, unit: 'drops'  }] },
   { id: 'default-of-2', name: 'Polished Air',   folderId: 'office',   layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
-  { id: 'default-of-3', name: 'Subtle Focus',   folderId: 'office',   layers: [{ perfumeId: 'eastasia-spray',      amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
-  // Weekend
+  // Weekend — 1 formula
   { id: 'default-we-1', name: 'Lazy Sunday',    folderId: 'weekend',  layers: [{ perfumeId: 'southamerica-spray',  amount: 3, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 2, unit: 'drops'  }] },
-  { id: 'default-we-2', name: 'Adventure Trail',folderId: 'weekend',  layers: [{ perfumeId: 'southafrica-spray',   amount: 3, unit: 'sprays' }, { perfumeId: 'scandinavian-oil',  amount: 1, unit: 'drops'  }] },
-  { id: 'default-we-3', name: 'Free Spirit',    folderId: 'weekend',  layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'southamerica-oil',  amount: 2, unit: 'drops'  }, { perfumeId: 'scandinavian-spray', amount: 1, unit: 'sprays' }] },
-  // Seasonal
+  // Seasonal — 3 formulas
   { id: 'default-se-1', name: 'Winter Warmth',  folderId: 'seasonal', layers: [{ perfumeId: 'middleeast-spray',    amount: 3, unit: 'sprays' }, { perfumeId: 'southafrica-oil',   amount: 2, unit: 'drops'  }] },
   { id: 'default-se-2', name: 'Spring Bloom',   folderId: 'seasonal', layers: [{ perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'scandinavian-spray', amount: 2, unit: 'sprays' }, { perfumeId: 'eastasia-oil',      amount: 1, unit: 'drops'  }] },
   { id: 'default-se-3', name: 'Autumn Spice',   folderId: 'seasonal', layers: [{ perfumeId: 'southafrica-spray',   amount: 2, unit: 'sprays' }, { perfumeId: 'middleeast-oil',    amount: 2, unit: 'drops'  }] },
@@ -512,9 +510,10 @@ export function renderVault(container, navigate) {
       });
     }
 
-    container.querySelectorAll('.vault-myperfume-remove').forEach(btn => {
+    container.querySelectorAll('.vault-bottle-remove').forEach(btn => {
       btn.addEventListener('click', () => {
-        const { remove: id, type } = btn.dataset;
+        const id = btn.dataset.remove;
+        const type = btn.dataset.type;
         const owned = storage.getOwnedPerfumes();
         owned[type] = owned[type].filter(x => x !== id);
         storage.setOwnedPerfumes(owned);
@@ -522,6 +521,11 @@ export function renderVault(container, navigate) {
       });
     });
   }
+
+  window.__vaultForceReseed = () => {
+    storage.set('vault_defaults_seeded', false);
+    render();
+  };
 
   render();
 }

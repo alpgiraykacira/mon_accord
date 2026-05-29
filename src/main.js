@@ -12,6 +12,7 @@ import { renderCommunity } from './pages/community.js';
 import { renderShop } from './pages/shop.js';
 import { storage } from './utils/storage.js';
 import { startTour, endTour } from './demo-tour.js';
+import { startPageDemo, hasPageDemo } from './page-demos.js';
 
 const app = document.getElementById('app');
 
@@ -164,7 +165,10 @@ window.showSettings = function() {
         <!-- Demo -->
         <div class="input-group" style="margin-top:var(--space-lg); padding-top:var(--space-lg); border-top:1px solid var(--border);">
           <label class="input-label">Demo</label>
-          <button class="btn btn--secondary btn--sm" id="settings-demo-btn">▶ Watch Demo</button>
+          <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+            <button class="btn btn--secondary btn--sm" id="settings-demo-btn">▶ Watch Demo</button>
+            ${hasPageDemo(getRoute()) ? `<button class="btn btn--primary btn--sm" id="settings-page-demo-btn" style="margin-top:2px;">▶ Bulunduğun Sayfanın Demosunu Başlat</button>` : ''}
+          </div>
         </div>
 
       </div>
@@ -225,11 +229,20 @@ window.showSettings = function() {
       if (typeof window.startDemoTour === 'function') window.startDemoTour();
     };
   }
+
+  const pageDemoBtn = overlay.querySelector('#settings-page-demo-btn');
+  if (pageDemoBtn) {
+    pageDemoBtn.onclick = () => {
+      overlay.remove();
+      startPageDemo(getRoute());
+    };
+  }
 };
 
 // ── Demo Tour ──
-window.startDemoTour = startTour;
-window.endDemoTour   = endTour;
+window.startDemoTour  = startTour;
+window.endDemoTour    = endTour;
+window.startPageDemo  = startPageDemo;
 
 // ── Init ──
 initTheme();

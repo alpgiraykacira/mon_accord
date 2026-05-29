@@ -89,39 +89,8 @@ export function renderLayeringLab(container, navigate) {
 
         <div class="lab-layout">
 
-          <!-- Col 1: Select Layers + Advisor -->
+          <!-- Col 1: Advisor + Select Layers -->
           <div class="lab-left-col">
-
-            <div class="lab-add-section" id="lab-add-section">
-              <p class="lab-section-label">Select Layers</p>
-              <div class="lab-perfume-selector">
-                ${REGIONS.map(r => {
-                  const spray = PERFUMES.find(p => p.region === r.id && p.format === 'spray');
-                  const oil   = PERFUMES.find(p => p.region === r.id && p.format === 'oil');
-                  const sprayAdded = spray && layers.find(l => l.perfumeId === spray.id);
-                  const oilAdded   = oil   && layers.find(l => l.perfumeId === oil.id);
-                  return `
-                    <div class="lab-region-group" style="--region-color: ${r.color};">
-                      <p class="lab-region-label">${r.name}</p>
-                      <div class="lab-bottle-row">
-                        ${spray ? `
-                          <button class="lab-bottle-btn ${sprayAdded ? 'lab-bottle-btn--added' : ''}" data-id="${spray.id}" style="--region-color: ${r.color};" title="${r.name} Spray">
-                            <img src="${PERFUME_IMGS[r.id]}" alt="${r.name} Spray" class="lab-bottle-img" loading="lazy" decoding="async" />
-                            <span class="lab-bottle-type">SPRAY</span>
-                            ${sprayAdded ? '<div class="lab-bottle-check">✓</div>' : ''}
-                          </button>` : ''}
-                        ${oil ? `
-                          <button class="lab-bottle-btn ${oilAdded ? 'lab-bottle-btn--added' : ''}" data-id="${oil.id}" style="--region-color: ${r.color};" title="${r.name} Oil">
-                            <img src="${OIL_IMGS[r.id]}" alt="${r.name} Oil" class="lab-bottle-img" loading="lazy" decoding="async" />
-                            <span class="lab-bottle-type">OIL</span>
-                            ${oilAdded ? '<div class="lab-bottle-check">✓</div>' : ''}
-                          </button>` : ''}
-                      </div>
-                    </div>
-                  `;
-                }).join('')}
-              </div>
-            </div>
 
             <div class="lab-advisor">
               <div class="lab-advisor__header">
@@ -187,6 +156,37 @@ export function renderLayeringLab(container, navigate) {
                   ` : ''}
                 </div>
               ` : ''}
+            </div>
+
+            <div class="lab-add-section" id="lab-add-section">
+              <p class="lab-section-label">Select Layers</p>
+              <div class="lab-perfume-selector">
+                ${REGIONS.map(r => {
+                  const spray = PERFUMES.find(p => p.region === r.id && p.format === 'spray');
+                  const oil   = PERFUMES.find(p => p.region === r.id && p.format === 'oil');
+                  const sprayAdded = spray && layers.find(l => l.perfumeId === spray.id);
+                  const oilAdded   = oil   && layers.find(l => l.perfumeId === oil.id);
+                  return `
+                    <div class="lab-region-group" style="--region-color: ${r.color};">
+                      <p class="lab-region-label">${r.name}</p>
+                      <div class="lab-bottle-row">
+                        ${spray ? `
+                          <button class="lab-bottle-btn ${sprayAdded ? 'lab-bottle-btn--added' : ''}" data-id="${spray.id}" style="--region-color: ${r.color};" title="${r.name} Spray">
+                            <img src="${PERFUME_IMGS[r.id]}" alt="${r.name} Spray" class="lab-bottle-img" loading="lazy" decoding="async" />
+                            <span class="lab-bottle-type">SPRAY</span>
+                            ${sprayAdded ? '<div class="lab-bottle-check">✓</div>' : ''}
+                          </button>` : ''}
+                        ${oil ? `
+                          <button class="lab-bottle-btn ${oilAdded ? 'lab-bottle-btn--added' : ''}" data-id="${oil.id}" style="--region-color: ${r.color};" title="${r.name} Oil">
+                            <img src="${OIL_IMGS[r.id]}" alt="${r.name} Oil" class="lab-bottle-img" loading="lazy" decoding="async" />
+                            <span class="lab-bottle-type">OIL</span>
+                            ${oilAdded ? '<div class="lab-bottle-check">✓</div>' : ''}
+                          </button>` : ''}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
             </div>
 
           </div>
@@ -307,11 +307,6 @@ export function renderLayeringLab(container, navigate) {
     const simBtn = container.querySelector('#btn-simulate');
     if (simBtn) {
       simBtn.addEventListener('click', async () => {
-        if (!isAIAvailable()) {
-          window.showToast('Please set your Gemini API key in Settings.', 'error');
-          window.showSettings();
-          return;
-        }
         isSimulating = true;
         render();
         const result = await generateScentSimulation(layers);
@@ -382,12 +377,6 @@ export function renderLayeringLab(container, navigate) {
     const adviceBtn = container.querySelector('#btn-get-advice');
     if (adviceBtn) {
       adviceBtn.addEventListener('click', async () => {
-        if (!isAIAvailable()) {
-          window.showToast('Please set your Gemini API key in Settings.', 'error');
-          window.showSettings();
-          return;
-        }
-
         const mood = container.querySelector('#mood-chips .lab-chip--active')?.dataset.value;
         const occasion = container.querySelector('#occasion-chips .lab-chip--active')?.dataset.value;
         const season = container.querySelector('#season-chips .lab-chip--active')?.dataset.value;
@@ -460,6 +449,12 @@ export function renderLayeringLab(container, navigate) {
       createdAt: Date.now(),
     }, { showNameInput: true });
   }
+
+  // Demo hook: lets page-demos.js inject a contextResult and re-render
+  window.__labSetDemoContext = (ctx) => {
+    contextResult = ctx;
+    render();
+  };
 
   render();
 }

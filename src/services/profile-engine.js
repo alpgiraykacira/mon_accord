@@ -129,5 +129,24 @@ DRY DOWN (2+ hrs): [1-2 sentences on the lasting base]
 Be poetic but concise. One vivid idea per section. No extra headings or commentary.`;
 
   const response = await generateAIResponse(prompt, 2, 300); // actual ~152 tokens
-  return response;
+  if (response.success) return response;
+
+  // ── Fallback: AI unavailable or network error — build from layer data ──
+  const perfumes = layers
+    .map(l => PERFUMES.find(p => p.id === l.perfumeId))
+    .filter(Boolean);
+
+  const topNote  = perfumes[0]?.topNotes?.[0]    || 'bergamot';
+  const midNote  = perfumes[1]?.middleNotes?.[0] || perfumes[0]?.middleNotes?.[0] || 'iris';
+  const baseNote = perfumes[perfumes.length - 1]?.baseNotes?.[0] || 'sandalwood';
+  const lastName = perfumes[perfumes.length - 1]?.name || 'the base';
+
+  return {
+    success: true,
+    text: [
+      `OPENING (first 15 min): A vivid burst of ${topNote} announces the blend — bright, immediate, and self-assured.`,
+      `HEART (30 min – 2 hrs): ${midNote} rises gently from beneath, adding warmth and complexity as the formula finds its shape on your skin.`,
+      `DRY DOWN (2+ hrs): ${baseNote} from ${lastName} anchors the composition — intimate, lasting, and quietly confident.`,
+    ].join('\n'),
+  };
 }

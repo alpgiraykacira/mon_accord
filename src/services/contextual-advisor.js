@@ -101,5 +101,57 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       return { success: true, recommendation: { formulaName: 'Your Recommendation', layers: [], reasoning: response.text, scentPreview: '', tips: '' } };
     }
   }
-  return { success: false, error: response.text };
+
+  // ── Fallback: AI unavailable or network error — return a curated preset ──
+  return { success: true, recommendation: buildFallbackRecommendation(context) };
+}
+
+function buildFallbackRecommendation(context) {
+  const mood     = context?.mood      || '';
+  const occasion = context?.occasion  || '';
+  const season   = context?.season    || '';
+
+  // Pick a preset based on contextual cues
+  const isWarm    = ['romantic','confident','mysterious'].includes(mood) || ['date-night','formal'].includes(occasion) || ['autumn','winter'].includes(season);
+  const isFresh   = ['energetic','playful','calm'].includes(mood)        || ['outdoor','casual'].includes(occasion)    || ['spring','summer'].includes(season);
+
+  if (isWarm) {
+    return {
+      formulaName: 'Golden Dusk',
+      layers: [
+        { perfumeId: 'middleeast-spray',    amount: 3, unit: 'sprays' },
+        { perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' },
+        { perfumeId: 'southamerica-oil',    amount: 2, unit: 'drops'  },
+      ],
+      reasoning: 'A warm, opulent formula built for evenings and intimate occasions. The Middle Eastern spray leads with oud and rose, anchored by a South American oil that adds lasting depth.',
+      scentPreview: 'Opens with a confident burst of oud and saffron; dries down to warm tonka and vetiver — rich, memorable, unmistakably present.',
+      tips: 'Apply the oil first to clean, moisturised skin for maximum longevity, then spray from 20 cm.',
+    };
+  }
+  if (isFresh) {
+    return {
+      formulaName: 'Morning Clarity',
+      layers: [
+        { perfumeId: 'scandinavian-spray',  amount: 3, unit: 'sprays' },
+        { perfumeId: 'mediterranean-spray', amount: 2, unit: 'sprays' },
+        { perfumeId: 'eastasia-oil',        amount: 2, unit: 'drops'  },
+      ],
+      reasoning: 'A crisp, uplifting blend ideal for daytime and outdoor settings. Nordic freshness pairs with Mediterranean citrus, while the East Asian oil adds quiet complexity.',
+      scentPreview: 'A burst of bergamot and cool pine opens the blend; white tea and green notes settle into a clean, skin-close finish.',
+      tips: 'Best applied right after a shower — the warmth of your skin activates the citrus top notes immediately.',
+    };
+  }
+  // Neutral default
+  return {
+    formulaName: 'Signature Accord',
+    layers: [
+      { perfumeId: 'scandinavian-spray',  amount: 2, unit: 'sprays' },
+      { perfumeId: 'middleeast-spray',    amount: 2, unit: 'sprays' },
+      { perfumeId: 'mediterranean-spray', amount: 1, unit: 'sprays' },
+      { perfumeId: 'eastasia-oil',        amount: 2, unit: 'drops'  },
+    ],
+    reasoning: 'A balanced, all-occasion formula that bridges freshness and depth. Each region contributes a distinct character while remaining harmonious as a whole.',
+    scentPreview: 'Fresh Nordic air over a warm Eastern heart — versatile enough for day or night, understated enough to never overwhelm.',
+    tips: 'Layer the oil on pulse points first, then apply sprays starting from the heaviest to lightest sillage.',
+  };
 }
