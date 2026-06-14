@@ -2318,8 +2318,14 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       opacity: 0;
     }
 
-    .vault-folder-card:hover .vault-folder-delete { opacity: 1; }
-    .vault-folder-delete:hover { color: #e74c3c; background: rgba(231,76,60,0.08); }
+    @media (hover: hover) {
+      .vault-folder-card:hover .vault-folder-delete { opacity: 1; }
+      .vault-folder-delete:hover { color: #e74c3c; background: rgba(231,76,60,0.08); }
+    }
+    @media (hover: none) {
+      .vault-folder-card { touch-action: manipulation; }
+      .vault-folder-delete { opacity: 1; }
+    }
 
     .vault-breadcrumb {
       display: flex;
@@ -2506,8 +2512,13 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       transition: all var(--transition-fast);
     }
 
-    .vault-bottle-card:hover .vault-bottle-remove { opacity: 1; }
-    .vault-bottle-remove:hover { color: #e74c3c; background: rgba(231,76,60,0.1); }
+    @media (hover: hover) {
+      .vault-bottle-card:hover .vault-bottle-remove { opacity: 1; }
+      .vault-bottle-remove:hover { color: #e74c3c; background: rgba(231,76,60,0.1); }
+    }
+    @media (hover: none) {
+      .vault-bottle-remove { opacity: 1; color: #e74c3c; }
+    }
 
     .vault-modal-bottle-grid {
       display: grid;
