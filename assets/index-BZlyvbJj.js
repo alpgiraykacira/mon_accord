@@ -3286,12 +3286,13 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       .community-sort-btn { padding: 3px 8px; font-size: 0.7rem; }
       .community-sort-label { display: none; }
       #btn-new-post { font-size: var(--text-sm); padding: 8px 14px; }
+      .community-discussion-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+      .community-discussion-actions { width: 100%; }
+      .community-sort { flex: 1; }
+      .community-sort-btn { flex: 1; text-align: center; }
     }
     @media (max-width: 480px) {
       .community-panel-header { flex-direction: column; align-items: flex-start; }
-      .community-discussion-actions { width: 100%; }
-      .community-sort { width: 100%; }
-      .community-sort-btn { flex: 1; text-align: center; }
     }
   `,document.head.appendChild(e)}var st=`/mon_accord/assets/Sephora-Logo-0PIDe1Np.png`,ct=`/mon_accord/assets/Boyner_Logo-CbMLtvDJ.webp`,lt=`/mon_accord/assets/Trendyol_logo-CfMQtlYm.png`,ut=`/mon_accord/assets/hepsiburada-logo-I_Ul_zcU.png`,dt={scandinavian:new URL(`/mon_accord/assets/scandinavian-DvtLirp4.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-UzXNmAB4.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-PFpjigF9.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-CV0fuGZk.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DyzbduD3.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-Bmlf8LlT.webp`,``+import.meta.url).href},ft={scandinavian:new URL(`/mon_accord/assets/scandinavian-BBoj4W5D.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-D93RVLet.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-hdHFYwXs.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-B_fMAvaC.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DcR51yl4.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-DMI8-64c.webp`,``+import.meta.url).href};function pt(e,n){let a=t.getShopCart(),o=[...new Set(t.consumePendingShopCart())],s=[...new Set([...a,...o])],c=s.map(e=>({id:e}));if(o.length){let e=s.length-a.length;window.showToast(`Added ${e} new item${e===1?``:`s`} from your recommended combination.`)}u();function u(){t.setShopCart(c.map(e=>e.id))}function d(){let a=t.getOwnedPerfumes().monAccord||[];mt(a,c),e.innerHTML=`
       <div class="page__container">
