@@ -297,6 +297,7 @@
       position: relative;
       height: 520px;
       flex-shrink: 0;
+      overflow: hidden;
     }
 
     .cf-stage {
@@ -525,7 +526,7 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       .cf-showcase { grid-template-columns: 1fr; height: auto; }
       .cf-visual { height: 380px; }
       .cf-info { padding: var(--space-lg) var(--space-xl); }
