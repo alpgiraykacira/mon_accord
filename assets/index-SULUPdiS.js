@@ -964,7 +964,7 @@ Be poetic but concise. One vivid idea per section. No extra headings or commenta
 
     .quiz-option__img {
       width: 100%;
-      height: 220px;
+      height: clamp(140px, 28vw, 220px);
       object-fit: cover;
       display: block;
       flex-shrink: 0;
@@ -1010,7 +1010,7 @@ Be poetic but concise. One vivid idea per section. No extra headings or commenta
     /* ── Scent family PNG cards ── */
     .quiz-option--family-card {
       background: transparent;
-      height: 220px;
+      height: clamp(140px, 28vw, 220px);
       align-items: center;
       justify-content: center;
     }
@@ -1042,7 +1042,7 @@ Be poetic but concise. One vivid idea per section. No extra headings or commenta
     }
 
     .quiz-family-name {
-      font-size: var(--text-2xl);
+      font-size: clamp(0.65rem, 2.5vw, var(--text-2xl));
       font-family: 'Playfair Display', serif;
       font-weight: 700;
       font-style: italic;
@@ -1053,10 +1053,10 @@ Be poetic but concise. One vivid idea per section. No extra headings or commenta
       text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 2px 12px rgba(0,0,0,0.7);
     }
 
-    .quiz-option--trait-card { height: 220px; overflow: hidden; }
+    .quiz-option--trait-card { height: clamp(140px, 28vw, 220px); overflow: hidden; }
     .quiz-option--trait-card .quiz-family-img { inset: 10px; width: 85%; height: 100%; border-radius: var(--radius-sm); }
-    .quiz-option--trait-card .quiz-family-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
-    .quiz-option--trait-card .quiz-family-name { font-size: var(--text-xl); text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 2px 12px rgba(0,0,0,0.7); }
+    .quiz-option--trait-card .quiz-family-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--space-sm); }
+    .quiz-option--trait-card .quiz-family-name { font-size: clamp(0.6rem, 2.2vw, var(--text-xl)); text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 2px 12px rgba(0,0,0,0.7); }
 
     /* ── Actions ── */
     .quiz-actions {
@@ -1281,6 +1281,14 @@ Be poetic but concise. One vivid idea per section. No extra headings or commenta
       .quiz-grid--context  { grid-template-columns: repeat(2, 1fr); }
       .perfume-brand-items { grid-template-columns: 1fr; }
       .quiz-stepper__line { width: 32px; }
+      .quiz-family-name { font-size: clamp(0.65rem, 3vw, var(--text-xl)); }
+      .quiz-option--trait-card .quiz-family-name { font-size: clamp(0.6rem, 2.8vw, var(--text-lg)); }
+    }
+    @media (max-width: 480px) {
+      .quiz-grid--families { grid-template-columns: repeat(3, 1fr); }
+      .quiz-family-name { font-size: 0.7rem; letter-spacing: 0.03em; }
+      .quiz-option--trait-card .quiz-family-name { font-size: 0.65rem; }
+      .quiz-family-overlay { padding: var(--space-xs); }
     }
   `,document.head.appendChild(e)}var Ce=[{id:`confident`,name:`Confident`,icon:``,description:`Bold and commanding`},{id:`romantic`,name:`Romantic`,icon:``,description:`Soft and alluring`},{id:`calm`,name:`Calm`,icon:``,description:`Peaceful and centered`},{id:`energetic`,name:`Energetic`,icon:``,description:`Vibrant and lively`},{id:`mysterious`,name:`Mysterious`,icon:``,description:`Enigmatic and deep`},{id:`playful`,name:`Playful`,icon:``,description:`Light and fun`}],we=[{id:`office`,name:`Office / Work`,icon:``},{id:`date-night`,name:`Date Night`,icon:``},{id:`casual`,name:`Casual Outing`,icon:``},{id:`formal`,name:`Formal Event`,icon:``},{id:`outdoor`,name:`Outdoor Adventure`,icon:``},{id:`cozy`,name:`Cozy Night In`,icon:``}],Te=[{id:`spring`,name:`Spring`,icon:``},{id:`summer`,name:`Summer`,icon:``},{id:`autumn`,name:`Autumn`,icon:``},{id:`winter`,name:`Winter`,icon:``}],Ee=[{id:`whisper`,name:`Whisper`,value:1,description:`Barely there, intimate`},{id:`soft`,name:`Soft`,value:3,description:`Close range only`},{id:`moderate`,name:`Moderate`,value:5,description:`Noticeable arm's length`},{id:`present`,name:`Present`,value:7,description:`Fills the room gently`},{id:`bold`,name:`Bold`,value:9,description:`Leaves a trail`}];function De(){let e=t.getOwnedPerfumes(),n=[];if(e.monAccord?.length){let t=e.monAccord.map(e=>i.find(t=>t.id===e)?.name).filter(Boolean);t.length&&n.push(`Mon Accord owned: ${t.join(`, `)}`)}if(e.loreal?.length){let t=e.loreal.map(e=>o.find(t=>t.id===e)?.name).filter(Boolean);t.length&&n.push(`L'Oréal Luxe owned: ${t.join(`, `)}`)}return n.length?n.join(`
 `):null}async function Oe(e){let n=t.getProfile(),r=De(),a=await k(`Based on the user's context, recommend a Mon Accord layering formula.
@@ -2812,7 +2820,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <div class="community-discussion-section">
           <div class="community-discussion-header">
             <h3 class="community-panel-title">Discussion</h3>
-            <div style="display:flex;align-items:center;gap:var(--space-sm);">
+            <div class="community-discussion-actions">
               <div class="community-sort">
                 <button class="community-sort-btn ${d===`newest`?`community-sort-btn--active`:``}" data-post-sort="newest">Newest</button>
                 <button class="community-sort-btn ${d===`likes`?`community-sort-btn--active`:``}" data-post-sort="likes">Most Liked</button>
@@ -3001,6 +3009,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
       padding: var(--space-md) var(--space-lg);
       border-bottom: 1px solid var(--border);
     }
@@ -3009,7 +3019,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
 
     #btn-new-post { font-size: var(--text-lg); }
 
-    .community-sort { display: flex; align-items: center; gap: 4px; }
+    .community-sort { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+    .community-discussion-actions { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
     .community-sort-label { font-size: var(--text-xs); font-weight: 500; color: var(--text-tertiary); margin-right: 4px; white-space: nowrap; }
 
     .community-sort-btn {
@@ -3268,6 +3279,19 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       .community-choice-row { grid-template-columns: 1fr; }
       .community-discussion-layout { grid-template-columns: 1fr; }
       .community-post-list { border-right: none; border-bottom: 1px solid var(--border); max-height: 300px; }
+    }
+    @media (max-width: 768px) {
+      .community-panel-header { padding: var(--space-sm) var(--space-md); }
+      .community-panel-title { font-size: var(--text-lg); }
+      .community-sort-btn { padding: 3px 8px; font-size: 0.7rem; }
+      .community-sort-label { display: none; }
+      #btn-new-post { font-size: var(--text-sm); padding: 8px 14px; }
+    }
+    @media (max-width: 480px) {
+      .community-panel-header { flex-direction: column; align-items: flex-start; }
+      .community-discussion-actions { width: 100%; }
+      .community-sort { width: 100%; }
+      .community-sort-btn { flex: 1; text-align: center; }
     }
   `,document.head.appendChild(e)}var st=`/mon_accord/assets/Sephora-Logo-0PIDe1Np.png`,ct=`/mon_accord/assets/Boyner_Logo-CbMLtvDJ.webp`,lt=`/mon_accord/assets/Trendyol_logo-CfMQtlYm.png`,ut=`/mon_accord/assets/hepsiburada-logo-I_Ul_zcU.png`,dt={scandinavian:new URL(`/mon_accord/assets/scandinavian-DvtLirp4.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-UzXNmAB4.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-PFpjigF9.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-CV0fuGZk.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DyzbduD3.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-Bmlf8LlT.webp`,``+import.meta.url).href},ft={scandinavian:new URL(`/mon_accord/assets/scandinavian-BBoj4W5D.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-D93RVLet.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-hdHFYwXs.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-B_fMAvaC.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DcR51yl4.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-DMI8-64c.webp`,``+import.meta.url).href};function pt(e,n){let a=t.getShopCart(),o=[...new Set(t.consumePendingShopCart())],s=[...new Set([...a,...o])],c=s.map(e=>({id:e}));if(o.length){let e=s.length-a.length;window.showToast(`Added ${e} new item${e===1?``:`s`} from your recommended combination.`)}u();function u(){t.setShopCart(c.map(e=>e.id))}function d(){let a=t.getOwnedPerfumes().monAccord||[];mt(a,c),e.innerHTML=`
       <div class="page__container">
