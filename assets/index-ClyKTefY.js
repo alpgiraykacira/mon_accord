@@ -2355,27 +2355,30 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     .vault-formula-bottles {
       display: flex;
       align-items: flex-end;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: var(--space-md);
+      gap: 8px;
       flex: 1;
+      margin-bottom: var(--space-md);
+      min-height: 0;
     }
 
     .vault-layer-bottle {
+      flex: 1;
+      min-width: 0;
+      max-width: 100px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
+      gap: 4px;
     }
 
     .vault-layer-bottle__wrap {
       position: relative;
-      width: 44px;
+      width: 100%;
     }
 
     .vault-layer-bottle__img {
-      width: 44px;
-      height: 64px;
+      width: 100%;
+      height: clamp(80px, 10vw, 130px);
       object-fit: contain;
       object-position: bottom;
       display: block;
@@ -2384,19 +2387,19 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     .vault-layer-bottle__badge {
       position: absolute;
       bottom: -2px;
-      right: -6px;
+      right: -4px;
       background: var(--rc);
       color: #080808;
       font-size: 9px;
       font-weight: 800;
-      padding: 1px 4px;
+      padding: 1px 5px;
       border-radius: 3px;
       white-space: nowrap;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .vault-layer-bottle__type {
-      font-size: 7px;
+      font-size: 8px;
       font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--rc);
