@@ -2130,7 +2130,8 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                           <img src="${i}" alt="${t?.name||e.perfumeId}" class="vault-layer-bottle__img" loading="lazy" decoding="async" />
                           <span class="vault-layer-bottle__badge">${e.amount}${e.unit===`sprays`?`×`:`dr`}</span>
                         </div>
-                        <span class="vault-layer-bottle__type">${t?.format===`spray`?`SPR`:`OIL`}</span>
+                        <span class="vault-layer-bottle__name">${n?.name||``}</span>
+                        <span class="vault-layer-bottle__type">${t?.format===`spray`?`SPRAY`:`OIL`}</span>
                       </div>`}).join(``)}
                 </div>
                 <div class="vault-formula-actions">
@@ -2398,8 +2399,17 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       line-height: 1.5;
     }
 
+    .vault-layer-bottle__name {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: center;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
     .vault-layer-bottle__type {
-      font-size: 8px;
+      font-size: 7px;
       font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--rc);
