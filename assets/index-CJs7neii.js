@@ -3304,7 +3304,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     @media (max-width: 480px) {
       .community-panel-header { flex-direction: column; align-items: flex-start; }
     }
-  `,document.head.appendChild(e)}var We=`/mon_accord/assets/Sephora-Logo-0PIDe1Np.png`,Ge=`/mon_accord/assets/Boyner_Logo-CbMLtvDJ.webp`,Ke=`/mon_accord/assets/Trendyol_logo-CfMQtlYm.png`,qe=`/mon_accord/assets/hepsiburada-logo-I_Ul_zcU.png`,Je={scandinavian:new URL(`/mon_accord/assets/scandinavian-DvtLirp4.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-UzXNmAB4.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-PFpjigF9.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-CV0fuGZk.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DyzbduD3.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-Bmlf8LlT.webp`,``+import.meta.url).href},Ye={scandinavian:new URL(`/mon_accord/assets/scandinavian-BBoj4W5D.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-D93RVLet.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-hdHFYwXs.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-B_fMAvaC.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DcR51yl4.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-DMI8-64c.webp`,``+import.meta.url).href};function Xe(e,n){let a=t.getShopCart(),o=[...new Set(t.consumePendingShopCart())],s=[...new Set([...a,...o])],c=s.map(e=>({id:e}));if(o.length){let e=s.length-a.length;window.showToast(`Added ${e} new item${e===1?``:`s`} from your recommended combination.`)}u();function u(){t.setShopCart(c.map(e=>e.id))}function d(){let a=t.getOwnedPerfumes().monAccord||[];Ze(a,c),e.innerHTML=`
+  `,document.head.appendChild(e)}var We={scandinavian:new URL(`/mon_accord/assets/scandinavian-DvtLirp4.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-UzXNmAB4.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-PFpjigF9.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-CV0fuGZk.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DyzbduD3.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-Bmlf8LlT.webp`,``+import.meta.url).href},Ge={scandinavian:new URL(`/mon_accord/assets/scandinavian-BBoj4W5D.webp`,``+import.meta.url).href,eastasia:new URL(`/mon_accord/assets/east_asia-D93RVLet.webp`,``+import.meta.url).href,southafrica:new URL(`/mon_accord/assets/south_africa-hdHFYwXs.webp`,``+import.meta.url).href,mediterranean:new URL(`/mon_accord/assets/mediterranean-B_fMAvaC.webp`,``+import.meta.url).href,southamerica:new URL(`/mon_accord/assets/south_america-DcR51yl4.webp`,``+import.meta.url).href,middleeast:new URL(`/mon_accord/assets/middle_east-DMI8-64c.webp`,``+import.meta.url).href};function Ke(e,n){let a=t.getShopCart(),o=[...new Set(t.consumePendingShopCart())],s=[...new Set([...a,...o])],c=s.map(e=>({id:e}));if(o.length){let e=s.length-a.length;window.showToast(`Added ${e} new item${e===1?``:`s`} from your recommended combination.`)}u();function u(){t.setShopCart(c.map(e=>e.id))}function d(){let a=t.getOwnedPerfumes().monAccord||[];qe(a,c),e.innerHTML=`
       <div class="page__container">
         <div class="shop-layout">
           <div class="shop-products">
@@ -3318,14 +3318,14 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
                         <button class="shop-bottle-btn ${n?`shop-bottle-btn--in-cart`:``} ${r?`shop-bottle-btn--owned`:``}" data-id="${t.id}" style="--region-color:${e.color};">
                           ${n?`<div class="shop-bottle-check">✓</div>`:``}
                           ${r?`<div class="shop-bottle-owned">Owned</div>`:``}
-                          <img src="${Je[e.id]}" class="shop-bottle-img" alt="Spray" loading="lazy" decoding="async" />
+                          <img src="${We[e.id]}" class="shop-bottle-img" alt="Spray" loading="lazy" decoding="async" />
                           <span class="shop-bottle-type">SPRAY</span>
                         </button>`})():``}
                     ${n?(()=>{let t=c.find(e=>e.id===n.id),r=a.includes(n.id);return`
                         <button class="shop-bottle-btn ${t?`shop-bottle-btn--in-cart`:``} ${r?`shop-bottle-btn--owned`:``}" data-id="${n.id}" style="--region-color:${e.color};">
                           ${t?`<div class="shop-bottle-check">✓</div>`:``}
                           ${r?`<div class="shop-bottle-owned">Owned</div>`:``}
-                          <img src="${Ye[e.id]}" class="shop-bottle-img" alt="Oil" loading="lazy" decoding="async" />
+                          <img src="${Ge[e.id]}" class="shop-bottle-img" alt="Oil" loading="lazy" decoding="async" />
                           <span class="shop-bottle-type">OIL</span>
                         </button>`})():``}
                   </div>
@@ -3363,34 +3363,23 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
           </div>
         </div>
       </div>
-    `,$e(),e.querySelectorAll(`.shop-bottle-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=e.dataset.id,r=c.findIndex(e=>e.id===n);r>=0?c.splice(r,1):c.push({id:n}),u(),d()})}),e.querySelectorAll(`.shop-cart__item-remove`).forEach(e=>{e.addEventListener(`click`,()=>{c=c.filter(t=>t.id!==e.dataset.id),u(),d()})});let o=e.querySelector(`#btn-confirm-order`);o&&o.addEventListener(`click`,()=>{Qe(c,e,n)})}d()}function Ze(e,t){if(!e.length)return null;let n=t.map(e=>e.id),r=e.map(e=>l(e)).filter(Boolean),a=[...new Set(r.flatMap(e=>e.scentFamily.split(`-`)))],o=i.filter(t=>!e.includes(t.id)&&!n.includes(t.id)&&t.scentFamily.split(`-`).some(e=>a.includes(e))).slice(0,2);return o.length?`Based on your owned ${r.map(e=>e.name).join(` & `)}: try adding ${o.map(e=>e.name).join(` or `)}.`:null}function Qe(e,n,r){t.clearShopCart();let i=document.createElement(`div`);i.className=`modal-overlay`,i.innerHTML=`
+    `,Ye(),e.querySelectorAll(`.shop-bottle-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=e.dataset.id,r=c.findIndex(e=>e.id===n);r>=0?c.splice(r,1):c.push({id:n}),u(),d()})}),e.querySelectorAll(`.shop-cart__item-remove`).forEach(e=>{e.addEventListener(`click`,()=>{c=c.filter(t=>t.id!==e.dataset.id),u(),d()})});let o=e.querySelector(`#btn-confirm-order`);o&&o.addEventListener(`click`,()=>{Je(c,e,n)})}d()}function qe(e,t){if(!e.length)return null;let n=t.map(e=>e.id),r=e.map(e=>l(e)).filter(Boolean),a=[...new Set(r.flatMap(e=>e.scentFamily.split(`-`)))],o=i.filter(t=>!e.includes(t.id)&&!n.includes(t.id)&&t.scentFamily.split(`-`).some(e=>a.includes(e))).slice(0,2);return o.length?`Based on your owned ${r.map(e=>e.name).join(` & `)}: try adding ${o.map(e=>e.name).join(` or `)}.`:null}function Je(e,n,r){let i=t.getOwnedPerfumes(),a=e.map(e=>e.id).filter(e=>!i.monAccord.includes(e));a.length&&t.setOwnedPerfumes({...i,monAccord:[...i.monAccord,...a]}),t.clearShopCart();let o=document.createElement(`div`);o.className=`modal-overlay`,o.innerHTML=`
     <div class="modal order-confirmed-modal">
-      <button class="modal__close" id="btn-close-retailers" aria-label="Close">✕</button>
+      <button class="modal__close" id="btn-close-confirmed" aria-label="Close">✕</button>
       <div class="modal__body order-confirmed-body">
-        <div class="order-confirmed-icon"></div>
-        <h3 class="order-confirmed-title">Now Available</h3>
+        <div class="order-confirmed-icon">✓</div>
+        <h3 class="order-confirmed-title">Order Confirmed!</h3>
+        <p class="order-confirmed-sub">${e.length} item${e.length===1?` has`:`s have`} been added to your collection.</p>
 
-        <div class="order-retailers">
-          <div class="order-retailers__grid">
-            <div class="order-retailer-card" aria-label="Sephora">
-              <img src="${We}" alt="Sephora" class="order-retailer-card__logo" loading="lazy" decoding="async" />
-            </div>
-            <div class="order-retailer-card" aria-label="Boyner">
-              <img src="${Ge}" alt="Boyner" class="order-retailer-card__logo" loading="lazy" decoding="async" />
-            </div>
-            <div class="order-retailer-card" aria-label="Trendyol">
-              <img src="${Ke}" alt="Trendyol" class="order-retailer-card__logo" loading="lazy" decoding="async" />
-            </div>
-            <div class="order-retailer-card" aria-label="Hepsiburada">
-              <img src="${qe}" alt="Hepsiburada" class="order-retailer-card__logo" loading="lazy" decoding="async" />
-            </div>
-          </div>
+        <div class="order-confirmed-items">
+          ${e.map(e=>{let t=l(e.id);return t?`<div class="order-confirmed-item">${t.name} <span class="order-confirmed-item-type">${t.format===`spray`?`Spray`:`Oil`}</span></div>`:``}).join(``)}
         </div>
 
-        <button class="btn btn--primary btn--lg" id="btn-go-profile">Go to Profile</button>
+        <button class="btn btn--primary btn--lg" id="btn-go-vault">View in My Perfumes</button>
+        <button class="btn btn--ghost btn--sm" id="btn-continue-shopping" style="margin-top:var(--space-sm);">Continue Shopping</button>
       </div>
     </div>
-  `,document.body.appendChild(i),i.querySelector(`#btn-go-profile`).addEventListener(`click`,()=>{i.remove(),r(`#profile`)}),i.querySelector(`#btn-close-retailers`).addEventListener(`click`,()=>{i.remove()}),i.onclick=e=>{e.target===i&&i.remove()}}function $e(){if(document.getElementById(`shop-styles`))return;let e=document.createElement(`style`);e.id=`shop-styles`,e.textContent=`
+  `,document.body.appendChild(o),o.querySelector(`#btn-go-vault`).addEventListener(`click`,()=>{o.remove(),r(`#vault`)}),o.querySelector(`#btn-close-confirmed`).addEventListener(`click`,()=>o.remove()),o.querySelector(`#btn-continue-shopping`).addEventListener(`click`,()=>o.remove()),o.onclick=e=>{e.target===o&&o.remove()}}function Ye(){if(document.getElementById(`shop-styles`))return;let e=document.createElement(`style`);e.id=`shop-styles`,e.textContent=`
 
     /* ── Order Confirmed Modal ── */
     .order-confirmed-modal {
@@ -3410,13 +3399,19 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     }
 
     .order-confirmed-icon {
-      font-size: 2.4rem;
-      margin-bottom: var(--space-md);
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
       color: var(--accent);
+      margin: 0 auto var(--space-md);
     }
 
     .order-confirmed-title {
       font-size: var(--text-2xl);
+      font-family: var(--font-display);
       margin-bottom: var(--space-sm);
     }
 
@@ -3424,53 +3419,34 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
       color: var(--text-secondary);
       font-size: var(--text-sm);
       line-height: 1.6;
-      margin-bottom: var(--space-xl);
+      margin-bottom: var(--space-lg);
     }
 
-    .order-retailers {
+    .order-confirmed-items {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-xl);
+      text-align: left;
       background: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      margin-bottom: var(--space-xl);
+      padding: var(--space-md) var(--space-lg);
     }
 
-    .order-retailers__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-sm);
-    }
-
-    .order-retailer-card {
+    .order-confirmed-item {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--text-primary);
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-sm) var(--space-xs);
-      height: 52px;
-      transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
     }
 
-    .order-retailer-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 2px 12px rgba(200,169,126,0.18);
-      transform: translateY(-2px);
-    }
-
-    .order-retailer-card__logo {
-      max-width: 100%;
-      max-height: 28px;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      filter: grayscale(25%);
-      transition: filter 0.18s;
-    }
-
-    .order-retailer-card:hover .order-retailer-card__logo {
-      filter: grayscale(0%);
+    .order-confirmed-item-type {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      font-weight: 400;
     }
 
     /* ── Shop Layout ── */
@@ -3635,7 +3611,7 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
     @media (max-width: 640px) {
       .shop-region-card { min-height: auto; }
     }
-  `,document.head.appendChild(e)}var Z=document.getElementById(`app`);function Q(e){document.documentElement.setAttribute(`data-theme`,e),t.set(`theme`,e)}function et(){let e=t.get(`theme`,`dark`);document.documentElement.setAttribute(`data-theme`,e)}var tt={"":f,"#landing":f,"#profile":R,"#lab":Te,"#vault":Me,"#shop":Xe,"#community":Ve};function nt(){return window.location.hash||``}function rt(e){window.location.hash=e}function $(){let e=nt(),t=tt[e]||f;Z.innerHTML=``,Z.appendChild(n(rt,e));let r=document.createElement(`div`);if(r.className=`page page-enter`,r.id=`page-content`,t(r,rt),Z.appendChild(r),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let n=t.get(`theme`,`dark`),r=document.createElement(`div`);r.className=`modal-overlay`,r.id=`settings-modal`,r.innerHTML=`
+  `,document.head.appendChild(e)}var Z=document.getElementById(`app`);function Q(e){document.documentElement.setAttribute(`data-theme`,e),t.set(`theme`,e)}function Xe(){let e=t.get(`theme`,`dark`);document.documentElement.setAttribute(`data-theme`,e)}var Ze={"":f,"#landing":f,"#profile":R,"#lab":Te,"#vault":Me,"#shop":Ke,"#community":Ve};function Qe(){return window.location.hash||``}function $e(e){window.location.hash=e}function $(){let e=Qe(),t=Ze[e]||f;Z.innerHTML=``,Z.appendChild(n($e,e));let r=document.createElement(`div`);if(r.className=`page page-enter`,r.id=`page-content`,t(r,$e),Z.appendChild(r),!document.querySelector(`.toast-container`)){let e=document.createElement(`div`);e.className=`toast-container`,e.id=`toast-container`,document.body.appendChild(e)}window.scrollTo({top:0,behavior:`auto`})}window.showToast=function(e,t=`success`){let n=document.getElementById(`toast-container`);if(!n)return;let r=document.createElement(`div`);r.className=`toast toast--${t}`,r.innerHTML=`<span class="toast__message">${e}</span>`,n.appendChild(r),setTimeout(()=>{r.style.animation=`fadeOut 0.3s var(--ease-out) forwards`,setTimeout(()=>r.remove(),300)},3e3)},window.showSettings=function(){let e=document.querySelector(`.modal-overlay`);e&&e.remove();let n=t.get(`theme`,`dark`),r=document.createElement(`div`);r.className=`modal-overlay`,r.id=`settings-modal`,r.innerHTML=`
     <div class="modal">
       <div class="modal__header">
         <h3 class="modal__title">Settings</h3>
@@ -3707,4 +3683,4 @@ Respond in EXACTLY this JSON format (no markdown, no code blocks):
         <button class="btn btn--primary" id="save-settings">Save</button>
       </div>
     </div>
-  `,document.body.appendChild(r);let i=n;function a(e){i=e,Q(e),[`dark`,`light`].forEach(t=>{let n=r.querySelector(`#theme-opt-${t}`);if(!n)return;let i=t===e;n.style.borderColor=i?`var(--accent)`:`var(--border)`,n.style.background=i?`var(--accent-bg)`:`var(--surface)`,n.querySelector(`span`).style.color=i?`var(--accent)`:`var(--text-secondary)`})}r.querySelector(`#theme-opt-dark`).onclick=()=>a(`dark`),r.querySelector(`#theme-opt-light`).onclick=()=>a(`light`),r.querySelector(`#close-settings`).onclick=()=>{Q(n),r.remove()},r.querySelector(`#cancel-settings`).onclick=()=>{Q(n),r.remove()},r.onclick=e=>{e.target===r&&(Q(n),r.remove())},r.querySelector(`#save-settings`).onclick=()=>{Q(i),window.showToast(`Settings saved!`),r.remove()};let o=r.querySelector(`#reset-profile-btn`);o&&(o.onclick=()=>{[`profile`,`quiz_state`,`vault`,`interactions`,`likes`,`my_perfumes`,`pending_shop_cart`,`shop_cart`,`community_posts`,`post_likes`,`vault_folders`].forEach(e=>t.remove(e)),sessionStorage.clear(),window.showToast(`All data cleared. Starting fresh!`),r.remove(),$()})},et(),window.addEventListener(`hashchange`,$),$();
+  `,document.body.appendChild(r);let i=n;function a(e){i=e,Q(e),[`dark`,`light`].forEach(t=>{let n=r.querySelector(`#theme-opt-${t}`);if(!n)return;let i=t===e;n.style.borderColor=i?`var(--accent)`:`var(--border)`,n.style.background=i?`var(--accent-bg)`:`var(--surface)`,n.querySelector(`span`).style.color=i?`var(--accent)`:`var(--text-secondary)`})}r.querySelector(`#theme-opt-dark`).onclick=()=>a(`dark`),r.querySelector(`#theme-opt-light`).onclick=()=>a(`light`),r.querySelector(`#close-settings`).onclick=()=>{Q(n),r.remove()},r.querySelector(`#cancel-settings`).onclick=()=>{Q(n),r.remove()},r.onclick=e=>{e.target===r&&(Q(n),r.remove())},r.querySelector(`#save-settings`).onclick=()=>{Q(i),window.showToast(`Settings saved!`),r.remove()};let o=r.querySelector(`#reset-profile-btn`);o&&(o.onclick=()=>{[`profile`,`quiz_state`,`vault`,`interactions`,`likes`,`my_perfumes`,`pending_shop_cart`,`shop_cart`,`community_posts`,`post_likes`,`vault_folders`].forEach(e=>t.remove(e)),sessionStorage.clear(),window.showToast(`All data cleared. Starting fresh!`),r.remove(),$()})},Xe(),window.addEventListener(`hashchange`,$),$();
