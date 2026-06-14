@@ -1285,7 +1285,6 @@ Be poetic but concise. One vivid idea per section. No extra headings or commenta
       .quiz-option--trait-card .quiz-family-name { font-size: clamp(0.6rem, 2.8vw, var(--text-lg)); }
     }
     @media (max-width: 480px) {
-      .quiz-grid--families { grid-template-columns: repeat(3, 1fr); }
       .quiz-family-name { font-size: 0.7rem; letter-spacing: 0.03em; }
       .quiz-option--trait-card .quiz-family-name { font-size: 0.65rem; }
       .quiz-family-overlay { padding: var(--space-xs); }
