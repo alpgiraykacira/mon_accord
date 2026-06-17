@@ -1,16 +1,25 @@
 # Mon Accord — Sunum Öncesi Anlatım Rehberi
+# Mon Accord — Pre-Presentation Briefing Guide
 
-Bu rehber, web geliştirme ve yapay zeka (LLM) konusunda hiç bilgisi olmayan
-birinin, sunum öncesinde okuyup uygulamayla ilgili gelebilecek soruların
-büyük çoğunluğuna cevap verebilmesi için yazıldı. Sırayla okumanız yeterli;
-en sona da "muhtemel sorular ve cevapları" eklendi.
+> 🇹🇷 Bu rehber, web geliştirme ve yapay zeka (LLM) konusunda hiç bilgisi
+> olmayan birinin sunum öncesinde okuyup uygulamayla ilgili gelebilecek
+> soruların büyük çoğunluğuna cevap verebilmesi için yazıldı. Her bölüm
+> önce Türkçe, sonra İngilizce verilmiştir.
+>
+> 🇬🇧 This guide was written so that someone with no background in web
+> development or artificial intelligence (LLMs) can read it before the
+> presentation and answer the vast majority of questions about the app.
+> Each section is given first in Turkish, then in English.
 
 ---
 
-## 1. Mon Accord nedir? (Ürün olarak)
+## 1. Mon Accord nedir? / What is Mon Accord?
 
-Mon Accord, kullanıcının kendi **parfüm karışımını (formülünü)** oluşturmasına
-yardımcı olan bir web uygulaması mock-up'ı (taslak/prototip). Fikir şu:
+**🇹🇷 Türkçe**
+
+Mon Accord, kullanıcının kendi **parfüm karışımını (formülünü)**
+oluşturmasına yardımcı olan bir web uygulaması mock-up'ı (taslak/prototip).
+Fikir şu:
 
 - Dünyanın 6 farklı bölgesinden (İskandinavya, Doğu Asya, Güney Afrika,
   Akdeniz, Güney Amerika, Orta Doğu) esinlenen 12 parfüm var (her bölgenin
@@ -21,88 +30,104 @@ yardımcı olan bir web uygulaması mock-up'ı (taslak/prototip). Fikir şu:
   ile önerir**, bu önerileri açıklar, ve kullanıcı bunları kaydedip
   paylaşabilir.
 
-Uygulamanın ana sayfaları:
-- **Landing (Ana sayfa):** Tanıtım, bölgelerin/parfümlerin görsel sunumu.
-- **Profile Quiz (Profil Anketi):** Kullanıcıya birkaç soru sorulur (hangi
-  koku ailelerini sever, hangi parfümleri kullanıyor, ne kadar yoğun koku
-  ister vb.). Cevaplar LLM'e gönderilir, LLM kullanıcı için bir "koku
-  kimliği / arketip" (örn. "Warm Oriental") üretir.
-- **Layering Lab (Karışım Atölyesi):** Kullanıcı parfümleri seçip kendi
-  formülünü oluşturur; isterse LLM'den o anki ruh haline/ortama göre öneri
-  ister, ya da seçtiği karışımın "kokusunun zaman içindeki gelişimini"
-  (ilk koku - orta koku - dip koku) LLM'e simüle ettirir.
-- **Vault (Kasa):** Kaydedilen formüllerin listesi.
-- **Shop (Mağaza):** Sepet/satın alma akışının mock-up'ı.
-- **Community (Topluluk):** Başka kullanıcıların paylaştığı formüller;
-  LLM, "bu formül senin profiline neden uyar/uymaz" diye açıklama üretir.
+Ana sayfalar: **Landing** (tanıtım), **Profile Quiz** (koku kimliği anketi),
+**Layering Lab** (karışım atölyesi), **Vault** (kaydedilen formüller),
+**Shop** (mağaza mock-up'ı), **Community** (topluluk formülleri).
 
-> Önemli: Bu bir **mock-up**. Gerçek bir e-ticaret/ödeme altyapısı yok;
-> amaç konsepti ve deneyimi göstermek.
+> Önemli: Bu bir **mock-up**. Gerçek ödeme altyapısı yok; amaç konsepti ve
+> deneyimi göstermek.
 
----
+**🇬🇧 English**
 
-## 2. "Web uygulaması" ne demek, bu nasıl çalışıyor?
+Mon Accord is a mock-up (prototype) web application that helps users build
+their own **perfume blend (formula)**. The idea:
 
-Hiç bilmeyen biri için en temel ayrım:
+- There are 12 perfumes inspired by 6 world regions (Scandinavian, East
+  Asia, South Africa, Mediterranean, South America, Middle East) — each
+  region has a **spray** and an **oil** version.
+- Users "layer" these to create a personal scent — e.g. "2 sprays of
+  Mediterranean + 2 drops of Middle East oil".
+- The app learns the user's taste and **uses AI to recommend** suitable
+  blends, explains those recommendations, and lets users save and share them.
 
-- **Frontend (ön yüz):** Kullanıcının tarayıcıda gördüğü ve tıkladığı her şey
-  (butonlar, sayfalar, görseller). Mon Accord'da bu, düz **JavaScript** ile
-  yazılmış — yani React/Vue gibi büyük bir "framework" kullanılmıyor, sayfa
-  içerikleri doğrudan kodla (HTML şablonları) oluşturuluyor.
-- **Backend (arka yüz / sunucu):** Genelde veritabanı, kullanıcı hesapları,
-  güvenlik gibi işleri yapan taraf. Bu uygulamada klasik bir backend yok;
-  onun yerine iki basit parça var:
-  1. Tarayıcının kendi hafızası (**localStorage**) — kullanıcının profili,
-     kaydettiği formüller, beğenileri vs. kullanıcının kendi
-     bilgisayarında/tarayıcısında saklanıyor. Sunucuda bir veritabanı yok.
-  2. Bir **Cloudflare Worker** — sadece yapay zekaya (Gemini'ye) güvenli
-     şekilde istek atmaya yarayan, çok küçük bir "aracı sunucu". Bunu
-     aşağıda Bölüm 4'te detaylandırıyoruz.
+Main pages: **Landing** (intro), **Profile Quiz** (scent-identity survey),
+**Layering Lab**, **Vault** (saved formulas), **Shop** (store mock-up),
+**Community** (community formulas).
 
-**Sayfalar arası geçiş nasıl oluyor?**
-Adres çubuğundaki `#profile`, `#lab`, `#vault` gibi parçalar (URL "hash"i)
-hangi sayfanın gösterileceğini belirliyor (`src/main.js` içindeki basit bir
-yönlendirici/router bunu yönetiyor). Sayfa yenilenmeden, JavaScript ekranın
-içeriğini değiştiriyor — buna **SPA (Single Page Application / tek sayfa
-uygulama)** denir.
-
-**Uygulama nerede barınıyor (deploy)?**
-- Frontend, **GitHub Pages** üzerinde statik bir site olarak yayınlanıyor
-  (`npm run deploy` ile `dist` klasörü GitHub Pages'e yükleniyor).
-- Yapay zeka isteklerini yöneten Cloudflare Worker ise ayrı, küçük bir
-  sunucu olarak Cloudflare üzerinde çalışıyor.
+> Important: This is a **mock-up**. There is no real payment system; the goal
+> is to demonstrate the concept and experience.
 
 ---
 
-## 3. LLM nedir? (En temelden)
+## 2. "Web uygulaması" nasıl çalışır? / How does a "web app" work?
 
-**LLM (Large Language Model / Büyük Dil Modeli)**, çok büyük miktarda metinle
-eğitilmiş, kendisine yazılan bir metne (**prompt**) karşılık anlamlı, akıcı
-bir metin **üretebilen** bir yapay zeka modelidir. ChatGPT, Gemini, Claude
-gibi ürünlerin arkasındaki teknoloji budur.
+**🇹🇷 Türkçe**
 
-Basitçe: Siz bir soru/talimat yazarsınız (prompt), model de bunun "devamı"
-olacak en uygun metni tahmin ederek üretir. Doğru talimatlarla (prompt
-mühendisliği) modelin **belirli bir formatta, belirli bir kişilikle**
-cevap vermesini sağlayabilirsiniz.
+- **Frontend (ön yüz):** Kullanıcının tarayıcıda gördüğü ve tıkladığı her
+  şey. Mon Accord'da bu düz **JavaScript** ile yazılmış — React/Vue gibi
+  büyük bir framework kullanılmıyor.
+- **Backend (arka yüz):** Bu uygulamada klasik bir backend/veritabanı yok.
+  Onun yerine: (1) tarayıcının kendi hafızası **localStorage** (profil,
+  kaydedilen formüller, beğeniler burada tutulur); (2) sadece yapay zekaya
+  güvenli istek atmak için küçük bir **Cloudflare Worker**.
+- **Sayfa geçişi:** Adres çubuğundaki `#profile`, `#lab` gibi parçalar hangi
+  sayfanın gösterileceğini belirler. Sayfa yenilenmeden içerik değişir; buna
+  **SPA (tek sayfa uygulaması)** denir.
+- **Yayın (deploy):** Frontend **GitHub Pages**'te statik site olarak;
+  Worker ise **Cloudflare**'de barınır.
 
-**Mon Accord hangi LLM'i kullanıyor?**
-Google'ın **Gemini** modelini (özellikle `gemini-3.1-flash-lite` — hızlı ve
-ucuz bir versiyon) kullanıyor. Bu model, Google'ın sunucularında çalışıyor;
-biz sadece internet üzerinden ona istek gönderip cevap alıyoruz (bir
-**API** üzerinden).
+**🇬🇧 English**
 
-**API ne demek?**
-API (Application Programming Interface), iki yazılımın birbiriyle
-"konuşmasını" sağlayan bir arayüz/kapı. Bizim uygulamamız Gemini'nin
-API'sine "şu bilgileri ver, bana bu formatta bir cevap üret" diye istek
-gönderiyor, Gemini de cevabı geri yolluyor.
+- **Frontend:** Everything the user sees and clicks in the browser. In Mon
+  Accord this is written in plain **JavaScript** — no big framework like
+  React/Vue.
+- **Backend:** There is no classic backend/database here. Instead: (1) the
+  browser's own memory, **localStorage** (profile, saved formulas, likes are
+  kept here); (2) a tiny **Cloudflare Worker** used only to send secure
+  requests to the AI.
+- **Page navigation:** The `#profile`, `#lab` parts of the URL decide which
+  page is shown. Content changes without a full page reload — this is called
+  an **SPA (Single Page Application)**.
+- **Deployment:** The frontend is hosted on **GitHub Pages** as a static
+  site; the Worker runs on **Cloudflare**.
 
 ---
 
-## 4. Uygulama LLM'e nasıl bağlanıyor? (Mimari)
+## 3. LLM nedir? / What is an LLM?
 
-Burası teknik soruların en sık geldiği yer, dikkatli okuyun.
+**🇹🇷 Türkçe**
+
+**LLM (Büyük Dil Modeli)**, çok büyük miktarda metinle eğitilmiş, kendisine
+yazılan bir metne (**prompt**) karşılık anlamlı bir metin **üretebilen**
+yapay zeka modelidir. ChatGPT, Gemini, Claude bunların ürünleridir.
+
+Siz bir talimat yazarsınız (prompt), model bunun en uygun "devamını" üretir.
+Doğru talimatlarla modelin **belirli bir formatta ve kişilikle** cevap
+vermesini sağlayabilirsiniz (buna **prompt engineering** denir).
+
+Mon Accord, Google'ın **Gemini** modelini (hızlı/ucuz versiyon
+`gemini-3.1-flash-lite`) bir **API** üzerinden kullanır. API, iki yazılımın
+"konuşmasını" sağlayan kapıdır.
+
+**🇬🇧 English**
+
+An **LLM (Large Language Model)** is an AI model trained on huge amounts of
+text that can **generate** meaningful text in response to an input text
+(a **prompt**). ChatGPT, Gemini, and Claude are products built on this.
+
+You write an instruction (prompt) and the model generates the most likely
+"continuation". With the right instructions you can make it respond in a
+**specific format and persona** (this is called **prompt engineering**).
+
+Mon Accord uses Google's **Gemini** model (the fast/cheap
+`gemini-3.1-flash-lite`) through an **API**. An API is the doorway that lets
+two pieces of software "talk" to each other.
+
+---
+
+## 4. Uygulama LLM'e nasıl bağlanıyor? / How does the app connect to the LLM?
+
+**🇹🇷 Türkçe**
 
 ```
 Kullanıcının     →   Cloudflare Worker   →   Google Gemini API
@@ -110,166 +135,185 @@ Tarayıcısı            (aracı/proxy)              (gerçek LLM)
    (Frontend)         API anahtarını gizler
 ```
 
-**Neden direkt tarayıcıdan Gemini'ye istek atılmıyor?**
-Çünkü Gemini'yi kullanmak için gizli bir **API anahtarı (API key)**
-gerekiyor — bu, bir tür şifre. Eğer bu anahtarı doğrudan tarayıcıda
-çalışan kodun içine koysaydık, herkes tarayıcının "kaynak kodunu" görüp
-anahtarı çalabilir, kendi işine kullanabilir (ve bizim hesabımıza fatura
-çıkarabilir). Bunu engellemek için araya bir **Cloudflare Worker**
-koyduk — bu, anahtarı sadece kendi üzerinde (sunucu tarafında, gizli
-olarak) tutan, küçük bir aracı sunucu.
+**Neden direkt değil?** Gemini'yi kullanmak için gizli bir **API anahtarı**
+(bir tür şifre) gerekir. Bu anahtar tarayıcı koduna konsaydı herkes görüp
+çalabilirdi. Bu yüzden araya, anahtarı yalnızca kendi üzerinde (gizli) tutan
+küçük bir **Cloudflare Worker** koyduk.
 
-Akış şöyle (`src/services/ai-engine.js` ve `cloudflare-worker/worker.js`):
+Akış:
+1. Kullanıcı bir özelliği tetikler (örn. "Bana öneri ver").
+2. Frontend, isteği gerçek anahtar olmadan, paylaşılan bir **Worker Token**
+   ile Worker'a gönderir.
+3. Worker güvenlik kontrolleri yapar: token doğru mu, IP çok sık mı istek
+   atıyor (**rate limit**), istek çok büyük mü, adres izinli mi (**CORS**).
+4. Geçerse Worker, kendi sakladığı **gizli** Gemini anahtarıyla Google'a
+   iletir.
+5. Cevap aynı yoldan tarayıcıya döner.
 
-1. Kullanıcı bir özelliği tetikler (örn. "Bana öneri ver" butonuna basar).
-2. Frontend kodu, isteği **kendi sunucu anahtarı olmadan**, sadece paylaşılan
-   bir "Worker Token" ile Cloudflare Worker'a gönderir.
-3. Worker şu kontrolleri yapar (güvenlik katmanları):
-   - Token doğru mu? (yanlışsa reddeder)
-   - Bu IP adresi çok sık istek atıyor mu? (dakikada limit var — kötüye
-     kullanımı/aşırı maliyeti önlemek için)
-   - İstek çok büyük mü? (gereksiz/zararlı yük göndermeyi önlemek için)
-   - Sadece izinli adreslerden (CORS: GitHub Pages, localhost) gelen
-     istekleri kabul eder.
-4. Tüm kontroller geçerse, Worker kendi sakladığı **gizli** Gemini API
-   anahtarıyla Google'a isteği iletir.
-5. Gemini'nin cevabı aynı yoldan geri, kullanıcının tarayıcısına ulaşır.
+Sonuç: **API anahtarı asla kullanıcıya görünmez.** Bu, yapay zeka entegre
+eden web uygulamalarının standart, güvenli yöntemidir.
 
-Yani: **API anahtarı asla tarayıcıya / kullanıcıya görünmüyor**, sadece
-Cloudflare'in sunucusunda duruyor. Bu, gerçek hayatta yapay zeka entegre
-eden web uygulamalarının standart ve güvenli bir yapısıdır.
+**🇬🇧 English**
 
-**Yerel geliştirme (local dev) farkı:** Geliştirme sırasında (henüz
-Worker kurulmamışken) uygulama, kullanıcının kendi tarayıcısına girdiği
-bir API anahtarını (Ayarlar > kendi Gemini anahtarınızı) kullanarak da
-çalışabilir — ama bu sadece test/geliştirme amaçlı, canlıda (production)
-kullanılan yöntem Worker üzerinden gidendir.
+```
+User's          →   Cloudflare Worker   →   Google Gemini API
+Browser              (proxy / middleman)        (the real LLM)
+ (Frontend)          hides the API key
+```
+
+**Why not direct?** Using Gemini requires a secret **API key** (a kind of
+password). If that key were placed in the browser code, anyone could see and
+steal it. So we put a tiny **Cloudflare Worker** in between that keeps the
+key only on its own (secret) side.
+
+Flow:
+1. The user triggers a feature (e.g. "Give me a recommendation").
+2. The frontend sends the request to the Worker without the real key, using
+   only a shared **Worker Token**.
+3. The Worker runs security checks: is the token valid, is the IP making too
+   many requests (**rate limit**), is the request too large, is the origin
+   allowed (**CORS**).
+4. If valid, the Worker forwards it to Google with its own **secret** Gemini
+   key.
+5. The response returns to the browser the same way.
+
+Result: **the API key is never exposed to the user.** This is the standard,
+secure pattern for web apps that integrate AI.
 
 ---
 
-## 5. LLM'den tam olarak ne isteniyor? (Uygulamadaki kullanım yerleri)
+## 5. LLM'den ne isteniyor? / What is asked of the LLM?
 
-LLM'e her zaman iki şey gönderilir:
-- **Sistem talimatı (system instruction):** Modelin "kimliğini" belirler.
-  Mon Accord'da bu, modele "Sen Mon Accord'un parfüm uzmanı danışmanısın,
-  şu 12 parfümü ve katmanlama mantığını biliyorsun, üslubun sofistike ve
-  sıcak olsun" der. Bu talimat her istekte sabit kalır.
-- **Prompt (asıl istek):** Kullanıcının o anki durumuna özel bilgi
-  (anket cevapları, seçtiği parfümler, ruh hali vb.) ve modelden
-  istenen **çıktı formatı** (genelde belirli alanları olan bir JSON).
+**🇹🇷 Türkçe**
 
-Uygulamada LLM'in kullanıldığı 5 ana yer:
+Her istekte iki şey gönderilir: (1) **Sistem talimatı** — modelin sabit
+"kimliği" ("Sen Mon Accord'un parfüm uzmanısın, şu 12 parfümü bilirsin,
+üslubun sofistike olsun"); (2) **Prompt** — kullanıcının o anki bilgileri ve
+istenen **çıktı formatı** (genelde belirli alanları olan bir **JSON**).
 
-| Özellik | Nerede | Ne giriyor | Ne çıkıyor |
+LLM'in kullanıldığı 5 ana yer:
+
+| Özellik | Sayfa | Giren | Çıkan |
 |---|---|---|---|
-| **Koku Profili Oluşturma** | Profile Quiz | Anket cevapları (sevdiği koku aileleri, sahip olduğu parfümler, yoğunluk tercihi) | Kullanıcının "arketipi" (örn. Warm Oriental), açıklaması, önerilen bölgeler, imza karışımı — JSON formatında |
-| **Bağlamsal Öneri** | Layering Lab | Ruh hali, ortam, sezon, günün saati, istenen yoğunluk + kullanıcının profili/sahip olduğu parfümler | Önerilen formül (hangi parfümden kaç sıkım/damla), neden uyduğu, kokunun nasıl olacağına dair betimleme |
-| **Koku Simülasyonu** | Layering Lab | Seçilen formülün katmanları (notaları ile) | Kokunun zaman içindeki gelişimi: "ilk 15 dk", "30dk-2sa", "2sa+" şeklinde 3 aşamalı betimleme |
-| **Remix Önerisi** | Vault/Trends | Kullanıcının geçmiş formülleri, profili, kullanım eğilimleri | Yeni bir "remix" formül önerisi — alışkanlıklarına benzer ama yeni bir bölge/nota katan |
-| **Topluluk Formülü Açıklama** | Community | Bir topluluk formülü + kullanıcının profili | "Bu formül sana neden uyar/uymaz" şeklinde 2-3 cümlelik açıklama |
+| Koku Profili | Profile Quiz | Anket cevapları | Arketip + önerilen bölgeler + imza karışımı (JSON) |
+| Bağlamsal Öneri | Layering Lab | Ruh hali, ortam, sezon | Formül + neden uyduğu + koku betimlemesi |
+| Koku Simülasyonu | Layering Lab | Seçilen formülün notaları | 3 aşamalı koku gelişimi (ilk/orta/dip) |
+| Remix Önerisi | Vault/Trends | Geçmiş formüller, profil | Alışkanlığa benzer ama yeni bir formül |
+| Formül Açıklama | Community | Topluluk formülü + profil | "Sana neden uyar/uymaz" açıklaması |
 
-Bütün bu istekler `src/services/` klasöründeki dosyalarda toplanıyor:
-`profile-engine.js`, `contextual-advisor.js`, `learning-engine.js`,
-`collective-intel.js` — hepsi de tek bir ortak fonksiyonu
-(`generateAIResponse`, `ai-engine.js` içinde) çağırıyor.
+**JSON istemenin sebebi:** Uygulama, modelin cevabını otomatik okuyup kendi
+tasarımıyla (kartlar, butonlar) gösterebilsin diye. Kullanıcı düz sohbet
+görmez; model arka planda yapılandırılmış veri üretir.
 
-**LLM'den hep JSON istemenin sebebi:** Modelin ürettiği metni uygulamanın
-otomatik olarak okuyup ekrana güzel kartlar/butonlar şeklinde
-basabilmesi için. Yani kullanıcı düz bir "sohbet" görmüyor, model
-arka planda yapılandırılmış veri üretiyor, uygulama bu veriyi alıp
-kendi tasarımıyla gösteriyor.
+**🇬🇧 English**
 
----
+Each request sends two things: (1) a **system instruction** — the model's
+fixed "identity" ("You are Mon Accord's perfume expert, you know these 12
+perfumes, keep a sophisticated tone"); (2) a **prompt** — the user's current
+info and the requested **output format** (usually a **JSON** with specific
+fields).
 
-## 6. LLM çalışmazsa / yoksa ne olur?
+The 5 main places the LLM is used:
 
-Bu önemli bir tasarım detayı: Eğer Gemini'den cevap gelmezse (internet
-sorunu, rate limit, anahtar sorunu vb.), uygulama **çökmüyor**. Her
-LLM çağrısının bir **fallback (yedek plan)** mantığı var:
+| Feature | Page | Input | Output |
+|---|---|---|---|
+| Scent Profile | Profile Quiz | Survey answers | Archetype + recommended regions + signature blend (JSON) |
+| Contextual Rec. | Layering Lab | Mood, occasion, season | Formula + why it fits + scent description |
+| Scent Simulation | Layering Lab | Notes of chosen formula | 3-phase scent evolution (top/heart/base) |
+| Remix Suggestion | Vault/Trends | Past formulas, profile | A formula similar to habits but with something new |
+| Formula Explanation | Community | Community formula + profile | "Why it fits/doesn't fit you" explanation |
 
-- Bağlamsal öneri çalışmazsa, ruh haline/sezona göre **önceden yazılmış,
-  hazır bir formül** gösterilir ("Golden Dusk", "Morning Clarity" gibi).
-- Profil oluşturma başarısız olursa, anket cevaplarına göre basit
-  kurallarla (if/else mantığıyla) bir profil tahmin edilir.
-- Koku simülasyonu başarısız olursa, formüldeki parfümlerin zaten bilinen
-  notalarından basit bir cümle kurulur.
-
-Bu sayede demo/sunum sırasında internet ya da API sorunu olsa bile
-uygulama "boş ekran" göstermez, kullanıcı deneyimi kesintisiz kalır.
+**Why JSON?** So the app can automatically read the model's answer and render
+it with its own design (cards, buttons). The user doesn't see raw chat; the
+model produces structured data in the background.
 
 ---
 
-## 7. Sözlük (Terimler)
+## 6. LLM çalışmazsa? / What if the LLM fails?
 
-- **Frontend:** Kullanıcının tarayıcıda gördüğü arayüz/kod.
-- **Backend:** Sunucu tarafında çalışan, veri/iş mantığını yöneten kısım.
-- **API:** İki sistemin birbirine istek gönderip cevap aldığı arayüz.
-- **API anahtarı (API key):** Bir servisi kullanmak için gereken gizli şifre.
-- **LLM:** Metin üreten büyük yapay zeka dil modeli (örn. Gemini, ChatGPT).
-- **Prompt:** LLM'e gönderilen, ne yapmasını istediğimizi anlatan metin.
-- **Sistem talimatı:** LLM'in genel "kişiliğini"/rolünü belirleyen sabit talimat.
-- **Proxy / aracı sunucu:** İsteği doğrudan değil, araya girip ileten sunucu
-  (burada: Cloudflare Worker — API anahtarını gizlemek için kullanılıyor).
-- **Rate limit:** Belirli bir sürede yapılabilecek istek sayısının
-  sınırlanması (kötüye kullanımı/maliyeti önlemek için).
-- **CORS:** Hangi web adreslerinin bu sunucuya istek atabileceğini
-  sınırlayan tarayıcı güvenlik kuralı.
-- **localStorage:** Tarayıcının, kullanıcıya özel verileri (sunucuya
-  göndermeden) kendi bilgisayarında sakladığı küçük bir depo.
-- **SPA (Single Page Application):** Sayfa yenilenmeden, JavaScript ile
-  içeriğin değiştiği web uygulaması türü.
-- **JSON:** Verinin "anahtar: değer" şeklinde, hem insan hem de program
-  tarafından okunabilir basit bir formatı.
-- **Deploy / Yayına alma:** Kodu, kullanıcıların erişebileceği canlı bir
-  adrese yüklemek.
+**🇹🇷 Türkçe**
+
+Gemini'den cevap gelmezse (internet, rate limit, anahtar sorunu) uygulama
+**çökmez**. Her çağrının bir **yedek planı (fallback)** vardır: bağlamsal
+öneri yerine önceden yazılmış hazır bir formül ("Golden Dusk" vb.), profil
+yerine basit kurallarla tahmin, simülasyon yerine bilinen notalardan kurulan
+bir cümle gösterilir. Böylece sunumda internet/API sorunu olsa bile boş ekran
+çıkmaz.
+
+**🇬🇧 English**
+
+If Gemini doesn't respond (internet, rate limit, key issues), the app **does
+not crash**. Every call has a **fallback**: instead of a contextual
+recommendation, a pre-written ready formula ("Golden Dusk", etc.); instead of
+a profile, a simple rule-based guess; instead of a simulation, a sentence
+built from known notes. So even if there's an internet/API problem during the
+presentation, there is no blank screen.
 
 ---
 
-## 8. Muhtemel sorular ve hazır cevaplar
+## 7. Sözlük / Glossary
 
-**S: Uygulamanın bir veritabanı var mı?**
-C: Klasik anlamda hayır. Kullanıcı verileri (profil, kaydedilen formüller,
-beğeniler) doğrudan kullanıcının kendi tarayıcısında (`localStorage`)
-tutuluyor. Sunucu tarafında sadece yapay zeka isteklerini yöneten küçük
-bir Cloudflare Worker var.
-
-**S: Yapay zekayı biz mi eğittik?**
-C: Hayır. Google'ın hazır, eğitilmiş Gemini modelini kullanıyoruz. Biz
-modeli eğitmiyoruz; ona doğru talimatları (prompt) vererek, parfüm
-alanına özel, istediğimiz formatta cevaplar üretmesini sağlıyoruz. Buna
-**prompt engineering** denir, model eğitimi değildir.
-
-**S: API anahtarımız çalınabilir mi?**
-C: Hayır, çünkü anahtar tarayıcıya hiç gönderilmiyor; sadece Cloudflare
-Worker'ın gizli ortam değişkeninde duruyor. Tarayıcı yalnızca paylaşılan
-bir "worker token" ile Worker'a istek atıyor, Worker da Gemini'ye gerçek
-anahtarla bağlanıyor.
-
-**S: İnternet/API kesilirse uygulama çalışmaz mı?**
-C: Çalışır — her yapay zeka özelliğinin önceden hazırlanmış bir "yedek
-cevap" mantığı var, böylece kullanıcı hata değil, makul bir öneri görür.
-
-**S: Hangi model kullanılıyor, neden bu model?**
-C: Google Gemini'nin "flash-lite" versiyonu — hızlı ve düşük maliyetli,
-bu tür kısa, yapılandırılmış (JSON) cevaplar için yeterli güçte bir model.
-
-**S: Uygulama mobilde de çalışır mı?**
-C: Evet, bu bir web uygulaması olduğu için tarayıcı üzerinden hem
-bilgisayardan hem telefondan açılabilir; ayrı bir mobil uygulama değil.
-
-**S: Kodun büyük bir kısmı hangi dilde?**
-C: JavaScript (ve biraz TypeScript) — herhangi bir büyük framework
-(React, Vue vb.) kullanılmadan, doğrudan yazılmış. `Vite` adlı araç,
-geliştirme sırasında hızlı önizleme ve son üründe küçük/optimize dosyalar
-üretmek için kullanılıyor.
-
-**S: Uygulama nerede çalışıyor, kim barındırıyor?**
-C: Statik frontend GitHub Pages'te; yapay zeka isteklerini yöneten küçük
-sunucu (Worker) ise Cloudflare'de barınıyor.
+| Terim / Term | 🇹🇷 Açıklama | 🇬🇧 Meaning |
+|---|---|---|
+| Frontend | Tarayıcıda görünen arayüz | The interface seen in the browser |
+| Backend | Sunucu tarafındaki iş mantığı | Server-side logic |
+| API | İki sistemin konuştuğu arayüz | Interface where two systems talk |
+| API key | Bir servisi kullanmak için gizli şifre | Secret password to use a service |
+| LLM | Metin üreten büyük dil modeli | Text-generating large language model |
+| Prompt | Modele verilen talimat metni | The instruction text given to the model |
+| System instruction | Modelin sabit rolü/kişiliği | The model's fixed role/persona |
+| Proxy | İsteği araya girip ileten sunucu | Server that relays the request |
+| Rate limit | Belirli sürede istek sınırı | Request limit within a time window |
+| CORS | İzinli adresleri sınırlayan kural | Rule limiting allowed origins |
+| localStorage | Tarayıcının yerel veri deposu | The browser's local data store |
+| SPA | Tek sayfa uygulaması | Single Page Application |
+| JSON | Yapılandırılmış basit veri formatı | Simple structured data format |
+| Deploy | Kodu canlı adrese yükleme | Publishing code to a live address |
 
 ---
 
-Bu rehberi baştan sona okuduktan sonra uygulamayı bir tarayıcıda
-(`npm run dev` ile yerelde, ya da canlı linkten) gezip Profile Quiz →
-Layering Lab → Vault → Community akışını birkaç dakika deneyimlemeniz,
-buradaki kavramları gözünüzde canlandırmanızı çok kolaylaştıracaktır.
+## 8. Muhtemel sorular / Likely questions
+
+**🇹🇷 Türkçe**
+
+- **Veritabanı var mı?** Klasik anlamda hayır; kullanıcı verisi tarayıcıda
+  (localStorage) tutulur, sunucuda sadece küçük bir Worker var.
+- **Yapay zekayı biz mi eğittik?** Hayır; Google'ın hazır Gemini modelini
+  doğru talimatlarla (prompt engineering) kullanıyoruz. Model eğitimi değil.
+- **API anahtarı çalınabilir mi?** Hayır; anahtar tarayıcıya hiç gitmez,
+  yalnızca Cloudflare Worker'da gizli durur.
+- **İnternet kesilirse?** Çalışır; her özelliğin yedek cevabı vardır.
+- **Hangi model, neden?** Gemini "flash-lite"; kısa, JSON cevaplar için hızlı
+  ve düşük maliyetli.
+- **Mobilde çalışır mı?** Evet, web uygulaması olduğu için telefon
+  tarayıcısından da açılır.
+- **Hangi dille yazıldı?** JavaScript (biraz TypeScript), framework'süz;
+  geliştirme/derleme için **Vite** kullanılıyor.
+- **Nerede barınıyor?** Frontend GitHub Pages'te, Worker Cloudflare'de.
+
+**🇬🇧 English**
+
+- **Is there a database?** Not in the classic sense; user data lives in the
+  browser (localStorage), and only a tiny Worker exists on the server side.
+- **Did we train the AI?** No; we use Google's ready Gemini model with the
+  right instructions (prompt engineering). This is not model training.
+- **Can the API key be stolen?** No; the key never reaches the browser, it
+  stays secret in the Cloudflare Worker.
+- **What if the internet drops?** It works; every feature has a fallback.
+- **Which model, and why?** Gemini "flash-lite"; fast and low-cost for short,
+  JSON responses.
+- **Does it work on mobile?** Yes, since it's a web app it opens in a phone
+  browser too.
+- **What language is it written in?** JavaScript (some TypeScript), no
+  framework; **Vite** is used for development/build.
+- **Where is it hosted?** Frontend on GitHub Pages, Worker on Cloudflare.
+
+---
+
+🇹🇷 Bu rehberi okuduktan sonra uygulamayı bir tarayıcıda gezip
+Profile Quiz → Layering Lab → Vault → Community akışını denemeniz,
+kavramları gözünüzde canlandırmanızı kolaylaştıracaktır.
+
+🇬🇧 After reading this guide, walking through the app in a browser
+(Profile Quiz → Layering Lab → Vault → Community) will make these concepts
+much easier to picture.
